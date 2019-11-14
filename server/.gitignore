@@ -21,9 +21,9 @@ lerna-debug.log*
 /.idea
 .project
 .classpath
+.c9/
 .env
 ormconfig.json
-.c9/
 *.launch
 .settings/
 *.sublime-workspace
