@@ -1,5 +1,5 @@
+import { CreateUserDTO } from './../models/users/create-user.dto';
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body } from "@nestjs/common";
-import { CreateUserDTO } from "src/models/users/create-user.dto";
 import { UsersDataService } from "./users-data.service";
 
 @Controller('users')
