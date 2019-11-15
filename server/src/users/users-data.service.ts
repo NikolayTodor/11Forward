@@ -1,7 +1,7 @@
+import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/data/entities/user.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 
@@ -19,7 +19,7 @@ export class UsersDataService {
         userToCreate: CreateUserDTO
     ) {
         const foundUser: User = await this.userRepo.findOne({
-            name: userToCreate.username,
+            username: userToCreate.username,
         });
 
         if (foundUser) {
