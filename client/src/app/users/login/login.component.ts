@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserLoginDTO } from 'src/app/models/user-login.dto';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -8,30 +11,30 @@ import { UserLoginDTO } from 'src/app/models/user-login.dto';
 })
 export class LoginComponent implements OnInit {
 
-  // public credential: string;
-  // public password: string;
+  public credential: string;
+  public password: string;
 
-  // public constructor(
-  //   private readonly authService: AuthService,
-  //   private readonly notification: NotificationService,
-  //   private readonly userService: UsersService,
-  //   private readonly router: Router ) { }
+  public constructor(
+    private readonly authService: AuthService,
+    private readonly notification: NotificationService,
+    private readonly router: Router ) { }
 
 
     public ngOnInit() {
     }
 
-  //   public login(credential, password) {
-  //   const user: UserLoginDTO = {credential, password };
-  //   this.authService.login(user).subscribe(
-  //     () => {
-  //     this.notification.success('Login successful!');
-  //   },
-  //   (data) => {
-  //     console.log(data.error);
-  //     this.notification.error(`${data.error.message}`);
-  //   }
-  //   );
-  // }
+    public login(credential, password) {
+    const user: UserLoginDTO = {credential, password };
+    this.authService.login(user).subscribe(
+      () => {
+      this.notification.success('Login successful!');
+      this.router.navigate(['/home']);
+    },
+    (data) => {
+      console.log(data.error);
+      this.notification.error(`${data.error.message}`);
+    }
+    );
+  }
 
 }

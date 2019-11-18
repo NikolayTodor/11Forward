@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-// import { NotificationService } from '../../core/services/notiffication.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserRegisterDTO } from 'src/app/models/user-register.dto';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
   public constructor(
     private readonly authService: AuthService,
-    // private readonly notification: NotificationService,
+    private readonly notification: NotificationService,
     private readonly router: Router ,
     private readonly formBuilder: FormBuilder) { }
 
@@ -45,11 +45,11 @@ export class RegisterComponent implements OnInit {
   public register(user: UserRegisterDTO) {
     this.authService.register(user).subscribe(
       () => {
-      // this.notification.success('Registered successfully!!!');
+      this.notification.success('Registered successfully!!!');
       this.router.navigate(['home']);
     },
     () => {
-      // this.notification.error('Registration failed!');
+      this.notification.error('Registration failed!');
     }
     );
   }

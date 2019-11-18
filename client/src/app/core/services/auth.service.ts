@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   public login(user: UserLoginDTO): Observable<any> {
-    return this.http.post<any>(`${CONFIG.DOMAIN_NAME}/api/session`, user).
+    return this.http.post<any>(`${CONFIG.DOMAIN_NAME}/session`, user).
     pipe(tap(( { token } ) => {
       this.storage.setItem('token', token);
       const decodedUser: LoggedUserDTO = this.jwtService.decodeToken(token);
