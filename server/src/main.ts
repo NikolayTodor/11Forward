@@ -9,13 +9,13 @@ async function bootstrap() {
   app.enableCors();
 
   const options = new DocumentBuilder()
-    .setTitle('User management')
-    .setDescription('User management application')
-    .setVersion('1.0')
-    .addTag('user-management')
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+   .setTitle('Social network project')
+   .setDescription('Forward11 social network API description')
+   .setVersion('1.0')
+   .addBearerAuth('Authorization', 'header')
+   .build();
+ const document = SwaggerModule.createDocument(app, options);
+ SwaggerModule.setup('api', app, document);
 
   await app.listen(app.get(ConfigService).port);
 }
