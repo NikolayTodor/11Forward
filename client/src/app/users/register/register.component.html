@@ -1,0 +1,56 @@
+<div class="register-container">
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="this.registerForm" (ngSubmit)="this.register(this.registerForm.value)">
+          <mat-form-field>
+            <input matInput placeholder="Username" name="username" required class="register-input"
+              formControlName="username">
+  
+            <mat-error *ngIf="!!this.registerForm.controls.username.errors?.required">
+              The username is required!
+            </mat-error>
+            <mat-error *ngIf="!!this.registerForm.controls.username.errors?.minlength">
+              The username must be at least 2 symbols long!
+            </mat-error>
+  
+  
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Password" type="password" name="password" required class="register-input"
+              formControlName="password">
+  
+            <mat-error *ngIf="!!this.registerForm.controls.password.errors?.required">
+              The password is required!
+            </mat-error>
+            <mat-error *ngIf="!!this.registerForm.controls.password.errors?.maxlength">
+              The password must be shorter that 50 symbols!
+            </mat-error>
+            <mat-error *ngIf="!!this.registerForm.controls.password.errors?.minlength">
+              The password must be at least 6 symbols!
+            </mat-error>
+  
+          </mat-form-field>
+  
+          <mat-form-field>
+            <input matInput placeholder="Email" name="email" required class="register-input" formControlName="email">
+  
+            <mat-error *ngIf="!!this.registerForm.controls.email.errors?.required">
+              The email is required!
+            </mat-error>
+            <mat-error *ngIf="!!this.registerForm.controls.email.errors?.email">
+              This should be valid email
+            </mat-error>
+  
+          </mat-form-field>
+  
+          <br />
+          <button mat-raised-button color="primary" type="submit" [disabled]="this.registerForm.invalid">Register</button>
+  
+        </form>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>

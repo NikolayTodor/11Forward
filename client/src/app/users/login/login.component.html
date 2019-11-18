@@ -1,0 +1,14 @@
+<div class="login-container">
+    <mat-form-field>
+      <input #credential matInput type="text" required placeholder="Username or E-mail">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input #password matInput type="password" required placeholder="Password">
+    </mat-form-field>
+<br/>
+    <button mat-icon-button class="create-user-button" (click)="this.login(credential.value, password.value)">
+    Login
+    </button>
+
+</div>
