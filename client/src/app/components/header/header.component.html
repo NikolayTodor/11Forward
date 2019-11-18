@@ -1,0 +1,11 @@
+<nav class="navbar">
+    <div class="navbar-elements">
+  <a class="navbar-logo" href="/home"><img id="logo" src="../../assets/logo.png" alt=""></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="nav-link" [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="nav-link" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Log in</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="nav-link" [routerLink]="['users']" *ngIf="this.loggedUser">Log out</a>
+    </div>
+</nav>
