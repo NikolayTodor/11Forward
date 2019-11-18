@@ -19,4 +19,5 @@ export class CreateUserDTO {
     @IsString()
     @Length(4, 15)
     public password: string;
+
 }
