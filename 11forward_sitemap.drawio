@@ -1,6 +1,6 @@
-<mxfile host="www.draw.io" modified="2019-11-18T09:14:02.062Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0" etag="GIfOCn7LwaybYOPqzUf-" version="12.2.6" type="gitlab" pages="1">
+<mxfile host="www.draw.io" modified="2019-11-18T09:21:57.200Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0" etag="91IAw563t-sPFafE1y4o" version="12.2.6" type="gitlab" pages="1">
   <diagram id="bNXygQLO8LMXLEQRobcn" name="Page-1">
-    <mxGraphModel dx="3687" dy="3994" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4402" dy="4408" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -883,9 +883,6 @@
         <mxCell id="ZeyeyYZVUVEV75W58zli-501" value="" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.cloud_callout;fontSize=24;" vertex="1" parent="1">
           <mxGeometry x="718" y="-960" width="382" height="290" as="geometry"/>
         </mxCell>
-        <mxCell id="ZeyeyYZVUVEV75W58zli-506" value="" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;outline=standard;symbol=parallelMultiple;fontSize=24;" vertex="1" parent="1">
-          <mxGeometry x="3595" y="-1015.5" width="50" height="50" as="geometry"/>
-        </mxCell>
         <mxCell id="ZeyeyYZVUVEV75W58zli-512" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="2946.5" y="-1136" width="950" height="88" as="geometry"/>
         </mxCell>
@@ -900,6 +897,27 @@
         </mxCell>
         <mxCell id="ZeyeyYZVUVEV75W58zli-516" value="Logout" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="3746.5" y="-1134" width="150" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-517" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="1">
+          <mxGeometry x="99" y="770" width="52" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-518" value="" style="shape=actor;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="165" y="770" width="40" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-519" value="" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;outline=boundInt;symbol=cancel;fontSize=24;" vertex="1" parent="1">
+          <mxGeometry x="3611.5" y="-1010" width="50" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-520" value="" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;outline=boundInt;symbol=cancel;fontSize=24;" vertex="1" parent="1">
+          <mxGeometry x="2655" y="-1006" width="50" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-521" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="1">
+          <mxGeometry x="1944.5" y="-645" width="32" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-522" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="1">
+          <mxGeometry x="2199.5" y="-651" width="32" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="ZeyeyYZVUVEV75W58zli-523" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.heart" vertex="1" parent="1">
+          <mxGeometry x="2472.5" y="-645" width="32" height="32" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
