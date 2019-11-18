@@ -6,6 +6,6 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a class="nav-link" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Log in</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="nav-link" *ngIf="this.loggedUser" (click)="this.logout()">Log out</a>
+        <a class="nav-link" [routerLink]="['home']" *ngIf="this.loggedUser" (click)="this.logout()">Log out</a>
     </div>
 </nav>
