@@ -15,4 +15,7 @@ export class User {
     @Column({type: 'nvarchar', nullable: false})
     public email: string;
 
+    @Column({type: 'boolean', default: false})
+    public isDeleted: boolean;
+
 }

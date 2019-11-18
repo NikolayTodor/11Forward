@@ -1,0 +1,37 @@
+import { AuthUserDTO } from './../models/users/auth-user.dto';
+import { ApiSystemError } from './../common/exceptions/api-system.error';
+import { UsersDataService } from './../users/users-data.service';
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { ShowUserDTO } from 'src/models/users/show-user.dto';
+
+@Injectable()
+export class AuthService {
+
+    public constructor(
+        private readonly userDataService: UsersDataService,
+        private readonly jwtService: JwtService,
+      ) {}
+      public async login(user: AuthUserDTO): Promise<any> {
+        const foundUser: ShowUserDTO = await this.userDataService.findUserByUsername(
+          user.username,
+        );
+
+        if (!foundUser) {
+          throw new ApiSystemError(
+            'User with such username does not exist!',
+            400,
+          );
+        }
+        if (!(await this.userDataService.validateUserPassword(user))) {
+          throw new ApiSystemError('Invalid password!', 400);
+        }
+
+        const payload: ShowUserDTO = { ...foundUser };
+
+        return {
+          token: await this.jwtService.signAsync(payload),
+        };
+      }
+
+}
