@@ -11,7 +11,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class LoginComponent implements OnInit {
 
-  public credential: string;
+  public username: string;
   public password: string;
 
   public constructor(
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     public ngOnInit() {
     }
 
-    public login(credential, password) {
-    const user: UserLoginDTO = {credential, password };
+    public login(username, password) {
+    const user: UserLoginDTO = {username, password };
     this.authService.login(user).subscribe(
       () => {
       this.notification.success('Login successful!');

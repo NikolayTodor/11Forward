@@ -48,13 +48,10 @@ export class AuthService {
     }));
   }
 
-  public logout(): Observable<any> {
-    return this.http.delete(`${CONFIG.DOMAIN_NAME}/api/session`).
-    pipe(tap(( ) => {
+  public logout(): void {
       this.storage.removeItem('token');
       this.loggedInSubject$.next(null);
       this.isLoggedInSubject$.next(false);
-    }));
   }
 
   public getLoggedUserData(): LoggedUserDTO {

@@ -4,14 +4,14 @@
       <mat-card-title>Log in</mat-card-title>
     </mat-card-header>
     <mat-form-field>
-      <input #credential matInput type="text" required placeholder="Username or E-mail">
+      <input #username matInput type="text" required placeholder="Username or E-mail">
     </mat-form-field>
 
     <mat-form-field>
       <input #password matInput type="password" required placeholder="Password">
     </mat-form-field>
     <br />
-    <button mat-icon-button class="create-user-button" (click)="this.login(credential.value, password.value)">
+    <button mat-icon-button class="create-user-button" (click)="this.login(username.value, password.value)">
       Login
     </button>
   </mat-card>
