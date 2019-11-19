@@ -4,11 +4,11 @@ export class AuthUserDTO {
 
     @IsString()
     @IsNotEmpty()
-    @Length(4, 15)
+    @Length(2, 20)
     public username: string;
 
     @IsString()
     @IsNotEmpty()
-    @Length(4, 15)
+    @Length(6, 50)
     public password: string;
 }
