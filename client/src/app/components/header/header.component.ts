@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LoggedUserDTO } from 'src/app/models/loggedUser.dto';
+import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
