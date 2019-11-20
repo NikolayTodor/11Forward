@@ -11,8 +11,10 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
+
   public constructor(
     private readonly authService: AuthService,
     private readonly notification: NotificationService,
