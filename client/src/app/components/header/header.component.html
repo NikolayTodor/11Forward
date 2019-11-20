@@ -7,6 +7,6 @@
         <a class="nav-link" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Log in</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a class="nav-link" [routerLink]="['home']" *ngIf="this.loggedUser" (click)="this.logout()">Log out</a>
-        <button *ngIf="this.loggedUser">{{loggedUser.username}} profile</button>
+        <button *ngIf="this.loggedUser" (click)="this.goToProfile()">{{loggedUser.username}} profile</button>
     </div>
 </nav>
