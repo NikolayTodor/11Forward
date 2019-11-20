@@ -1,6 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Post } from './post.entity';
 import { Comment } from './comment.entity';
+import { LikeComment } from './like-comment.entity';
+import { LikePost } from './like-post.entity';
 
 @Entity('users')
 export class User {
@@ -22,6 +24,12 @@ export class User {
 
     @OneToMany(type => Comment, comment => comment.user)
     public comments: Promise<Comment[]>;
+
+    @OneToMany(type => LikeComment, like => like.user)
+    public likeComments: Promise<LikeComment[]>;
+
+    @OneToMany(type => LikePost, like => like.user)
+    public likePosts: Promise<LikePost[]>;
 
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;

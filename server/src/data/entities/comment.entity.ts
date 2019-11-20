@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { Post } from './post.entity';
+import { LikeComment } from './like-comment.entity';
 
 @Entity('comments')
 export class Comment {
@@ -22,6 +23,9 @@ export class Comment {
 
     @ManyToOne(type => Post, post => post.comments)
     public post: Promise<Post>;
+
+    @OneToMany(type => LikeComment, like => like.comment)
+    public likeComments: Promise<LikeComment[]>;
 
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;
