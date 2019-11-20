@@ -7,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { UserRegisterDTO } from 'src/app/models/user-register.dto';
 import { UserLoginDTO } from 'src/app/models/user-login.dto';
-import { LoggedUserDTO } from 'src/app/models/loggedUser.dto';
+import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
 import { CONFIG } from 'src/app/common/config';
 
 @Injectable({
