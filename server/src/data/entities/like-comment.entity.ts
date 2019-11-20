@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 import { Comment } from './comment.entity';
 
-@Entity('likeComments')
+@Entity('like-comments')
 export class LikeComment {
 
     @PrimaryGeneratedColumn('uuid')
