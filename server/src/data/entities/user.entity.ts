@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Post } from './post.entity';
 
 @Entity('users')
 export class User {
@@ -15,7 +16,9 @@ export class User {
     @Column({type: 'nvarchar', nullable: false})
     public email: string;
 
+    @OneToMany(type => Post, post => post.user)
+    public posts: Promise<Post[]>;
+
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;
-
 }
