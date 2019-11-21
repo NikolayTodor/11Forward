@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, RelationCount, OneToMany } from 'typeorm';
 import { Post } from './post.entity';
 import { Comment } from './comment.entity';
 import { LikeComment } from './like-comment.entity';
@@ -33,4 +33,18 @@ export class User {
 
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;
+
+    @ManyToMany(type => User, user => user.following)
+    @JoinTable()
+    public followers: User[];
+
+    @ManyToMany(type => User, user => user.followers)
+    public following: User[];
+
+    @RelationCount((user: User) => user.followers)
+    public followersCount: number;
+
+    @RelationCount((user: User) => user.following)
+    public followingCount: number;
+
 }

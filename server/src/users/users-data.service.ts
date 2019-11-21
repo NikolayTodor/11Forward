@@ -17,10 +17,14 @@ export class UsersDataService {
 
     }
 
-    public async findUserByUsername(username: string): Promise<ShowUserDTO> {
+    public async findUserByCredential(credential: string): Promise<ShowUserDTO> {
         const foundUser: User = await this.userRepo.findOne({
-          username,
-          isDeleted: false,
+
+          where: [
+            { username: credential },
+            { email: credential }
+          ]
+
         });
 
         return plainToClass(ShowUserDTO, foundUser, {
@@ -30,7 +34,10 @@ export class UsersDataService {
 
       public async validateUserPassword(user: AuthUserDTO): Promise<boolean> {
         const userEntity: User = await this.userRepo.findOne({
-          username: user.username,
+          where: [
+            { username: user.credential },
+            { email: user.credential }
+          ],
         });
 
         return await bcrypt.compare(user.password, userEntity.password);
@@ -40,11 +47,14 @@ export class UsersDataService {
         userToCreate: CreateUserDTO
     ) {
         const foundUser: User = await this.userRepo.findOne({
-            username: userToCreate.username,
+          where: [
+            { username: userToCreate.username },
+            { email: userToCreate.email }
+          ],
         });
 
         if (foundUser) {
-            throw new Error('User with such username already exists!');
+            throw new Error('User with such username/email already exists!');
         }
 
        const newUser: User = this.userRepo.create(userToCreate);
