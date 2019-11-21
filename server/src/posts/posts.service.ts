@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
 import { User } from '../data/entities/user.entity';
-import { ShowPostInListDTO } from '../models/posts/show-post-in-list.dto';
+import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class PostsService {
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-        public async allPosts(userId: string): Promise<ShowPostInListDTO[]> {
+        public async allPosts(userId: string): Promise<ShowPostDTO[]> {
             const allPosts: Post[] = await this.postRepo.find({where: {isDeleted: false}});
 
             allPosts.forEach(async post => {
@@ -41,11 +41,32 @@ export class PostsService {
               isPrivate: post.isPrivate,
               dateCreated: post.dateCreated,
               dateLastUpdated: post.dateLastUpdated,
-              author: post.author,
+              author: post.author.username,
               commentsCount: post.commentsCount,
               likes: post.likesCount
               }));
           }
+
+        public async onePost(postId: string, userId: string): Promise<ShowPostDTO> {
+            const foundPost: Post = await this.postRepo.findOne({where: {id: postId}});
+
+                // Proverka dali avtora e follownat ot 4etq6tiq i posta dali e public
+                // Ako da - hasPermission = true
+                // Ako ne - hasPermission = false
+
+            return {
+                id: foundPost.id,
+                title: foundPost.title,
+                content: foundPost.content,
+                imageURL: foundPost.imageURL,
+                isPrivate: foundPost.isPrivate,
+                dateCreated: foundPost.dateCreated,
+                dateLastUpdated: foundPost.dateLastUpdated,
+                author: foundPost.author.username,
+                commentsCount: foundPost.commentsCount,
+                likes: foundPost.likesCount
+            };
+        }
 
         public async createPost(userId: string, postToCreate: CreatePostDTO) {
             const foundUser = await this.userRepo.findOne({where: {id: userId}});
