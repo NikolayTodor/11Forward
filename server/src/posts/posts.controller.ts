@@ -1,4 +1,5 @@
-import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, UseGuards, Get, Param } from '@nestjs/common';
+import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe,
+    Body, UseGuards, Get, Param, Put, Delete } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
@@ -6,6 +7,7 @@ import { ShowUserDTO } from '../models/users/show-user.dto';
 import { userDecorator } from '../common/decorators/user.decorator';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { ShowPostDTO } from '../models/posts/show-post.dto';
+import { UpdatePostDTO } from '../models/posts/update-post.dto';
 
 @Controller('posts')
 @ApiUseTags('Posts Controller')
@@ -45,6 +47,27 @@ export class PostsController {
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {
         return await this.postsService.createPost(user.id, newPost);
+    }
+
+    @Put(':postId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async updatePost(
+      @Param('postId') postId: string,
+      @Body() body: UpdatePostDTO,
+      @userDecorator() user: ShowUserDTO,
+      ) {
+        return await this.postsService.updatePost(user.id, postId, body);
+    }
+
+    @Delete(':postId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async deletePost(
+      @Param('postId') postId: string,
+      @userDecorator() user: ShowUserDTO
+      ) {
+        return await this.postsService.deletePost(user.id, postId);
     }
 
 }

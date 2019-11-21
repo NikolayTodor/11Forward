@@ -1,5 +1,3 @@
-import { User } from '../../data/entities/user.entity';
-
 export class ShowPostDTO {
     public id: string;
     public title: string;
