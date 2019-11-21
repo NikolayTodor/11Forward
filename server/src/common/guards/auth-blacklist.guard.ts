@@ -25,9 +25,9 @@ implements CanActivate {
 
         console.log(this.authService);
 
-        // if (this.authService.isTokenBlacklisted(token)) {
-        //     throw new BadRequestException('You have logged out. Please log back in to do that!');
-        // }
+        if (this.authService.isTokenBlacklisted(token)) {
+            throw new BadRequestException('You have logged out. Please log back in to do that!');
+        }
 
         return true;
     }

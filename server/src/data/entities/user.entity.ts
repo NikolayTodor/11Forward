@@ -19,7 +19,7 @@ export class User {
     @Column({type: 'nvarchar', nullable: false})
     public email: string;
 
-    @OneToMany(type => Post, post => post.user)
+    @OneToMany(type => Post, post => post.author)
     public posts: Promise<Post[]>;
 
     @OneToMany(type => Comment, comment => comment.user)

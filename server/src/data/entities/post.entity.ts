@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, RelationCount } from 'typeorm';
 import { User } from './user.entity';
 import { Comment } from './comment.entity';
 import { LikePost } from './like-post.entity';
@@ -18,6 +18,9 @@ export class Post {
     @Column({type: 'nvarchar', nullable: false})
     public imageURL: string;
 
+    @Column({type: 'bool', default: true})
+    public hasPermission: boolean;
+
     @CreateDateColumn()
     public dateCreated: Date;
 
@@ -27,14 +30,20 @@ export class Post {
     @Column({type: 'bool', nullable: false})
     public isPrivate: boolean;
 
-    @ManyToOne(type => User, user => user.posts)
-    public user: Promise<User>;
+    @ManyToOne(type => User, user => user.posts, {eager: true})
+    public author: User;
 
     @OneToMany(type => Comment, comment => comment.post)
     public comments: Promise<Comment[]>;
 
-    @OneToMany(type => LikePost, like => like.post)
-    public likePosts: Promise<LikePost[]>;
+    @RelationCount((post: Post) => post.comments)
+    public commentsCount: number;
+
+    @OneToMany(type => LikePost, like => like.post, {eager: true})
+    public likePosts: LikePost[];
+
+    @RelationCount((post: Post) => post.likePosts)
+    public likesCount: number;
 
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;
