@@ -60,7 +60,61 @@ export class UsersDataService {
 
        const newUser: User = this.userRepo.create(userToCreate);
        newUser.password = await bcrypt.hash(userToCreate.password, 10);
+       newUser.followers = Promise.resolve([]);
+       newUser.following = Promise.resolve([]);
        return await this.userRepo.save(newUser);
+
+    }
+
+    public async followUser (userId: string, followUserId: string) {
+
+      console.log(userId)
+      console.log(followUserId)
+
+      const userFollower: User = await this.userRepo.findOne({
+        where: {userId},
+        relations: ['following']
+      });
+
+      const userToFollow: User = await this.userRepo.findOne(followUserId);
+
+      console.log(userToFollow);
+
+      userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
+      await this.userRepo.save(userFollower);
+      await this.userRepo.save(userToFollow);
+
+      return userFollower;
+
+    }
+
+    // ---- test method for displaying user ------ //
+      public async showFollow (userId: string) {
+        const userFollowingAndFollowers = await this.userRepo.findOne({
+          where: {id: userId},
+          relations: ['followers', 'following']
+        })
+
+        return userFollowingAndFollowers;
+      }
+    // ------ --------- //
+
+    public async unfollowUser(userId: string, followedUserId: string) {
+
+      const userFollower: User = await this.userRepo.findOne(userId);
+     
+
+      const userToUnFollow: User = await this.userRepo.findOne(followedUserId);
+     
+
+      userFollower.following = Promise.resolve([...await userFollower.following].filter(
+        followedUser => followedUser !== userToUnFollow
+      ));
+
+      this.userRepo.save(userFollower);
+      this.userRepo.save(userToUnFollow);
+
+      return userFollower;
 
     }
 
