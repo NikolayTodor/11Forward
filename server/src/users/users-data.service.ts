@@ -1,3 +1,4 @@
+import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
@@ -77,21 +78,31 @@ export class UsersDataService {
       }
     // ------ --------- //
 
-    public async followUser (userId: string, followUserName: string) {
+    public async followUser (userName: string, followUserName: string) {
+
+      if (userName.toLowerCase() === followUserName.toLowerCase()) {
+        throw new ApiSystemError('You can not follow yourself!', 500);
+      }
 
       const userFollower: User = await this.userRepo.findOne({
-        where: {userId},
+        where: {username: userName},
         relations: ['following']
       });
 
-      const userToFollow: User = await this.userRepo.findOne(followUserName);
+      const userToFollow: User = await this.userRepo.findOne({
+        where: { username: followUserName },
+      });
+
+      const followedUsers: User[] = [...await userFollower.following];
+      if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {
+       throw new ApiSystemError('Can not follow same user twice!', 500);
+      }
 
       userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
       await this.userRepo.save(userFollower);
       await this.userRepo.save(userToFollow);
 
       return userFollower;
-
     }
 
     public async unfollowUser(userId: string, followedUserId: string) {
