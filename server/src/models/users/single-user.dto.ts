@@ -6,5 +6,5 @@ export class SingleUserDTO {
     public id: string;
 
     @Publish()
-    public name: string;
+    public username: string;
 }
