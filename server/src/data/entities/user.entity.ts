@@ -21,15 +21,15 @@ export class User {
 
     @ManyToMany(type => User, user => user.following)
     @JoinTable()
-    followers: User[];
+    public followers: Promise<User[]>;
 
     @ManyToMany(type => User, user => user.followers)
-    following: User[];
+    public following: Promise<User[]>;
 
     @RelationCount((user: User) => user.followers)
-    followersCount: number;
+    public followersCount: number;
 
     @RelationCount((user: User) => user.following)
-    followingCount: number;
+    public followingCount: number;
 
 }
