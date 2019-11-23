@@ -43,13 +43,15 @@ export class UsersController {
     @Patch(':name')
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-    public async followUnfollow (@userDecorator('user') user: ShowUserDTO,
+    public async followUnfollow (
+        @userDecorator('user') user: ShowUserDTO,
         @Body() body: { action: FollowActionType },
         @Param('name') followUserName: string) {
+
             if ( body.action === FollowActionType.Follow ) {
-                return await this.usersService.followUser(user.id, followUserName);
+                return await this.usersService.followUser(user.username, followUserName);
             } else {
-                return await this.usersService.unfollowUser(user.id, followUserName);
+                return await this.usersService.unfollowUser(user.username, followUserName);
                      }
             }
 }
