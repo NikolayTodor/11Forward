@@ -66,19 +66,25 @@ export class UsersDataService {
 
     }
 
-    public async followUser (userId: string, followUserId: string) {
+      // ---- test method for displaying user ------ //
+      public async showFollow (userName: string) {
+        const userFollowingAndFollowers = await this.userRepo.findOne({
+          where: {username: userName},
+          relations: ['followers', 'following']
+        });
 
-      console.log(userId)
-      console.log(followUserId)
+        return userFollowingAndFollowers;
+      }
+    // ------ --------- //
+
+    public async followUser (userId: string, followUserName: string) {
 
       const userFollower: User = await this.userRepo.findOne({
         where: {userId},
         relations: ['following']
       });
 
-      const userToFollow: User = await this.userRepo.findOne(followUserId);
-
-      console.log(userToFollow);
+      const userToFollow: User = await this.userRepo.findOne(followUserName);
 
       userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
       await this.userRepo.save(userFollower);
@@ -88,25 +94,10 @@ export class UsersDataService {
 
     }
 
-    // ---- test method for displaying user ------ //
-      public async showFollow (userId: string) {
-        const userFollowingAndFollowers = await this.userRepo.findOne({
-          where: {id: userId},
-          relations: ['followers', 'following']
-        })
-
-        return userFollowingAndFollowers;
-      }
-    // ------ --------- //
-
     public async unfollowUser(userId: string, followedUserId: string) {
 
       const userFollower: User = await this.userRepo.findOne(userId);
-     
-
       const userToUnFollow: User = await this.userRepo.findOne(followedUserId);
-     
-
       userFollower.following = Promise.resolve([...await userFollower.following].filter(
         followedUser => followedUser !== userToUnFollow
       ));
