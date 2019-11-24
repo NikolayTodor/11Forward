@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     public ngOnInit() {
     }
 
-    public login(username, password) {
-    const user: UserLoginDTO = {username, password };
+    public login(credential: string, password: string) {
+    const user: UserLoginDTO = {credential, password };
     this.authService.login(user).subscribe(
       () => {
       this.notification.success('Login successful!');

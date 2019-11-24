@@ -13,8 +13,8 @@ export class AuthService {
         private readonly jwtService: JwtService,
       ) {}
       public async login(user: AuthUserDTO): Promise<any> {
-        const foundUser: ShowUserDTO = await this.userDataService.findUserByUsername(
-          user.username,
+        const foundUser: ShowUserDTO = await this.userDataService.findUserByCredential(
+          user.credential,
         );
 
         if (!foundUser) {

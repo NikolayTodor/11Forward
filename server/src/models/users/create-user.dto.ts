@@ -17,7 +17,7 @@ export class CreateUserDTO {
     @ApiModelProperty()
     @IsNotEmpty()
     @IsString()
-    @Length(4, 15)
+    @Length(6, 15)
     public password: string;
 
 }

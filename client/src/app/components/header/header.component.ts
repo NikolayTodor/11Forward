@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LoggedUserDTO } from 'src/app/models/loggedUser.dto';
+import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
@@ -11,8 +11,10 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
+
   public constructor(
     private readonly authService: AuthService,
     private readonly notification: NotificationService,
@@ -30,6 +32,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  public goToProfile(){
+    console.log('header > gotoProfile')
+    this.router.navigate([`/users/${this.loggedUser.id}`]);
   }
 
   public logout() {

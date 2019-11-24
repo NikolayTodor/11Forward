@@ -1,14 +1,12 @@
-import { IsString, IsNotEmpty, Length } from "class-validator";
+import { IsString, IsNotEmpty } from "class-validator";
 
 export class AuthUserDTO {
 
     @IsString()
     @IsNotEmpty()
-    @Length(4, 15)
-    public username: string;
+    public credential: string;
 
     @IsString()
     @IsNotEmpty()
-    @Length(4, 15)
     public password: string;
 }
