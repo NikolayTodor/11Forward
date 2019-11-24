@@ -7,6 +7,7 @@ import { ShowUserDTO } from 'src/models/users/show-user.dto';
 
 @Injectable()
 export class AuthService {
+  private readonly blacklist: string[] = [];
 
     public constructor(
         private readonly userDataService: UsersDataService,
@@ -32,6 +33,14 @@ export class AuthService {
         return {
           token: await this.jwtService.signAsync(payload),
         };
+      }
+
+      public blacklistToken(token: string): void {
+        this.blacklist.push(token);
+      }
+
+      public isTokenBlacklisted(token: string): boolean {
+        return this.blacklist.includes(token);
       }
 
 }

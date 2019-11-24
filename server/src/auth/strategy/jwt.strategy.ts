@@ -1,8 +1,8 @@
 import { ShowUserDTO } from './../../models/users/show-user.dto';
 import { UsersDataService } from './../../users/users-data.service';
 import { ConfigService } from './../../config/config.service';
-import { PassportStrategy } from "@nestjs/passport";
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { PassportStrategy } from '@nestjs/passport';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()

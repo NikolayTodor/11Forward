@@ -3,15 +3,14 @@ import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 
-
 @Injectable()
-export class UsersDataService { 
+export class UsersDataService {
 
     constructor(
         @InjectRepository(User) private readonly userRepo: Repository<User>
