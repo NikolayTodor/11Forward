@@ -7,6 +7,7 @@ import { ShowUserDTO } from 'src/models/users/show-user.dto';
 
 @Injectable()
 export class AuthService {
+  private readonly blacklist: string[] = [];
 
     public constructor(
         private readonly userDataService: UsersDataService,

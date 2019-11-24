@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ApiSystemErrorFilter } from './common/filters/api-error.filter';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, AuthModule],
+  imports: [DatabaseModule, UsersModule, AuthModule, PostsModule],
   controllers: [AppController],
   providers: [AppService,
     {
