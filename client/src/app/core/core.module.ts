@@ -1,11 +1,11 @@
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-// import { NotificationService } from './services/notiffication.service';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   providers: [
-    //   NotificationService,
+      NotificationService,
       AuthService,
       StorageService]
 })
