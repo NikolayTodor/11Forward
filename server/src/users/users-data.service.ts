@@ -67,7 +67,7 @@ export class UsersDataService {
 
     }
 
-      // ---- test method for displaying user ------ //
+      // ---- test method for displaying user with following and followers ------ //
       public async showFollow (userName: string) {
         const userFollowingAndFollowers = await this.userRepo.findOne({
           where: {username: userName},
@@ -119,8 +119,6 @@ export class UsersDataService {
       const followedUsers: User[] = [...await userFollower.following]
       .filter(_user => _user.username.toLowerCase() !== unfollowUserName.toLowerCase() );
 
-      console.log(followedUsers);
-
       userFollower.following = Promise.resolve([...followedUsers]);
 
       this.userRepo.save(userFollower);
@@ -129,6 +127,5 @@ export class UsersDataService {
       return userFollower;
 
     }
-
 
 }
