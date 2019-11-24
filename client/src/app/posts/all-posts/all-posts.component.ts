@@ -18,17 +18,8 @@ export class AllPostsComponent implements OnInit {
   ngOnInit() {
     this.postsService
         .getAllPosts()
-        // Proverki za private i permission
-        // .pipe(
-        //   map((data: ShowPostDTO[]) => {
-            // if (this.loggedUser.role === 'Basic') {
-            //   return data.filter(item => item.isListed);
-            // }
-          // }),
-          // )
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
-          console.log('test');
         });
   }
 
