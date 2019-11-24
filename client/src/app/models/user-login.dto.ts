@@ -1,4 +1,4 @@
 export class UserLoginDTO {
-    public username: string;
+    public credential: string;
     public password: string;
 }

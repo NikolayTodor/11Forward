@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, RelationCount } from "typeorm";
 
 @Entity('users')
 export class User {
@@ -17,5 +18,18 @@ export class User {
 
     @Column({type: 'boolean', default: false})
     public isDeleted: boolean;
+
+    @ManyToMany(type => User, user => user.following)
+    @JoinTable()
+    followers: User[];
+
+    @ManyToMany(type => User, user => user.followers)
+    following: User[];
+
+    @RelationCount((user: User) => user.followers)
+    followersCount: number;
+
+    @RelationCount((user: User) => user.following)
+    followingCount: number;
 
 }
