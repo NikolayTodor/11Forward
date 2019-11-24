@@ -12,11 +12,11 @@ import { UpdatePostDTO } from '../models/posts/update-post.dto';
 export class PostsService {
 
     public constructor(
-        @InjectRepository(Post) private readonly postRepo: Repository < Post > ,
-        @InjectRepository(Comment) private readonly commentRepo: Repository < Comment > ,
-        @InjectRepository(User) private readonly userRepo: Repository < User > ) {}
+        @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
+        @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-    public async allPosts(userId: string): Promise < ShowPostDTO[] > {
+    public async allPosts(userId: string): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false
@@ -33,17 +33,37 @@ export class PostsService {
         });
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
 
-        filteredPosts.forEach(async post => {
-            const comments: Comment[] = await this.commentRepo.find({
-                where: {
-                    post: post.id,
-                    isDeleted: false
-                }
-            });
-
-        });
+        // filteredPosts.forEach(async post => {
+        //     const comments: Comment[] = await this.commentRepo.find({
+        //         where: {
+        //             post: post.id,
+        //             isDeleted: false
+        //         }
+            // });
+        // });
 
         return filteredPosts.map((post: Post) => ({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            imageURL: post.imageURL,
+            isPrivate: post.isPrivate,
+            dateCreated: post.dateCreated,
+            dateLastUpdated: post.dateLastUpdated,
+            author: post.author.username,
+            commentsCount: post.commentsCount,
+            likes: post.likesCount
+        }));
+    }
+
+    public async allPostsNoLog(): Promise<ShowPostDTO[]> {
+        const allPosts: Post[] = await this.postRepo.find({
+            where: {
+                isDeleted: false, isPrivate: false
+            }
+        });
+
+        return allPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,

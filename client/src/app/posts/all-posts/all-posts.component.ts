@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-all-posts',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllPostsComponent implements OnInit {
 
-  constructor() { }
+  public posts: ShowPostDTO[] = [];
+
+  constructor(
+    private readonly postsService: PostsService,
+  ) { }
 
   ngOnInit() {
+    this.postsService
+        .getAllPosts()
+        // Proverki za private i permission
+        // .pipe(
+        //   map((data: ShowPostDTO[]) => {
+            // if (this.loggedUser.role === 'Basic') {
+            //   return data.filter(item => item.isListed);
+            // }
+          // }),
+          // )
+        .subscribe((data: ShowPostDTO[]) => {
+          this.posts = data;
+          console.log('test');
+        });
   }
 
 }
