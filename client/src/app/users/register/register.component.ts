@@ -57,15 +57,20 @@ export class RegisterComponent implements OnInit {
       }, { validators: this.passwordMatchValidator });
     }
 
-  public register(user: UserRegisterDTO) {
-    this.authService.register(user).subscribe(
+  public register(user) {
+    const user1: UserRegisterDTO = {
+      username: user.username,
+      password: user.password,
+      email: user.email
+    };
+    console.log(user1);
+    this.authService.register(user1).subscribe(
       () => {
-      this.notification.success('Registered successfully!!!');
+      this.notification.success('Registered successfully!');
       this.router.navigate(['users/login']);
     },
-    (data) => {
-      console.log(data);
-      this.notification.error(data);
+    () => {
+      this.notification.error('Registration failed!');
     }
     );
   }
