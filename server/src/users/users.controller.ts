@@ -11,8 +11,6 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 @ApiUseTags('Users Controller')
-
-
 export class UsersController {
 
     constructor(private readonly usersService: UsersDataService) {
@@ -40,7 +38,7 @@ export class UsersController {
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Patch(':name')
+    @Patch('/follow/:name')
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow (
