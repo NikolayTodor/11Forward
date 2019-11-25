@@ -2,19 +2,20 @@
     <div class="navbar-elements">
         <a class="navbar-logo" href="/home"><img id="logo" src="../../assets/logo.png" alt=""></a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a class="nav-link" [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
+              <a class="nav-link-register" [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a class="nav-link" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Log in</a>
+              <a class="nav-link-login" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Log in</a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a class="nav-link" [routerLink]="['home']" *ngIf="this.loggedUser" (click)="this.logout()">Log out</a>
+              <a class="nav-link-logout" [routerLink]="['home']" *ngIf="this.loggedUser" (click)="this.logout()">Log out</a>
               <button *ngIf="this.loggedUser" (click)="this.goToProfile()">{{loggedUser.username}} profile</button>
-              
-              <button mat-icon-button>
+              <button mat-icon-button class="droid">
                   <i class="material-icons">
                       android
                       </i>
               </button>
           </div>
+
+
   </mat-toolbar>
 
 <!-- <nav class="navbar">
