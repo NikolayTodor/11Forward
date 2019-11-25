@@ -1,0 +1,13 @@
+<div *ngIf="(this.postToShow)" class="post-info-container">
+  <div class="single-post-in-list-container" post="post.title">
+    <mat-card>
+      <img src="{{this.postToShow.imageURL}}">
+      <div class="post-item">
+        Title: {{ this.postToShow.title }} <br />
+        Content: {{ this.postToShow.content }} <br />
+        Posted on: {{ this.postToShow.dateCreated }}<br />
+        By: {{ this.postToShow.author }}<br />
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { AllPostsComponent } from './posts/all-posts/all-posts.component';
+import { PostsModule } from './posts/posts.module';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { HomeComponent } from './components/home/home.component';
     HttpClientModule,
     SharedModule,
     JwtModule.forRoot({ config: {}}),
-    UsersModule
+    UsersModule,
+    PostsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

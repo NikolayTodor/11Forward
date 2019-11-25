@@ -7,7 +7,8 @@ import {
   MatInputModule,
   MatButtonModule,
   MatToolbarModule,
-  MatIconModule
+  MatIconModule,
+  MatRadioModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -22,6 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     MatToolbarModule,
+    MatIconModule,
+    MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
     MatIconModule
