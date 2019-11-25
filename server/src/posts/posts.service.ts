@@ -8,6 +8,7 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
+import { animationFrameScheduler } from 'rxjs';
 
 @Injectable()
 export class PostsService {
@@ -17,33 +18,16 @@ export class PostsService {
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-    public async allPosts(userId: string): Promise<ShowPostDTO[]> {
+    public async allPublicPosts(): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
-                isDeleted: false
+                isDeleted: false,
+                isPrivate: false,
+                hasPermission: true
             }
         });
 
-        allPosts.forEach(async post => {
-            if (post.isPrivate === true) {
-                const author = await post.author;
-                // Proverka dali avtora e follownat ot 4etq6tiq
-                // Ako da - hasPermission = true
-                // Ako ne - hasPermission = false
-            }
-        });
-        const filteredPosts = allPosts.filter(post => post.hasPermission === true);
-
-        // filteredPosts.forEach(async post => {
-        //     const comments: Comment[] = await this.commentRepo.find({
-        //         where: {
-        //             post: post.id,
-        //             isDeleted: false
-        //         }
-            // });
-        // });
-
-        return Array.from(filteredPosts.map((post: Post) => ({
+        return Array.from(allPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
@@ -57,14 +41,34 @@ export class PostsService {
         })));
     }
 
-    public async allPostsNoLog(): Promise<ShowPostDTO[]> {
+    public async allAllowedPosts(userId): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
-                isDeleted: false, isPrivate: false
+                isDeleted: false
             }
         });
 
-        return Array.from(allPosts.map((post: Post) => ({
+        const foundUser: User = await this.userRepo.findOne({where: {id: userId},
+            relations: ['following']});
+
+        const foundUserFollows = [...await foundUser.following];
+
+        allPosts.forEach(post => {
+            if (post.isPrivate === true) {
+                const author = post.author;
+                if (author.id === userId) {
+                    post.hasPermission = true;
+                } else {
+                    if (foundUserFollows.find(following => following.id === author.id)) {
+                        post.hasPermission = true;
+                    }
+                }
+            }
+        });
+
+        const filteredPosts = allPosts.filter(post => post.hasPermission === true);
+
+        return Array.from(filteredPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
@@ -115,6 +119,9 @@ export class PostsService {
 
         const newPost: Post = this.postRepo.create(postToCreate);
         newPost.author = foundUser;
+        if (postToCreate.isPrivate === true) {
+            newPost.hasPermission = false;
+        }
         await this.postRepo.save(newPost);
 
         return {

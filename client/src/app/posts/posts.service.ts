@@ -14,8 +14,12 @@ export class PostsService {
     private readonly http: HttpClient
   ) { }
 
-  public getAllPosts(): Observable<ShowPostDTO[]> {
+  public getPublicPosts(): Observable<ShowPostDTO[]> {
     return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts`);
+  }
+
+  public getAllPosts(): Observable<ShowPostDTO[]> {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private`);
   }
 
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {

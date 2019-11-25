@@ -30,11 +30,19 @@ export class AllPostsComponent implements OnInit {
         this.loggedUser = loggedUser;
       });
 
-    this.postsService
+    if (this.loggedUser) {
+      this.postsService
         .getAllPosts()
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
         });
+    } else {
+      this.postsService
+        .getPublicPosts()
+        .subscribe((data: ShowPostDTO[]) => {
+          this.posts = data;
+        });
+    }
   }
 
   public createPost(post: CreatePostDTO): void {

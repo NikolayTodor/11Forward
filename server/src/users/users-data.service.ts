@@ -67,7 +67,7 @@ export class UsersDataService {
     }
 
       // ---- test method for displaying user with following and followers ------ //
-      public async showFollow (userName: string) {
+      public async showFollow(userName: string) {
         const userFollowingAndFollowers = await this.userRepo.findOne({
           where: {username: userName},
           relations: ['followers', 'following']
@@ -77,7 +77,7 @@ export class UsersDataService {
       }
     // ------ --------- //
 
-    public async followUser (userName: string, followUserName: string) {
+    public async followUser(userName: string, followUserName: string) {
 
       if (userName.toLowerCase() === followUserName.toLowerCase()) {
         throw new ApiSystemError('You can not follow yourself!', 500);
