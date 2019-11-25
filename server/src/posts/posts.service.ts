@@ -114,7 +114,20 @@ export class PostsService {
 
         const newPost: Post = this.postRepo.create(postToCreate);
         newPost.author = foundUser;
-        return await this.postRepo.save(newPost);
+        await this.postRepo.save(newPost);
+
+        return {
+            id: newPost.id,
+            title: newPost.title,
+            content: newPost.content,
+            imageURL: newPost.imageURL,
+            isPrivate: newPost.isPrivate,
+            dateCreated: newPost.dateCreated,
+            dateLastUpdated: newPost.dateLastUpdated,
+            author: newPost.author.username,
+            commentsCount: newPost.commentsCount,
+            likes: newPost.likesCount
+        };
     }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {

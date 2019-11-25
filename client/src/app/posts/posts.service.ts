@@ -19,7 +19,6 @@ export class PostsService {
   }
 
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
-    console.log(post);
     return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
   }
 }

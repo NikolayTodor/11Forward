@@ -38,10 +38,9 @@ export class AllPostsComponent implements OnInit {
   }
 
   public createPost(post: CreatePostDTO): void {
-    console.log('dfgdfg');
     this.postsService.createPost(post).subscribe(
       (createPost: ShowPostDTO) => {
-        this.posts.push(createPost);
+        this.posts.unshift(createPost);
         this.notificationService.success(`Post created!`);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
