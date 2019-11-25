@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
+
+  @Output() changeTheme = new EventEmitter<any>();
 
   public constructor(
     private readonly authService: AuthService,
@@ -42,6 +44,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.notification.success('Logged out successfully');
     this.router.navigate(['/home']);
+  }
+
+  onClickChangeTheme() {
+    this.changeTheme.emit();
   }
 
 }
