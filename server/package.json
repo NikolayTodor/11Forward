@@ -21,6 +21,8 @@
     "clean": "ts-node ./src/seed/clean.ts"
   },
   "dependencies": {
+    "@angular/cdk": "^8.2.3",
+    "@angular/flex-layout": "^8.0.0-beta.27",
     "@hapi/joi": "^16.0.0",
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
