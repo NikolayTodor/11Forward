@@ -98,6 +98,10 @@ export class UsersDataService {
       }
 
       userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
+
+      //1) const count = await this.userRepo.count() zaiavka
+      //2) zapis broika na frontend i da namaliavam s inkrementacia i dekrementacia
+      
       await this.userRepo.save(userFollower);
       await this.userRepo.save(userToFollow);
 
