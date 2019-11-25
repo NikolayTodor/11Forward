@@ -15,7 +15,7 @@ implements CanActivate {
         super();
     }
 
-    public async canActivate(context: ExecutionContext): Promise < boolean > {
+    public async canActivate(context: ExecutionContext): Promise<boolean> {
         if (!(await super.canActivate(context))) {
             return false;
         }

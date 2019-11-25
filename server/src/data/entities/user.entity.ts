@@ -36,10 +36,10 @@ export class User {
 
     @ManyToMany(type => User, user => user.following)
     @JoinTable()
-    public followers: User[];
+    public followers: Promise<User[]>;
 
     @ManyToMany(type => User, user => user.followers)
-    public following: User[];
+    public following: Promise<User[]>;
 
     @RelationCount((user: User) => user.followers)
     public followersCount: number;

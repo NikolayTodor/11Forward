@@ -1,3 +1,4 @@
+import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
@@ -59,7 +60,70 @@ export class UsersDataService {
 
        const newUser: User = this.userRepo.create(userToCreate);
        newUser.password = await bcrypt.hash(userToCreate.password, 10);
+       newUser.followers = Promise.resolve([]);
+       newUser.following = Promise.resolve([]);
        return await this.userRepo.save(newUser);
+
+    }
+
+      // ---- test method for displaying user with following and followers ------ //
+      public async showFollow(userName: string) {
+        const userFollowingAndFollowers = await this.userRepo.findOne({
+          where: {username: userName},
+          relations: ['followers', 'following']
+        });
+
+        return userFollowingAndFollowers;
+      }
+    // ------ --------- //
+
+    public async followUser(userName: string, followUserName: string) {
+
+      if (userName.toLowerCase() === followUserName.toLowerCase()) {
+        throw new ApiSystemError('You can not follow yourself!', 500);
+      }
+
+      const userFollower: User = await this.userRepo.findOne({
+        where: {username: userName},
+        relations: ['following']
+      });
+
+      const userToFollow: User = await this.userRepo.findOne({
+        where: { username: followUserName },
+      });
+
+      const followedUsers: User[] = [...await userFollower.following];
+      if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {
+       throw new ApiSystemError('Can not follow same user twice!', 500);
+      }
+
+      userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
+      await this.userRepo.save(userFollower);
+      await this.userRepo.save(userToFollow);
+
+      return userFollower;
+    }
+
+    public async unfollowUser(userName: string, unfollowUserName: string) {
+
+      const userFollower: User = await this.userRepo.findOne({
+        where: {username: userName},
+        relations: ['following']
+      });
+
+      const userToUnFollow: User = await this.userRepo.findOne({
+        where: { username: unfollowUserName },
+      });
+
+      const followedUsers: User[] = [...await userFollower.following]
+      .filter(_user => _user.username.toLowerCase() !== unfollowUserName.toLowerCase() );
+
+      userFollower.following = Promise.resolve([...followedUsers]);
+
+      this.userRepo.save(userFollower);
+      this.userRepo.save(userToUnFollow);
+
+      return userFollower;
 
     }
 

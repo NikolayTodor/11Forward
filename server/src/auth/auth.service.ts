@@ -35,4 +35,12 @@ export class AuthService {
         };
       }
 
+      public blacklistToken(token: string): void {
+        this.blacklist.push(token);
+      }
+
+      public isTokenBlacklisted(token: string): boolean {
+        return this.blacklist.includes(token);
+      }
+
 }
