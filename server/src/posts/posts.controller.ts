@@ -50,7 +50,6 @@ export class PostsController {
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {
-            console.log(user.id, newPost);
         return await this.postsService.createPost(user.id, newPost);
     }
 
