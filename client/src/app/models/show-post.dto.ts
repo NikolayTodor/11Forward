@@ -4,8 +4,8 @@ export class ShowPostDTO {
     public content: string;
     public imageURL: string;
     public isPrivate: boolean;
-    public dateCreated: Date;
-    public dateLastUpdated: Date;
+    public dateCreated: string;
+    public dateLastUpdated: string;
     public author: string;
     public commentsCount: number;
     public likes: number;

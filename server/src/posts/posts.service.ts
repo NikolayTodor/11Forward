@@ -7,6 +7,7 @@ import { User } from '../data/entities/user.entity';
 import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
+import * as moment from 'moment';
 
 @Injectable()
 export class PostsService {
@@ -42,18 +43,18 @@ export class PostsService {
             // });
         // });
 
-        return filteredPosts.map((post: Post) => ({
+        return Array.from(filteredPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: post.dateCreated,
-            dateLastUpdated: post.dateLastUpdated,
+            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
-        }));
+        })));
     }
 
     public async allPostsNoLog(): Promise<ShowPostDTO[]> {
@@ -63,21 +64,21 @@ export class PostsService {
             }
         });
 
-        return allPosts.map((post: Post) => ({
+        return Array.from(allPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: post.dateCreated,
-            dateLastUpdated: post.dateLastUpdated,
+            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
-        }));
+        })));
     }
 
-    public async onePost(postId: string, userId: string): Promise < ShowPostDTO > {
+    public async onePost(postId: string, userId: string): Promise<ShowPostDTO> {
         const foundPost: Post = await this.postRepo.findOne({
             where: {
                 id: postId
@@ -94,15 +95,15 @@ export class PostsService {
             content: foundPost.content,
             imageURL: foundPost.imageURL,
             isPrivate: foundPost.isPrivate,
-            dateCreated: foundPost.dateCreated,
-            dateLastUpdated: foundPost.dateLastUpdated,
+            dateCreated: moment(foundPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
             author: foundPost.author.username,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
         };
     }
 
-    public async createPost(userId: string, postToCreate: CreatePostDTO) {
+    public async createPost(userId: string, postToCreate: CreatePostDTO): Promise<ShowPostDTO> {
         const foundUser = await this.userRepo.findOne({
             where: {
                 id: userId
@@ -122,8 +123,8 @@ export class PostsService {
             content: newPost.content,
             imageURL: newPost.imageURL,
             isPrivate: newPost.isPrivate,
-            dateCreated: newPost.dateCreated,
-            dateLastUpdated: newPost.dateLastUpdated,
+            dateCreated: moment(newPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(newPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
             author: newPost.author.username,
             commentsCount: newPost.commentsCount,
             likes: newPost.likesCount
