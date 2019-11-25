@@ -1,1 +1,37 @@
-<p>create-post works!</p>
+<div class="create-post-container">
+  <form [formGroup]="this.createPostForm" (ngSubmit)="this.createPost(this.createPostForm.value)">
+    <mat-form-field>
+      <input matInput placeholder="Add title" required formControlName="title">
+      <mat-error *ngIf="!!this.createPostForm.controls.title.errors?.required">
+        A title is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Add content" required formControlName="content">
+      <mat-error *ngIf="!!this.createPostForm.controls.content.errors?.required">
+        Some content is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Add a URL for the image" required formControlName="imageURL">
+      <mat-error *ngIf="!!this.createPostForm.controls.imageURL.errors?.required">
+        A URL to an image is required!
+      </mat-error>
+    </mat-form-field>
+
+    <label>The post's privacy settings: </label>
+    <mat-radio-group formControlName="isPrivate">
+        <mat-radio-button value="Private">Private</mat-radio-button>
+        <mat-radio-button value="Public">Public</mat-radio-button>
+    </mat-radio-group>
+
+    <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.createPostForm.invalid">
+      Create Post
+      <i class="material-icons">
+        book
+      </i>
+    </button>
+  </form>
+</div>

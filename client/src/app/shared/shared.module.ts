@@ -4,7 +4,9 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatIconModule,
+  MatRadioModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -17,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
+    MatRadioModule,
     FormsModule,
     ReactiveFormsModule
   ]
