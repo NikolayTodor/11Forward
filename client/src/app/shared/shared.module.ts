@@ -1,5 +1,7 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import {
   MatCardModule,
   MatCheckboxModule,
@@ -8,7 +10,7 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatIconModule,
-  MatRadioModule
+  MatRadioModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    FlexLayoutModule
   ]
 })
 export class SharedModule {}
