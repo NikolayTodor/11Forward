@@ -63,7 +63,6 @@ export class RegisterComponent implements OnInit {
       password: user.password,
       email: user.email
     };
-    console.log(user1);
     this.authService.register(user1).subscribe(
       () => {
       this.notification.success('Registered successfully!');

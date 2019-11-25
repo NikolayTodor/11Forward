@@ -16,12 +16,22 @@ export class PostsController {
     constructor(private readonly postsService: PostsService) {}
 
     @Get()
+    @HttpCode(HttpStatus.OK)
+    public async getPublicPosts(): Promise<ShowPostDTO[]> {
+        const posts: ShowPostDTO[] = await this.postsService.allPublicPosts();
+
+        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
+
+        return posts;
+    }
+
+    @Get('/private')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    public async getHomePagePosts(
-        @userDecorator() user: ShowUserDTO,
-        ): Promise<ShowPostDTO[]> {
-        const posts: ShowPostDTO[] = await this.postsService.allPosts(user.id);
+    public async getHomePagePostsPrivate(
+        @userDecorator() user: ShowUserDTO
+    ): Promise<ShowPostDTO[]> {
+        const posts: ShowPostDTO[] = await this.postsService.allAllowedPosts(user.id);
 
         posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
 

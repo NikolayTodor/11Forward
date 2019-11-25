@@ -41,7 +41,7 @@ export class UsersController {
     @Patch('/follow/:name')
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-    public async followUnfollow (
+    public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
         @Body() body: { action: FollowActionType },
         @Param('name') followUserName: string) {

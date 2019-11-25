@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public goToProfile(){
+  public goToProfile() {
     this.router.navigate([`/users/${this.loggedUser.id}`]);
   }
 
