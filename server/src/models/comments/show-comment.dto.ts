@@ -1,4 +1,4 @@
-export class ShowPostDTO {
+export class ShowCommentDTO {
     public id: string;
     public content: string;
     public dateCreated: string;

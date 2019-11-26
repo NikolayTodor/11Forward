@@ -8,7 +8,6 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
-import { animationFrameScheduler } from 'rxjs';
 
 @Injectable()
 export class PostsService {

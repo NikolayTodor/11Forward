@@ -12,7 +12,7 @@ export class Post {
     @Column({type: 'nvarchar', nullable: false})
     public title: string;
 
-    @Column({type: 'nvarchar', nullable: false})
+    @Column({type: 'text', nullable: false})
     public content: string;
 
     @Column({type: 'nvarchar', nullable: false})
