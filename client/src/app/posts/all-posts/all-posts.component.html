@@ -1,12 +1,10 @@
 What's new in our quantum universe:
 
-<div class="all-posts-container">
+<div class="all-posts-container" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0.5%">
 
   <app-create-post *ngIf="this.loggedUser" (toCreatePost)="this.createPost($event)"></app-create-post>
 
-  <div class="posts-list">
-    <app-single-post-in-list *ngFor="let post of this.posts" [post]="post" class="one-post">
-    </app-single-post-in-list>
+      <app-single-post-in-list fxFlex="45%" *ngFor="let post of this.posts" [post]="post" class="one-post" >
+        </app-single-post-in-list>
 
-  </div>
 </div>
