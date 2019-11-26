@@ -18,8 +18,8 @@ export class Comment {
     @UpdateDateColumn()
     public dateLastUpdated: Date;
 
-    @ManyToOne(type => User, user => user.comments)
-    public user: Promise<User>;
+    @ManyToOne(type => User, user => user.comments, {eager: true})
+    public author: Promise<User>;
 
     @ManyToOne(type => Post, post => post.comments)
     public post: Promise<Post>;

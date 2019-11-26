@@ -22,7 +22,7 @@ export class User {
     @OneToMany(type => Post, post => post.author)
     public posts: Promise<Post[]>;
 
-    @OneToMany(type => Comment, comment => comment.user)
+    @OneToMany(type => Comment, comment => comment.author)
     public comments: Promise<Comment[]>;
 
     @OneToMany(type => LikeComment, like => like.user)
