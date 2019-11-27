@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { CreateCommentDTO } from '../models/comments/create-comment.dto';
 import { User } from '../data/entities/user.entity';
 import { Post } from '../data/entities/post.entity';
+import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
 
 @Injectable()
 export class CommentsService {
@@ -66,6 +67,30 @@ export class CommentsService {
             dateLastUpdated: moment(newComment.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
             author: newComment.author.username,
             likes: newComment.likesCount
+        };
+    }
+
+    public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {
+        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+        const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
+
+        if (foundComment.author.id !== userId
+            //  && foundUser.role.name !== 'Admin'
+        ) {
+            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        }
+
+        foundComment.content = body.content;
+
+        await this.commentRepo.save(foundComment);
+
+        return {
+            id: foundComment.id,
+            content: foundComment.content,
+            dateCreated: moment(foundComment.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(foundComment.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            author: foundComment.author.username,
+            likes: foundComment.likesCount
         };
     }
 }

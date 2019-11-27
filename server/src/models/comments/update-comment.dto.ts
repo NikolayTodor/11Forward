@@ -1,3 +1,3 @@
-export class CreateCommentDTO {
+export class UpdateCommentDTO {
     public content: string;
 }
