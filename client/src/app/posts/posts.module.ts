@@ -1,3 +1,4 @@
+import { SharedService } from './../shared/services/shared.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
@@ -12,7 +13,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
     CommonModule,
     SharedModule
   ],
-  providers: [PostsService],
+  providers: [PostsService, SharedService],
   exports: [AllPostsComponent]
 })
 export class PostsModule { }
