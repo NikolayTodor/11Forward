@@ -20,7 +20,7 @@
         <mat-radio-button value="Public">Public</mat-radio-button>
     </mat-radio-group>
 
-    <input type="file" (change)="this.onFileChange($event)" />
+    <input type="file" (change)="this.onFileChange($event)" accept="image/*" />
 
     <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.createPostForm.invalid || this.createPostUrl === undefined">
       Create Post
@@ -29,4 +29,14 @@
       </i>
     </button>
   </form>
+
+  <image-cropper
+
+  [imageChangedEvent]="imageChangedEvent"
+  format="png"
+  (imageCropped)="imageCropped($event)"
+  >
+  </image-cropper>
+
+  <img [src]="croppedImage">
 </div>

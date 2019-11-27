@@ -1,3 +1,4 @@
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedService } from './../shared/services/shared.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,7 +12,8 @@ import { CreatePostComponent } from './create-post/create-post.component';
   declarations: [AllPostsComponent, SinglePostInListComponent, CreatePostComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    ImageCropperModule
   ],
   providers: [PostsService, SharedService],
   exports: [AllPostsComponent]

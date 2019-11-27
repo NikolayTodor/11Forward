@@ -2,6 +2,7 @@ import { SharedService } from './../../shared/services/shared.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CreatePostDTO } from '../../models/create-post.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-create-post',
@@ -11,6 +12,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CreatePostComponent implements OnInit {
   public createPostForm: FormGroup;
   public createPostUrl: string;
+  public imageChangedEvent: any = '';
+  public croppedImage: any = '';
+
 
   public constructor(private readonly formBuilder: FormBuilder,
                      private readonly sharedService: SharedService) { }
@@ -29,12 +33,19 @@ export class CreatePostComponent implements OnInit {
 
   onFileChange(event) {
 
-  const file = event.target.files[0];
-  if (file.type !== 'image/jpeg' && file.type !== 'image/png' ) {
-    console.log('You are trying to upload invalid file!');
+  this.imageChangedEvent = event;
+
   }
 
-  this.sharedService.postImgAndGetUrl(file).toPromise().then((response: any) => this.createPostUrl = response.data.link);
+  imageCropped(event: ImageCroppedEvent) {
+    const fileBeforeCrop = this.imageChangedEvent.target.files[0];
+    this.croppedImage = event.base64;
+    const fileToUpload = new File([event.file], fileBeforeCrop.name, {type: fileBeforeCrop.type});
+    console.log(fileToUpload);
+
+    this.sharedService.postImgAndGetUrl(fileToUpload).toPromise().then((response: any) => {
+      this.createPostUrl = response.data.link;
+    });
   }
 
 
