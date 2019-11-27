@@ -11,13 +11,28 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = this.storage.getItem('token');
+    const token = this.storage.getItem('token') || '';
 
-    const updatedReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    let updatedReq;
+
+    if (req.url.includes('imgur')) {
+      updatedReq = req.clone({
+
+        setHeaders: {
+          Authorization: `Client-ID 7084d3c72f8fab9`
+        }
+      })
+    }
+
+    else {
+      updatedReq = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
+
+
 
     return next.handle(updatedReq);
   }
