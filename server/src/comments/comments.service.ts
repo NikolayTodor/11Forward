@@ -93,4 +93,20 @@ export class CommentsService {
             likes: foundComment.likesCount
         };
     }
+
+    public async deleteComment(userId: string, commentId: string) {
+        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+        const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
+
+        if (foundComment.author.id !== userId
+            //  && foundUser.role.name !== 'Admin'
+        ) {
+            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        }
+
+        foundComment.isDeleted = true;
+        await this.commentRepo.save(foundComment);
+
+        return { msg: `Comment successfully deleted!`};
+    }
 }

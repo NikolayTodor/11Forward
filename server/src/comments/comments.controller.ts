@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, Param, Post, UseGuards, Body, Put } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query, Param, Post, UseGuards, Body, Put, Delete } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
@@ -45,5 +45,15 @@ export class CommentsController {
         @Param('commentId') commentId: string,
         @Body() updatedComment: UpdateCommentDTO) {
         return await this.commentsService.updateComment(user.id, commentId, updatedComment);
+    }
+
+    @Delete(':commentId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async deleteComment(
+      @Param('commentId') commentId: string,
+      @userDecorator() user: ShowUserDTO
+      ) {
+        return await this.commentsService.deleteComment(user.id, commentId);
     }
 }
