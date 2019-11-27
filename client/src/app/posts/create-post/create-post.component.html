@@ -14,20 +14,15 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Add a URL for the image" required formControlName="imageURL">
-      <mat-error *ngIf="!!this.createPostForm.controls.imageURL.errors?.required">
-        A URL to an image is required!
-      </mat-error>
-    </mat-form-field>
-
     <label>The post's privacy settings: </label>
     <mat-radio-group formControlName="isPrivate">
         <mat-radio-button value="Private">Private</mat-radio-button>
         <mat-radio-button value="Public">Public</mat-radio-button>
     </mat-radio-group>
 
-    <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.createPostForm.invalid">
+    <input type="file" (change)="this.onFileChange($event)" />
+
+    <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.createPostForm.invalid || this.createPostUrl === undefined">
       Create Post
       <i class="material-icons">
         book
