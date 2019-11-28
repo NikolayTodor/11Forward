@@ -6,7 +6,10 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatIconModule,
-  MatRadioModule
+  MatRadioModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -21,6 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatIconModule,
     MatRadioModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
     FormsModule,
     ReactiveFormsModule
   ]
