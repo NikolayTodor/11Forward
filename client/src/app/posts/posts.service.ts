@@ -22,7 +22,7 @@ export class PostsService {
     return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private`);
   }
 
-  public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
-    return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
+  public createPost(post: FormData): Observable<any> {
+    return this.http.post<any>(`${CONFIG.DOMAIN_NAME}/posts`, post);
   }
 }
