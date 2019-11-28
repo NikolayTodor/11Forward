@@ -45,11 +45,11 @@ export class AllPostsComponent implements OnInit {
     }
   }
 
-  public createPost(post: CreatePostDTO): void {
+  public createPost(post: FormData): void {
     this.postsService.createPost(post).subscribe(
       (createPost: ShowPostDTO) => {
-        this.posts.unshift(createPost);
-        this.notificationService.success(`Post created!`);
+        // this.posts.unshift(createPost);
+        // this.notificationService.success(`Post created!`);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
