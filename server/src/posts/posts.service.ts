@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { ApiSystemError } from './../common/exceptions/api-system.error';
+import { Injectable, NotFoundException, BadRequestException, HttpService } from '@nestjs/common';
 import { Post } from '../data/entities/post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,7 +9,8 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
-import { animationFrameScheduler } from 'rxjs';
+import {extname} from 'path'
+import  axios from 'axios';
 
 @Injectable()
 export class PostsService {
@@ -16,7 +18,8 @@ export class PostsService {
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
-        @InjectRepository(User) private readonly userRepo: Repository<User>) {}
+        @InjectRepository(User) private readonly userRepo: Repository<User>,
+        private readonly httpService: HttpService) {}
 
     public async allPublicPosts(): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
@@ -107,7 +110,7 @@ export class PostsService {
         };
     }
 
-    public async createPost(userId: string, postToCreate: CreatePostDTO): Promise<ShowPostDTO> {
+    public async createPost(userId: string, postToCreate: CreatePostDTO, image: any): Promise<ShowPostDTO> {
         const foundUser = await this.userRepo.findOne({
             where: {
                 id: userId
@@ -122,20 +125,24 @@ export class PostsService {
         if (postToCreate.isPrivate === true) {
             newPost.hasPermission = false;
         }
-        await this.postRepo.save(newPost);
+        // await this.postRepo.save(newPost);
 
-        return {
-            id: newPost.id,
-            title: newPost.title,
-            content: newPost.content,
-            imageURL: newPost.imageURL,
-            isPrivate: newPost.isPrivate,
-            dateCreated: moment(newPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(newPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
-            author: newPost.author.username,
-            commentsCount: newPost.commentsCount,
-            likes: newPost.likesCount
-        };
+        await this.uploadPhoto(image);
+
+        // return {
+        //     id: newPost.id,
+        //     title: newPost.title,
+        //     content: newPost.content,
+        //     imageURL: newPost.imageURL,
+        //     isPrivate: newPost.isPrivate,
+        //     dateCreated: moment(newPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+        //     dateLastUpdated: moment(newPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+        //     author: newPost.author.username,
+        //     commentsCount: newPost.commentsCount,
+        //     likes: newPost.likesCount
+        // };
+
+        return null;
     }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
@@ -186,4 +193,41 @@ export class PostsService {
 
         return { msg: `Post successfully deleted!`};
     }
+
+    async uploadPhoto(photo: any): Promise<{ photoLink: string, photoDeleteHash: string }> {
+        if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
+          throw new ApiSystemError('Image failed test', 500);
+        }
+        console.log(photo);
+        const image = photo.buffer;
+        console.log(image);
+        
+     try {
+        const data = await axios(`https://api.imgur.com/3/upload`, {
+            method: 'POST',
+            headers: {
+               'Authorization': `Client-ID 7084d3c72f8fab9`,
+              'Content-Type': 'multipart/form-data',
+            },
+            data: image,
+          });
+          console.log(data);
+     }
+     catch(error) {
+         console.log(error);
+     }
+
+      
+
+        
+
+        // then((response: any) => {
+    //   this.createPostUrl = response.data.link;
+    // });
+
+    
+        return null;
+     
+        // return { photoLink: data.data.link, photoDeleteHash: data.data.deletehash };
+      }
 }
