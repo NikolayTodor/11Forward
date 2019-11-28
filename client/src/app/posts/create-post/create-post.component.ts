@@ -14,12 +14,13 @@ export class CreatePostComponent implements OnInit {
   public createPostUrl: string;
   public imageChangedEvent: any = '';
   public croppedImage: any = '';
+  public fileToUpload: File;
 
 
   public constructor(private readonly formBuilder: FormBuilder,
                      private readonly sharedService: SharedService) { }
 
-  @Output() public readonly toCreatePost: EventEmitter<CreatePostDTO> = new EventEmitter();
+  @Output() public readonly toCreatePost: EventEmitter<FormData> = new EventEmitter();
 
   ngOnInit() {
     this.createPostForm = this.formBuilder.group({
@@ -38,23 +39,39 @@ export class CreatePostComponent implements OnInit {
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    const fileBeforeCrop = this.imageChangedEvent.target.files[0];
+    const fileBeforeCrop: File = this.imageChangedEvent.target.files[0];
     this.croppedImage = event.base64;
-    const fileToUpload = new File([event.file], fileBeforeCrop.name, {type: fileBeforeCrop.type});
-    console.log(fileToUpload);
-
-    this.sharedService.postImgAndGetUrl(fileToUpload).toPromise().then((response: any) => {
-      this.createPostUrl = response.data.link;
-    });
+    console.log(event.base64)
+    this.fileToUpload = new File([this.croppedImage], fileBeforeCrop.name, {type: fileBeforeCrop.type});
+    console.log(this.fileToUpload);
   }
 
 
   public createPost(post): void {
-    const postToCreate: CreatePostDTO = {
-      ...post,
-      imageURL: this.createPostUrl,
-      isPrivate: post.isPrivate === 'Private' ? true : false
-    };
-    this.toCreatePost.emit(postToCreate);
+    // const postToCreate: CreatePostDTO = {
+    //   ...post,
+    //   image: this.fileToUpload,
+    //   isPrivate: post.isPrivate === 'Private' ? true : false
+    // };
+    // this.toCreatePost.emit(postToCreate);
+
+  //   export class CreatePostDTO {
+  //     public title: string;
+  //     public content: string;
+  //     public image: File;
+  //     public isPrivate: boolean;
+  // }
+
+    post.isPrivate = post.isPrivate === 'Private' ? true : false;
+
+    const newPost = new FormData();
+    newPost.append('title', post.tile);
+    newPost.append('content', post.content);
+    newPost.append('image', this.fileToUpload);
+    newPost.append('isPrivate', post.isPrivate);
+
+    this.toCreatePost.emit(newPost);
+
   }
+
 }
