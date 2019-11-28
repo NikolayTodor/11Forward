@@ -1,3 +1,4 @@
+import { UseInterceptors, UploadedFile } from '@nestjs/common';
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe,
     Body, UseGuards, Get, Param, Put, Delete } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
@@ -8,6 +9,8 @@ import { userDecorator } from '../common/decorators/user.decorator';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
 @ApiUseTags('Posts Controller')
@@ -49,14 +52,17 @@ export class PostsController {
     }
 
     @Post()
-    @UseGuards(AuthGuardWithBlacklisting)
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(FileInterceptor('image'))
     @HttpCode(HttpStatus.CREATED)
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
+        @UploadedFile() image: any,
         @Body() newPost: CreatePostDTO) {
-        return await this.postsService.createPost(user.id, newPost);
+        
+       
+        return await this.postsService.createPost(user.id, newPost, image);
     }
 
     @Put(':postId')
