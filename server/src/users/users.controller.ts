@@ -32,15 +32,28 @@ export class UsersController {
         return users;
     }
 
-    // ----- test method for showing user followers and following ------
-
     @Get(':name')
     @HttpCode(HttpStatus.OK)
-    @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async showUserFollowInfo(@Param('name') userName: string ) {
-        return await this.usersService.showFollow(userName);
+    // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
+    public async showsingleUser(@Param('name') name: string ) {
+        return await this.usersService.getOneUser(name);
     }
-    //
+
+    @Get('/followers/:name')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
+    public async getFollowers(@Param('name') name: string ) {
+        return await this.usersService.getFollowers(name);
+    }
+
+    @Get('/following/:name')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
+    public async getFollowing(@Param('name') name: string ) {
+        return await this.usersService.getFollowing(name);
+    }
 
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
@@ -48,7 +61,6 @@ export class UsersController {
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
 
     public async addNewUser(@Body() newUser: CreateUserDTO) {
-
         return await this.usersService.createUser(newUser);
     }
 

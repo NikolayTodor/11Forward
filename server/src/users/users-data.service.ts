@@ -32,6 +32,54 @@ export class UsersDataService {
     }));
   }
 
+  public async getOneUser(name: string): Promise<ShowUserProfileDTO> {
+    const foundUser = await this.userRepo.findOne({
+      where: {
+        username: name
+      }
+    });
+
+    return {
+      id: foundUser.id,
+      username: foundUser.username,
+      email: foundUser.email,
+      followersCount: foundUser.followersCount,
+      followingCount: foundUser.followingCount
+    };
+  }
+
+  public async getFollowers(name: string): Promise<ShowUserProfileDTO[]> {
+    const foundUser = await this.userRepo.findOne({
+      where: { username: name }
+    });
+
+    const userFollowers = await foundUser.followers;
+
+    return userFollowers.map((user: User) => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      followersCount: user.followersCount,
+      followingCount: user.followingCount
+    }));
+  }
+
+  public async getFollowing(name: string): Promise<ShowUserProfileDTO[]> {
+    const foundUser = await this.userRepo.findOne({
+      where: { username: name }
+    });
+
+    const userFollowing = await foundUser.followers;
+
+    return userFollowing.map((user: User) => ({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      followersCount: user.followersCount,
+      followingCount: user.followingCount
+    }));
+  }
+
   public async findUserByCredential(credential: string): Promise<ShowUserDTO> {
     const foundUser: User = await this.userRepo.findOne({
 
@@ -88,19 +136,6 @@ export class UsersDataService {
     return await this.userRepo.save(newUser);
 
   }
-
-  // ---- test method for displaying user with following and followers ------ //
-  public async showFollow(userName: string) {
-    const userFollowingAndFollowers = await this.userRepo.findOne({
-      where: {
-        username: userName
-      },
-      relations: ['followers', 'following']
-    });
-
-    return userFollowingAndFollowers;
-  }
-  // ------ --------- //
 
   public async followUser(userName: string, followUserName: string) {
 
