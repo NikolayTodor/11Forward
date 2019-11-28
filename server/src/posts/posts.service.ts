@@ -8,12 +8,14 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
+import { LikePost } from '../data/entities/like-post.entity';
 
 @Injectable()
 export class PostsService {
 
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+        @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
@@ -136,6 +138,31 @@ export class PostsService {
             likes: newPost.likesCount
         };
     }
+
+    public async likePost(postId: string, userId: string) {
+        const foundPost = await this.postRepo.findOne({where: {id: postId}});
+        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+
+        if (foundPost === undefined || foundPost.isDeleted) {
+          throw new NotFoundException('No such review found');
+        }
+        if (foundUser === undefined || foundUser.isDeleted) {
+          throw new NotFoundException('No such user found');
+        }
+
+        const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
+        if (foundLike) {
+          await this.likePostRepo.delete(foundLike);
+          return { msg: `You have unliked this Post. The Post now has ${foundPost.likesCount - 1} likes.`};
+        }
+
+        const newLike: LikePost = this.likePostRepo.create({});
+        newLike.post = Promise.resolve(foundPost);
+        newLike.user = Promise.resolve(foundUser);
+        await this.likePostRepo.save(newLike);
+
+        return { msg: `You have liked this Post. The Post now has ${foundPost.likesCount + 1} likes.`};
+      }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});

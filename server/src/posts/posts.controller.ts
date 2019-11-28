@@ -72,6 +72,16 @@ export class PostsController {
         return await this.postsService.createPost(user.id, newPost);
     }
 
+    @Post('/likes/:postId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.CREATED)
+    public async likePost(
+      @Param('postId') postId: string,
+      @userDecorator() user: ShowUserDTO,
+      ) {
+      return await this.postsService.likePost(postId, user.id);
+    }
+
     @Put(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)

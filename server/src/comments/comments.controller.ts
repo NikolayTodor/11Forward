@@ -35,6 +35,16 @@ export class CommentsController {
         return await this.commentsService.createComment(user.id, postId, newComment);
     }
 
+    @Post('/likes/:commentId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.CREATED)
+    public async likeComment(
+      @Param('commentId') commentId: string,
+      @userDecorator() user: ShowUserDTO,
+      ) {
+      return await this.commentsService.likeComment(commentId, user.id);
+    }
+
     @Put(':commentId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
