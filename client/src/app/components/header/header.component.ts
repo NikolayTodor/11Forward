@@ -1,24 +1,29 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
 
+
   public constructor(
     private readonly authService: AuthService,
     private readonly notification: NotificationService,
-    private readonly router: Router) {}
+    private readonly router: Router,
+    private readonly breakpointObserver: BreakpointObserver) {}
+
+  isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 
   public ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
