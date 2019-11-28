@@ -9,7 +9,7 @@ import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post, User, Comment, LikeComment]), AuthModule],
+    imports: [TypeOrmModule.forFeature([Post, User, Comment, LikeComment])],
 
     controllers: [CommentsController],
 
