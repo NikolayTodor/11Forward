@@ -1,5 +1,5 @@
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe,
-    Body, UseGuards, Get, Param, Put, Delete } from '@nestjs/common';
+    Body, UseGuards, Get, Param, Put, Delete, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
@@ -17,10 +17,16 @@ export class PostsController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    public async getPublicPosts(): Promise<ShowPostDTO[]> {
+    public async getPublicPosts(@Query('username') username: string): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allPublicPosts();
 
         posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
+
+        if (username) {
+            return posts.filter(post =>
+              post.author.toLowerCase() === username.toLowerCase()
+            );
+        }
 
         return posts;
     }
@@ -29,11 +35,18 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getHomePagePostsPrivate(
-        @userDecorator() user: ShowUserDTO
+        @userDecorator() user: ShowUserDTO,
+        @Query('username') username: string
     ): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allAllowedPosts(user.id);
 
         posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
+
+        if (username) {
+            return posts.filter(post =>
+              post.author.toLowerCase() === username.toLowerCase()
+            );
+        }
 
         return posts;
     }

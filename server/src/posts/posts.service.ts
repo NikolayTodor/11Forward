@@ -8,7 +8,6 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
-import { animationFrameScheduler } from 'rxjs';
 
 @Injectable()
 export class PostsService {
@@ -148,19 +147,9 @@ export class PostsService {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
-        const {
-            title,
-            content,
-            isPrivate
-        } = body;
-        const propsToUpdate = {
-            title,
-            content,
-            isPrivate
-        };
-        Object.keys(propsToUpdate).forEach((prop: string) => {
-            if ((propsToUpdate as any)[prop] !== undefined) {
-                (foundPost as any)[prop] = (propsToUpdate as any)[prop];
+        Object.keys(body).forEach((prop: string) => {
+            if ((body as any)[prop] !== undefined) {
+                (foundPost as any)[prop] = (body as any)[prop];
             }
         });
 
