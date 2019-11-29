@@ -56,16 +56,13 @@ export class UsersController {
     }
 
     @Post()
-    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
     public async addNewUser(@Body() newUser: CreateUserDTO) {
         return await this.usersService.createUser(newUser);
     }
 
     @Patch('/follow/:name')
-    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
