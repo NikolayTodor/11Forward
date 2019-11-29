@@ -41,26 +41,11 @@ export class CreatePostComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     const fileBeforeCrop: File = this.imageChangedEvent.target.files[0];
     this.croppedImage = event.base64;
-    console.log(event.base64)
     this.fileToUpload = new File([this.croppedImage], fileBeforeCrop.name, {type: fileBeforeCrop.type});
-    console.log(this.fileToUpload);
   }
 
 
   public createPost(post): void {
-    // const postToCreate: CreatePostDTO = {
-    //   ...post,
-    //   image: this.fileToUpload,
-    //   isPrivate: post.isPrivate === 'Private' ? true : false
-    // };
-    // this.toCreatePost.emit(postToCreate);
-
-  //   export class CreatePostDTO {
-  //     public title: string;
-  //     public content: string;
-  //     public image: File;
-  //     public isPrivate: boolean;
-  // }
 
     post.isPrivate = post.isPrivate === 'Private' ? true : false;
 

@@ -33,6 +33,9 @@
   <image-cropper
 
   [imageChangedEvent]="imageChangedEvent"
+  [maintainAspectRatio]="true"
+  [aspectRatio]="3 / 3"
+  [resizeToWidth]="512"
   format="png"
   (imageCropped)="imageCropped($event)"
   >

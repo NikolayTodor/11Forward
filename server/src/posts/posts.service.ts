@@ -125,7 +125,6 @@ export class PostsService {
         if (postToCreate.isPrivate === true) {
             newPost.hasPermission = false;
         }
-        // await this.postRepo.save(newPost);
 
         await this.uploadPhoto(image);
 
@@ -201,7 +200,7 @@ export class PostsService {
         console.log(photo);
         const image = photo.buffer;
         console.log(image);
-        
+
      try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
             method: 'POST',
@@ -216,18 +215,6 @@ export class PostsService {
      catch(error) {
          console.log(error);
      }
-
-      
-
-        
-
-        // then((response: any) => {
-    //   this.createPostUrl = response.data.link;
-    // });
-
-    
-        return null;
-     
-        // return { photoLink: data.data.link, photoDeleteHash: data.data.deletehash };
+        return null;     
       }
 }
