@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProfileInfoComponent implements OnInit {
 
-  @Input() userInfo: LoggedUserDTO;
+  @Input() profile: LoggedUserDTO;
   constructor() { }
 
   ngOnInit() {
