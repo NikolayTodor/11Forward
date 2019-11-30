@@ -1,2 +1,26 @@
-<p>profile works!</p>
-<img src="https://www.shareicon.net/data/128x128/2016/09/15/829474_user_512x512.png" alt="">
+  <mat-grid-list cols='4'>
+    <mat-grid-tile colspan='1'>
+       <mat-card class='profile-card'>
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{loggedUser.username}}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="https://i.pinimg.com/originals/40/48/17/404817db5ec123721a0f418096f37929.jpg">
+          <mat-card-actions>
+              <button mat-button>EDIT PROFILE</button>
+          </mat-card-actions>
+      </mat-card>
+  </mat-grid-tile>
+
+      <mat-grid-tile colspan="3">
+          <mat-toolbar class='profile-navbar'>
+              <span>My Tools</span>
+
+              <button mat-raised-button>My Pics</button>
+              <button mat-raised-button>Add Pic</button>
+              <button mat-raised-button>Followers</button>
+              <button mat-raised-button>Following</button>
+          </mat-toolbar>
+      </mat-grid-tile>
+  </mat-grid-list>
+
