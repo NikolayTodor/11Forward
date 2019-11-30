@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ProfileComponent } from './profile/profile.component';
     UsersComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileInfoComponent
   ],
   imports: [
     UsersRoutingModule,
