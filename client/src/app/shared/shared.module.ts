@@ -9,7 +9,9 @@ import {
   MatRadioModule,
   MatToolbarModule,
   MatSidenavModule,
-  MatListModule
+  MatMenuModule,
+  MatListModule,
+  MatGridListModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatMenuModule,
     FormsModule,
+    MatGridListModule,
     ReactiveFormsModule
   ]
 })
