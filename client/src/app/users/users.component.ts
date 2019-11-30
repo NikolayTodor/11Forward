@@ -1,15 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../core/services/auth.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoggedUserDTO } from '../models/logged-user.dto';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit , OnDestroy {
 
-  constructor() { }
+  public loggedUser: LoggedUserDTO;
+  public subscription: Subscription;
 
-  ngOnInit() {
+  constructor(
+    private readonly authService: AuthService
+  ) { }
+
+  public ngOnInit() {
+    this.subscription = this.authService.loggedUserData$.subscribe(
+      (loggedUser: LoggedUserDTO) => {
+        this.loggedUser = loggedUser;
+      }
+    );
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }
