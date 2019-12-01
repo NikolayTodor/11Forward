@@ -9,8 +9,6 @@ const userRoutes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: ':id', component: ProfileComponent, canActivate: [AuthGuard]}
-  // { path: 'all', component: UsersAllComponent , pathMatch: 'full'},
-  // { path: ':id', component: UpdateUserComponent },
 ];
 
 @NgModule({
