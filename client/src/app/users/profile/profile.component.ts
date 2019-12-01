@@ -26,13 +26,7 @@ export class ProfileComponent implements OnInit {
     this.subscription = this.authService.loggedUserData$.subscribe(
       (loggedUser: LoggedUserDTO) => {
         this.loggedUser = loggedUser;
-        console.log(this.loggedUser);
       });
-
-      
-
     }
-
-
   }
 
