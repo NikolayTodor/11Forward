@@ -39,12 +39,12 @@ export class UsersController {
         return await this.usersService.getOneUser(name);
     }
 
-    @Get('/followers/:name')
+    @Get('/followers/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async getFollowers(@Param('name') name: string ) {
-        return await this.usersService.getFollowers(name);
+    public async getFollowers(@Param('id') userId: string ) {
+        return await this.usersService.getFollowers(userId);
     }
 
     @Get('/following/:name')
@@ -63,6 +63,7 @@ export class UsersController {
     }
 
     @Patch('/follow/:name')
+    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
