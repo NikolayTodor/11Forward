@@ -25,4 +25,9 @@ export class PostsService {
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
     return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
   }
+
+  public getUserPosts(profileId: string) {
+    // console.log(`user posts work ${profileId}`);
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}`);
+  }
 }
