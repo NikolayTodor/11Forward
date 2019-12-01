@@ -47,7 +47,6 @@ export class PostsController {
               post.author.toLowerCase() === username.toLowerCase()
             );
         }
-
         return posts;
     }
 
