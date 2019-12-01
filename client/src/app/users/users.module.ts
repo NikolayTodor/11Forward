@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
+import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ProfileInfoComponent } from './profile/profile-info/profile-info.compon
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    ProfileInfoComponent
+    ProfileInfoComponent,
+    ProfileGalleryComponent
   ],
   imports: [
     UsersRoutingModule,
