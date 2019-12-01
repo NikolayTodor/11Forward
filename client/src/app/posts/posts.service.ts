@@ -27,7 +27,6 @@ export class PostsService {
   }
 
   public getUserPosts(profileId: string) {
-    // console.log(`user posts work ${profileId}`);
     return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}`);
   }
 }
