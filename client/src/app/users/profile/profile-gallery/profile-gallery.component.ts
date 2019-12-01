@@ -9,7 +9,7 @@ import { ShowPostDTO } from '../../../models/show-post.dto';
 export class ProfileGalleryComponent implements OnInit {
 
   @Input()
-  public profilePosts: ShowPostDTO[];
+  public galeryPosts: ShowPostDTO[];
 
   constructor() { }
 
