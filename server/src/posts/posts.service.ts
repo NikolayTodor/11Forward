@@ -137,6 +137,27 @@ export class PostsService {
         };
     }
 
+    public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
+
+        const foundUser = await this.userRepo.findOne({
+            where : {id: userWithPostsId},
+            relations: ['posts']
+        });
+        const userPosts = await foundUser.posts;
+        return Array.from(userPosts.map((post: Post) => ({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            imageURL: post.imageURL,
+            isPrivate: post.isPrivate,
+            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            author: post.author.username,
+            commentsCount: post.commentsCount,
+            likes: post.likesCount
+        })));
+    }
+
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});

@@ -60,6 +60,16 @@ export class PostsController {
         return await this.postsService.onePost(postId, user.id);
     }
 
+    @Get('profile/:userId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async getUserPosts(
+    @Param('userId') userId: string,
+    @userDecorator() user: ShowUserDTO
+) : Promise<ShowPostDTO[]> {
+    return await this.postsService.getProfilePosts(user.id, userId);
+}
+
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)

@@ -48,9 +48,9 @@ export class UsersDataService {
     };
   }
 
-  public async getFollowers(name: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowers(userId: string): Promise<ShowUserProfileDTO[]> {
     const foundUser = await this.userRepo.findOne({
-      where: { username: name }
+      where: { id: userId },
     });
 
     const userFollowers = await foundUser.followers;
@@ -64,12 +64,12 @@ export class UsersDataService {
     }));
   }
 
-  public async getFollowing(name: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowing(userId: string): Promise<ShowUserProfileDTO[]> {
     const foundUser = await this.userRepo.findOne({
-      where: { username: name }
+      where: { id: userId }
     });
 
-    const userFollowing = await foundUser.followers;
+    const userFollowing = await foundUser.following;
 
     return userFollowing.map((user: User) => ({
       id: user.id,
@@ -155,6 +155,7 @@ export class UsersDataService {
         username: followUserName
       },
     });
+
 
     const followedUsers: User[] = [...await userFollower.following];
     if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {

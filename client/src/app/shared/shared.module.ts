@@ -14,11 +14,13 @@ import {
   MatGridListModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SinglePostInListComponent } from './components/single-post-in-list/single-post-in-list.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  declarations: [SinglePostInListComponent],
+  imports: [CommonModule, MatCardModule],
   exports: [
+    SinglePostInListComponent,
     CommonModule,
     MatCardModule,
     MatCheckboxModule,

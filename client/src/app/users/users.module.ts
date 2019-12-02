@@ -1,3 +1,4 @@
+import { UsersService } from './user.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
@@ -9,7 +10,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
 
-
 @NgModule({
   declarations: [
     UsersComponent,
@@ -17,13 +17,16 @@ import { ProfileGalleryComponent } from './profile/profile-gallery/profile-galle
     RegisterComponent,
     ProfileComponent,
     ProfileInfoComponent,
-    ProfileGalleryComponent
+    ProfileGalleryComponent,
   ],
   imports: [
     UsersRoutingModule,
     CommonModule,
     SharedModule
   ],
+
+  providers: [UsersService],
+
   exports: [
     UsersComponent,
     RegisterComponent

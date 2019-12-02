@@ -1,4 +1,4 @@
-<mat-grid-list cols='4'>
+<!-- <mat-grid-list cols='4'>
     <mat-grid-tile colspan='1'>
        <mat-card class='profile-card'>
           <mat-card-header>
@@ -22,4 +22,23 @@
               <button mat-raised-button>Following</button>
           </mat-toolbar>
       </mat-grid-tile>
-  </mat-grid-list>
+  </mat-grid-list> -->
+
+
+  <mat-card class='profile-card'>
+      <mat-card-header>
+        <div mat-card-avatar ></div>
+        <mat-card-title>{{profile.username}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image class="example-header-image" src="https://creai-grand-est.fr/bundles/admin/images/user-empty-avatar.png">
+      <mat-card-actions>
+          <button mat-button>EDIT PROFILE</button>
+      </mat-card-actions>
+  </mat-card>
+
+  <mat-toolbar class='profile-navbar'>
+      <span>My Tools</span>
+      <button mat-raised-button>Add Pic</button>
+      <button mat-raised-button>Followers</button>
+      <button mat-raised-button>Following</button>
+  </mat-toolbar>

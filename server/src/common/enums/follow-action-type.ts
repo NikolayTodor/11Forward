@@ -1,4 +1,4 @@
 export enum FollowActionType {
-    Follow = 'Follow',
-    Unfollow = 'Unfollow'
+    Follow = 'follow',
+    Unfollow = 'unFollow'
 }

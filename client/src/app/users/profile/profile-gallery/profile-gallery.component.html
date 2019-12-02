@@ -1,16 +1,3 @@
-<p>profile-gallery works!</p>
-<!-- <img src="https://i.imgur.com/na6HtKQ.jpg" title="source: imgur.com" /> -->
-<div class='container'>
-  <div>
-      <img src='https://xcat.moe/wp-content/uploads/2018/05/glasgow-botanical-garden-main-photo.jpg'>
-  </div>
 
-  <div>
-      <img src='https://xcat.moe/wp-content/uploads/2018/05/glasgow-botanical-garden-main-photo.jpg'>
-  </div>
-
-  <div>
-      <img src='https://xcat.moe/wp-content/uploads/2018/05/glasgow-botanical-garden-main-photo.jpg'>
-  </div>
-
-</div>
+<app-single-post-in-list *ngFor="let post of this.galeryPosts" [post]="post" class="one-post">
+  </app-single-post-in-list>
