@@ -47,12 +47,12 @@ export class UsersController {
         return await this.usersService.getFollowers(userId);
     }
 
-    @Get('/following/:name')
+    @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async getFollowing(@Param('name') name: string ) {
-        return await this.usersService.getFollowing(name);
+    public async getFollowing(@Param('id') userId: string ) {
+        return await this.usersService.getFollowing(userId);
     }
 
     @Post()

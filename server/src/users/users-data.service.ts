@@ -64,12 +64,12 @@ export class UsersDataService {
     }));
   }
 
-  public async getFollowing(name: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowing(userId: string): Promise<ShowUserProfileDTO[]> {
     const foundUser = await this.userRepo.findOne({
-      where: { username: name }
+      where: { id: userId }
     });
 
-    const userFollowing = await foundUser.followers;
+    const userFollowing = await foundUser.following;
 
     return userFollowing.map((user: User) => ({
       id: user.id,
