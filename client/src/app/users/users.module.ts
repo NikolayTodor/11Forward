@@ -1,3 +1,4 @@
+import { UsersService } from './user.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
@@ -23,6 +24,9 @@ import { ProfileGalleryComponent } from './profile/profile-gallery/profile-galle
     CommonModule,
     SharedModule
   ],
+
+  providers: [UsersService],
+
   exports: [
     UsersComponent,
     RegisterComponent
