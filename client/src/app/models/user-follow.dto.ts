@@ -1,4 +1,8 @@
-export class UserFolowDTO {
+export class UserFollowDTO {
+  public id: string;
   public username: string;
-  public avatar: string;
+  public email: string;
+  public followersCount: string;
+  public followingCount: string;
+
 }
