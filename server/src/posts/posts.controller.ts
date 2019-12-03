@@ -20,8 +20,6 @@ export class PostsController {
     public async getPublicPosts(@Query('username') username: string): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allPublicPosts();
 
-        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
-
         if (username) {
             return posts.filter(post =>
               post.author.toLowerCase() === username.toLowerCase()
@@ -40,8 +38,6 @@ export class PostsController {
     ): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allAllowedPosts(user.id);
 
-        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
-
         if (username) {
             return posts.filter(post =>
               post.author.toLowerCase() === username.toLowerCase()
@@ -51,11 +47,9 @@ export class PostsController {
     }
 
     @Get(':postId')
-    // @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getOnePost(
         @Param('postId') postId: string,
-        // @userDecorator() user: ShowUserDTO
         ): Promise<ShowPostDTO> {
         return await this.postsService.onePost(postId);
     }
@@ -64,25 +58,35 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getUserPosts(
-    @Param('userId') userId: string,
-    @userDecorator() user: ShowUserDTO
-) : Promise<ShowPostDTO[]> {
-    return await this.postsService.getProfilePosts(user.id, userId);
+        @Param('userId') userId: string,
+        @userDecorator() user: ShowUserDTO
+    ): Promise<ShowPostDTO[]> {
+        return await this.postsService.getProfilePosts(user.id, userId);
 }
 
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.CREATED)
-    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {
         return await this.postsService.createPost(user.id, newPost);
     }
 
+    @Post('/likes/:postId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.CREATED)
+    public async likePost(
+      @Param('postId') postId: string,
+      @userDecorator() user: ShowUserDTO,
+      ) {
+      return await this.postsService.likePost(postId, user.id);
+    }
+
     @Put(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.OK)
     public async updatePost(
       @Param('postId') postId: string,

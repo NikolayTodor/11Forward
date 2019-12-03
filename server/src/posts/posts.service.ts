@@ -8,12 +8,14 @@ import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
+import { LikePost } from '../data/entities/like-post.entity';
 
 @Injectable()
 export class PostsService {
 
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+        @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
@@ -26,21 +28,23 @@ export class PostsService {
             }
         });
 
+        allPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
         return Array.from(allPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
     }
 
-    public async allAllowedPosts(userId): Promise<ShowPostDTO[]> {
+    public async allAllowedPosts(userId: string): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false
@@ -67,14 +71,16 @@ export class PostsService {
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
 
+        filteredPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
         return Array.from(filteredPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
@@ -94,8 +100,8 @@ export class PostsService {
             content: foundPost.content,
             imageURL: foundPost.imageURL,
             isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
@@ -125,13 +131,38 @@ export class PostsService {
             content: newPost.content,
             imageURL: newPost.imageURL,
             isPrivate: newPost.isPrivate,
-            dateCreated: moment(newPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(newPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(newPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(newPost.dateLastUpdated).startOf('minute').fromNow(),
             author: newPost.author.username,
             commentsCount: newPost.commentsCount,
             likes: newPost.likesCount
         };
     }
+
+    public async likePost(postId: string, userId: string) {
+        const foundPost = await this.postRepo.findOne({where: {id: postId}});
+        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+
+        if (foundPost === undefined || foundPost.isDeleted) {
+          throw new NotFoundException('No such review found');
+        }
+        if (foundUser === undefined || foundUser.isDeleted) {
+          throw new NotFoundException('No such user found');
+        }
+
+        const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
+        if (foundLike) {
+          await this.likePostRepo.delete(foundLike);
+          return { msg: `You have unliked this Post. The Post now has ${foundPost.likesCount - 1} likes.`};
+        }
+
+        const newLike: LikePost = this.likePostRepo.create({});
+        newLike.post = Promise.resolve(foundPost);
+        newLike.user = Promise.resolve(foundUser);
+        await this.likePostRepo.save(newLike);
+
+        return { msg: `You have liked this Post. The Post now has ${foundPost.likesCount + 1} likes.`};
+      }
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
 
@@ -140,14 +171,15 @@ export class PostsService {
             relations: ['posts']
         });
         const userPosts = await foundUser.posts;
+        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
         return Array.from(userPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
@@ -185,6 +217,12 @@ export class PostsService {
             //  && foundUser.role.name !== 'Admin'
         ) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        }
+
+        const foundLikes = await this.likePostRepo.find({where: {comment: postId}});
+
+        if (foundLikes.length) {
+            foundLikes.forEach(async (like) => await this.likePostRepo.delete(like));
         }
 
         foundPost.isDeleted = true;
