@@ -1,5 +1,4 @@
 
-import { ShowPostDTO } from './../../models/show-post.dto';
 import { LoggedUserDTO } from './../../models/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -7,7 +6,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { PostsService } from '../../posts/posts.service';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../core/services/user.service';
-import { UserFollowDTO } from '../../models/user-follow.dto';
 import { ShowUserProfileDTO } from '../../models/user-profile.dto';
 
 @Component({
