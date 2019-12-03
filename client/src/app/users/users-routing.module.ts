@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { ProileFollowersComponent } from './profile/proile-followers/proile-followers.component';
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
+import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
 
 const userRoutes: Routes = [
   { path: 'register', component: RegisterComponent},
@@ -23,11 +24,12 @@ const userRoutes: Routes = [
     },
     {
       path: 'posts',
-      component: ProfileGalleryComponent
+      component: ProfileGalleryComponent,
+      resolve: { posts: ProfileGalleryResolverService }
     },
     {
       path: 'followers',
-      component: ProileFollowersComponent
+      component: ProileFollowersComponent,
     },
     {
       path: 'following',
