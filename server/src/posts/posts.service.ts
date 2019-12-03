@@ -219,6 +219,12 @@ export class PostsService {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
+        const foundLikes = await this.likePostRepo.find({where: {comment: postId}});
+
+        if (foundLikes.length) {
+            foundLikes.forEach(async (like) => await this.likePostRepo.delete(like));
+        }
+
         foundPost.isDeleted = true;
         await this.postRepo.save(foundPost);
 
