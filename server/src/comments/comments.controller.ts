@@ -43,8 +43,7 @@ export class CommentsController {
     @Put(':commentId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async UpdateComment(
         @userDecorator() user: ShowUserDTO,
         @Param('commentId') commentId: string,

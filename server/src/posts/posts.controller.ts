@@ -66,8 +66,8 @@ export class PostsController {
 
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
-    @HttpCode(HttpStatus.CREATED)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    @HttpCode(HttpStatus.CREATED)
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {
@@ -86,6 +86,7 @@ export class PostsController {
 
     @Put(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.OK)
     public async updatePost(
       @Param('postId') postId: string,
