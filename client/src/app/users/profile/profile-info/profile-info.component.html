@@ -39,6 +39,7 @@
   <mat-toolbar class='profile-navbar'>
       <span>My Tools</span>
       <button mat-raised-button>Add Pic</button>
-      <button mat-raised-button>Followers</button>
-      <button mat-raised-button>Following</button>
+      <button mat-raised-button [routerLink]="['posts']">My Pics</button>
+      <button mat-raised-button [routerLink]="['followers']">Followers</button>
+      <button mat-raised-button [routerLink]="['following']">Following</button>
   </mat-toolbar>
