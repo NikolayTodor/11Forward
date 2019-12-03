@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ShowPostDTO } from '../models/show-post.dto';
-import { CONFIG } from '../common/config';
-import { CreatePostDTO } from '../models/create-post.dto';
+import { ShowPostDTO } from '../../models/show-post.dto';
+import { CONFIG } from '../../common/config';
+import { CreatePostDTO } from '../../models/create-post.dto';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PostsService {
 
   constructor(

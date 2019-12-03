@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShowPostDTO } from 'src/app/models/show-post.dto';
-import { PostsService } from '../posts.service';
+import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CreatePostDTO } from 'src/app/models/create-post.dto';
 import { Subscription } from 'rxjs';
