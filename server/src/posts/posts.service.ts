@@ -81,16 +81,12 @@ export class PostsService {
         })));
     }
 
-    public async onePost(postId: string, userId: string): Promise<ShowPostDTO> {
+    public async onePost(postId: string): Promise<ShowPostDTO> {
         const foundPost: Post = await this.postRepo.findOne({
             where: {
                 id: postId
             }
         });
-
-        // Proverka dali avtora e follownat ot 4etq6tiq i posta dali e public
-        // Ako da - hasPermission = true
-        // Ako ne - hasPermission = false
 
         return {
             id: foundPost.id,
