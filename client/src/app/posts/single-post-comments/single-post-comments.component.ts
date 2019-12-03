@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ShowPostDTO } from 'src/app/models/show-post.dto';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostsService } from '../posts.service';
+import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
