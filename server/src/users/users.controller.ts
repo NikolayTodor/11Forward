@@ -32,11 +32,12 @@ export class UsersController {
         return users;
     }
 
-    @Get(':name')
+    @Get(':id')
+    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async showsingleUser(@Param('name') name: string ) {
-        return await this.usersService.getOneUser(name);
+    public async showsingleUser(@Param('id') userId: string ) {
+        return await this.usersService.getOneUser(userId);
     }
 
     @Get('/followers/:id')
