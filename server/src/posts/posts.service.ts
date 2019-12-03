@@ -83,16 +83,12 @@ export class PostsService {
         })));
     }
 
-    public async onePost(postId: string, userId: string): Promise<ShowPostDTO> {
+    public async onePost(postId: string): Promise<ShowPostDTO> {
         const foundPost: Post = await this.postRepo.findOne({
             where: {
                 id: postId
             }
         });
-
-        // Proverka dali avtora e follownat ot 4etq6tiq i posta dali e public
-        // Ako da - hasPermission = true
-        // Ako ne - hasPermission = false
 
         return {
             id: foundPost.id,
@@ -163,6 +159,27 @@ export class PostsService {
 
         return { msg: `You have liked this Post. The Post now has ${foundPost.likesCount + 1} likes.`};
       }
+
+    public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
+
+        const foundUser = await this.userRepo.findOne({
+            where : {id: userWithPostsId},
+            relations: ['posts']
+        });
+        const userPosts = await foundUser.posts;
+        return Array.from(userPosts.map((post: Post) => ({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            imageURL: post.imageURL,
+            isPrivate: post.isPrivate,
+            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            author: post.author.username,
+            commentsCount: post.commentsCount,
+            likes: post.likesCount
+        })));
+    }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});

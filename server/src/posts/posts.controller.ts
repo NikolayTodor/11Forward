@@ -47,19 +47,28 @@ export class PostsController {
               post.author.toLowerCase() === username.toLowerCase()
             );
         }
-
         return posts;
     }
 
     @Get(':postId')
-    @UseGuards(AuthGuardWithBlacklisting)
+    // @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getOnePost(
         @Param('postId') postId: string,
-        @userDecorator() user: ShowUserDTO
+        // @userDecorator() user: ShowUserDTO
         ): Promise<ShowPostDTO> {
-        return await this.postsService.onePost(postId, user.id);
+        return await this.postsService.onePost(postId);
     }
+
+    @Get('profile/:userId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async getUserPosts(
+    @Param('userId') userId: string,
+    @userDecorator() user: ShowUserDTO
+) : Promise<ShowPostDTO[]> {
+    return await this.postsService.getProfilePosts(user.id, userId);
+}
 
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)

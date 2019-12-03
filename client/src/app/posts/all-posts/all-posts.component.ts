@@ -3,7 +3,7 @@ import { ShowPostDTO } from 'src/app/models/show-post.dto';
 import { PostsService } from '../posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CreatePostDTO } from 'src/app/models/create-post.dto';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
 

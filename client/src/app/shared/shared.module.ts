@@ -6,14 +6,21 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatIconModule,
-  MatRadioModule
+  MatRadioModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatMenuModule,
+  MatListModule,
+  MatGridListModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SinglePostInListComponent } from './components/single-post-in-list/single-post-in-list.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  declarations: [SinglePostInListComponent],
+  imports: [CommonModule, MatCardModule],
   exports: [
+    SinglePostInListComponent,
     CommonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -21,7 +28,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatIconModule,
     MatRadioModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatMenuModule,
     FormsModule,
+    MatGridListModule,
     ReactiveFormsModule
   ]
 })

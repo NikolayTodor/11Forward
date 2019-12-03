@@ -9,7 +9,7 @@ import { LikePost } from '../data/entities/like-post.entity';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Post, User, Comment, LikePost]), AuthModule],
+    imports: [TypeOrmModule.forFeature([Post, User, Comment, LikePost])],
 
     controllers: [PostsController],
 

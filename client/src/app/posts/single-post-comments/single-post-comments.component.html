@@ -1,0 +1,18 @@
+<div *ngIf="(this.post)" class="post-info-container">
+  <div class="single-post-in-list-container" post="post.title">
+    <mat-card>
+      <img src="{{this.post.imageURL}}">
+      <div class="post-item">
+        Title: {{ this.post.title }} <br />
+        Content: {{ this.post.content }} <br />
+        Posted on: {{ this.post.dateCreated }}<br />
+        By: {{ this.post.author }}<br />
+        Private? {{ this.post.isPrivate }}
+      </div>
+    </mat-card>
+  </div>
+  <mat-card class="mat-card">
+    <app-all-comments></app-all-comments>
+  </mat-card>
+</div>
+
