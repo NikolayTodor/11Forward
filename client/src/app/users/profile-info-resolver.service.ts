@@ -15,21 +15,19 @@ export class ProfileInfoResolverService implements Resolve<ShowUserProfileDTO> {
     private readonly notificator: NotificationService,
   ) { }
 
-  resolve (route: ActivatedRouteSnapshot): Observable <ShowUserProfileDTO>
-  {
+  resolve(route: ActivatedRouteSnapshot): Observable <ShowUserProfileDTO> {
       const id = route.paramMap.get('id');
       return this.usersService.getSingleUser(id)
         .pipe(
           map(user => {
             if (user) {
               return user;
-            }
-            else {
+            } else {
               this.router.navigate(['/home']);
               this.notificator.error('Unable to load user profile.');
               return;
             }
           })
-        )
+        );
   }
 }

@@ -1,0 +1,16 @@
+<div class="create-post-container">
+  <form [formGroup]="this.createCommentForm" (ngSubmit)="this.createComment(this.createCommentForm.value)">
+    <mat-form-field>
+      <input matInput placeholder="Add content" required formControlName="content">
+      <mat-error *ngIf="!!this.createCommentForm.controls.content.errors?.required">
+        Some content is required!
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.createCommentForm.invalid">
+      <i class="material-icons">
+        book
+      </i>
+    </button>
+  </form>
+</div>

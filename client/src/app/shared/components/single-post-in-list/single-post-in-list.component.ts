@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-post-in-list',
@@ -14,9 +15,15 @@ export class SinglePostInListComponent implements OnInit {
     this.postToShow = { ...value };
   }
 
-  constructor() { }
+  constructor(
+    private readonly router: Router,
+  ) { }
 
   ngOnInit() {
+  }
+
+  public openSinglePost(): void {
+    this.router.navigate(['posts', this.postToShow.id]);
   }
 
 }

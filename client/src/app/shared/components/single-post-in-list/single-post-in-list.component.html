@@ -7,7 +7,8 @@
         Content: {{ this.postToShow.content }} <br />
         Posted on: {{ this.postToShow.dateCreated }}<br />
         By: {{ this.postToShow.author }}<br />
-        Private? {{ this.postToShow.isPrivate }}
+        Private? {{ this.postToShow.isPrivate }}<br />
+        <button (click)="this.openSinglePost()">Open me</button>
       </div>
     </mat-card>
   </div>

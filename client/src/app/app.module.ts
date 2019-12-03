@@ -4,15 +4,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
-
-import { SharedModule } from './shared/shared.module';
-import { UsersModule } from './users/users.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { SharedModule } from './shared/shared.module';
+import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CommentsModule } from './comments/comments.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     SharedModule,
     JwtModule.forRoot({ config: {}}),
     UsersModule,
-    PostsModule
+    PostsModule,
+    CommentsModule
   ],
   providers: [
     {

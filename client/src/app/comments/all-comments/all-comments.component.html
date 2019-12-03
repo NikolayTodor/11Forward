@@ -1,0 +1,10 @@
+<div class="all-posts-container">
+
+  <app-create-comment *ngIf="this.loggedUser" (toCreateComment)="this.createComment($event)"></app-create-comment>
+
+  <div class="comments-list">
+    <app-single-comment *ngFor="let comment of this.comments" [comment]="comment" class="one-comment">
+    </app-single-comment>
+
+  </div>
+</div>

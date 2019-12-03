@@ -12,7 +12,7 @@ export class CommentsController {
 
     constructor(private readonly commentsService: CommentsService) {}
 
-    @Get('/:postId')
+    @Get(':postId')
     @HttpCode(HttpStatus.OK)
     public async getCommentsOfPost(@Param('postId') postId: string): Promise<ShowCommentDTO[]> {
         const posts: ShowCommentDTO[] = await this.commentsService.allCommentsOfPost(postId);
@@ -31,7 +31,6 @@ export class CommentsController {
         @userDecorator() user: ShowUserDTO,
         @Param('postId') postId: string,
         @Body() newComment: CreateCommentDTO) {
-            console.log(postId);
         return await this.commentsService.createComment(user.id, postId, newComment);
     }
 
