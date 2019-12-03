@@ -8,7 +8,10 @@ import { SinglePostCommentsComponent } from './single-post-comments/single-post-
 import { CommentsModule } from '../comments/comments.module';
 
 @NgModule({
-  declarations: [AllPostsComponent, CreatePostComponent, SinglePostCommentsComponent],
+  declarations: [
+    AllPostsComponent,
+    CreatePostComponent,
+    SinglePostCommentsComponent],
   imports: [
     CommonModule,
     SharedModule,
