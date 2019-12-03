@@ -15,11 +15,7 @@ export class CommentsController {
     @Get(':postId')
     @HttpCode(HttpStatus.OK)
     public async getCommentsOfPost(@Param('postId') postId: string): Promise<ShowCommentDTO[]> {
-        const posts: ShowCommentDTO[] = await this.commentsService.allCommentsOfPost(postId);
-
-        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
-
-        return posts;
+        return await this.commentsService.allCommentsOfPost(postId);
     }
 
     @Post(':postId')
@@ -40,7 +36,7 @@ export class CommentsController {
     public async likeComment(
       @Param('commentId') commentId: string,
       @userDecorator() user: ShowUserDTO,
-      ) {
+    ) {
       return await this.commentsService.likeComment(commentId, user.id);
     }
 
@@ -62,7 +58,7 @@ export class CommentsController {
     public async deleteComment(
       @Param('commentId') commentId: string,
       @userDecorator() user: ShowUserDTO
-      ) {
+    ) {
         return await this.commentsService.deleteComment(user.id, commentId);
     }
 }

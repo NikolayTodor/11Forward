@@ -28,6 +28,8 @@ export class PostsService {
             }
         });
 
+        allPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
         return Array.from(allPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
@@ -68,6 +70,8 @@ export class PostsService {
         });
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
+
+        filteredPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
         return Array.from(filteredPosts.map((post: Post) => ({
             id: post.id,
@@ -167,6 +171,7 @@ export class PostsService {
             relations: ['posts']
         });
         const userPosts = await foundUser.posts;
+        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
         return Array.from(userPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,

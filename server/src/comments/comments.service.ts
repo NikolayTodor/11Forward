@@ -28,6 +28,8 @@ export class CommentsService {
             }
         });
 
+        allComments.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
         return Array.from(allComments.map((comment: Comment) => ({
             id: comment.id,
             content: comment.content,

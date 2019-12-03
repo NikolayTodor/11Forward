@@ -20,8 +20,6 @@ export class PostsController {
     public async getPublicPosts(@Query('username') username: string): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allPublicPosts();
 
-        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
-
         if (username) {
             return posts.filter(post =>
               post.author.toLowerCase() === username.toLowerCase()
@@ -39,8 +37,6 @@ export class PostsController {
         @Query('username') username: string
     ): Promise<ShowPostDTO[]> {
         const posts: ShowPostDTO[] = await this.postsService.allAllowedPosts(user.id);
-
-        posts.sort((a, b) => (a.dateCreated < b.dateCreated) ? 1 : -1 );
 
         if (username) {
             return posts.filter(post =>
@@ -64,10 +60,10 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getUserPosts(
-    @Param('userId') userId: string,
-    @userDecorator() user: ShowUserDTO
-) : Promise<ShowPostDTO[]> {
-    return await this.postsService.getProfilePosts(user.id, userId);
+        @Param('userId') userId: string,
+        @userDecorator() user: ShowUserDTO
+    ): Promise<ShowPostDTO[]> {
+        return await this.postsService.getProfilePosts(user.id, userId);
 }
 
     @Post()
