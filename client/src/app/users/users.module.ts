@@ -1,3 +1,4 @@
+import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
 import { ProfileInfoResolverService } from './profile-info-resolver.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,7 +30,7 @@ import { ProileFollowingComponent } from './profile/proile-following/proile-foll
     SharedModule
   ],
 
-  providers: [ProfileInfoResolverService],
+  providers: [ProfileInfoResolverService, ProfileGalleryResolverService],
 
   exports: [
     UsersComponent,
