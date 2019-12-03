@@ -6,8 +6,9 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { PostsService } from '../../posts/posts.service';
 import { ActivatedRoute } from '@angular/router';
-import { UsersService } from '../user.service';
+import { UsersService } from '../../core/services/user.service';
 import { UserFollowDTO } from '../../models/user-follow.dto';
+import { ShowUserProfileDTO } from '../../models/user-profile.dto';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +18,17 @@ import { UserFollowDTO } from '../../models/user-follow.dto';
 export class ProfileComponent implements OnInit {
 
   public loggedUser: LoggedUserDTO;
+  public profileInfo: ShowUserProfileDTO;
   public subscription: Subscription;
-  public profilePosts: ShowPostDTO[];
-  public following: UserFollowDTO[];
-  public followers: UserFollowDTO[];
+
+  // public profilePosts: ShowPostDTO[];
+  // public following: UserFollowDTO[];
+  // public followers: UserFollowDTO[];
 
   constructor(private readonly authService: AuthService,
               private readonly postsService: PostsService,
               private readonly usersService: UsersService,
-              private readonly activatedRoute: ActivatedRoute,
+              private readonly route: ActivatedRoute,
               ) { }
 
   ngOnInit() {
@@ -35,21 +38,25 @@ export class ProfileComponent implements OnInit {
         this.loggedUser = data;
       });
 
-    this.postsService.getUserPosts(this.activatedRoute.snapshot.params.id)
-      .subscribe((data: ShowPostDTO[]) => {
-        this.profilePosts = data;
-      });
+    this.route.data.subscribe(({ user }) => this.profileInfo = user);
 
-    this.usersService.getUserFollowers(this.activatedRoute.snapshot.params.id)
-    .subscribe((data: UserFollowDTO[]) => {
-      this.followers = data;
-      console.log(data);
-    })
 
-    this.usersService.getUserFollowing(this.activatedRoute.snapshot.params.id)
-    .subscribe((data: UserFollowDTO[]) => {
-      this.followers = data;
-      console.log(data);
-    })
+
+    // this.postsService.getUserPosts(this.activatedRoute.snapshot.params.id)
+    //   .subscribe((data: ShowPostDTO[]) => {
+    //     this.profilePosts = data;
+    //   });
+
+    // this.usersService.getUserFollowers(this.activatedRoute.snapshot.params.id)
+    // .subscribe((data: UserFollowDTO[]) => {
+    //   this.followers = data;
+    //   console.log(data);
+    // })
+
+    // this.usersService.getUserFollowing(this.activatedRoute.snapshot.params.id)
+    // .subscribe((data: UserFollowDTO[]) => {
+    //   this.followers = data;
+    //   console.log(data);
+    // })
   }
 }
