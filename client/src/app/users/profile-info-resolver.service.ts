@@ -18,7 +18,6 @@ export class ProfileInfoResolverService implements Resolve<ShowUserProfileDTO> {
   resolve (route: ActivatedRouteSnapshot): Observable <ShowUserProfileDTO>
   {
       const id = route.paramMap.get('id');
-      console.log(id);
       return this.usersService.getSingleUser(id)
         .pipe(
           map(user => {
