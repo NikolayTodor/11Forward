@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   public loggedUser: LoggedUserDTO;
   public profileInfo: ShowUserProfileDTO;
   public subscription: Subscription;
+  public isOwner: boolean;
 
   // public profilePosts: ShowPostDTO[];
   // public following: UserFollowDTO[];
@@ -40,7 +41,13 @@ export class ProfileComponent implements OnInit {
 
     this.route.data.subscribe(({ user }) => this.profileInfo = user);
 
+    if (this.loggedUser.id === this.profileInfo.id) {
+        this.isOwner = true;
+      } else {
+        this.isOwner = false;
+      }
 
+    }
 
     // this.postsService.getUserPosts(this.activatedRoute.snapshot.params.id)
     //   .subscribe((data: ShowPostDTO[]) => {
@@ -58,5 +65,5 @@ export class ProfileComponent implements OnInit {
     //   this.followers = data;
     //   console.log(data);
     // })
-  }
+
 }
