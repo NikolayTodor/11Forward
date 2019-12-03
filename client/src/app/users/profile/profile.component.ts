@@ -3,7 +3,7 @@ import { LoggedUserDTO } from './../../models/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
-import { PostsService } from '../../posts/posts.service';
+import { PostsService } from '../../core/services/posts.service';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../core/services/user.service';
 import { ShowUserProfileDTO } from '../../models/user-profile.dto';
@@ -19,9 +19,6 @@ export class ProfileComponent implements OnInit {
   public profileInfo: ShowUserProfileDTO;
   public subscription: Subscription;
 
-  // public profilePosts: ShowPostDTO[];
-  // public following: UserFollowDTO[];
-  // public followers: UserFollowDTO[];
 
   constructor(private readonly authService: AuthService,
               private readonly postsService: PostsService,
