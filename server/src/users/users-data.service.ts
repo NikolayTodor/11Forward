@@ -32,10 +32,12 @@ export class UsersDataService {
     }));
   }
 
-  public async getOneUser(name: string): Promise<ShowUserProfileDTO> {
+  public async getOneUser(userId: string): Promise<ShowUserProfileDTO> {
+
+
     const foundUser = await this.userRepo.findOne({
       where: {
-        username: name
+        id: userId
       }
     });
 
