@@ -1,4 +1,4 @@
-import { UsersService } from './user.service';
+import { ProfileInfoResolverService } from './profile-info-resolver.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
@@ -25,7 +25,7 @@ import { ProfileGalleryComponent } from './profile/profile-gallery/profile-galle
     SharedModule
   ],
 
-  providers: [UsersService],
+  providers: [ProfileInfoResolverService],
 
   exports: [
     UsersComponent,
