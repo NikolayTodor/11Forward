@@ -47,11 +47,9 @@ export class PostsController {
     }
 
     @Get(':postId')
-    // @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     public async getOnePost(
         @Param('postId') postId: string,
-        // @userDecorator() user: ShowUserDTO
         ): Promise<ShowPostDTO> {
         return await this.postsService.onePost(postId);
     }
@@ -69,8 +67,7 @@ export class PostsController {
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)
-    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {

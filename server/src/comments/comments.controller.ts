@@ -1,4 +1,5 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, Param, Post, UseGuards, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Param, Post,
+    UseGuards, Body, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
@@ -21,8 +22,7 @@ export class CommentsController {
     @Post(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)
-    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async addNewComment(
         @userDecorator() user: ShowUserDTO,
         @Param('postId') postId: string,
