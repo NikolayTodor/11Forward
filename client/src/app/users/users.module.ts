@@ -9,6 +9,8 @@ import { UsersRoutingModule } from './users-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
+import { ProileFollowersComponent } from './profile/proile-followers/proile-followers.component';
+import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { ProfileGalleryComponent } from './profile/profile-gallery/profile-galle
     ProfileComponent,
     ProfileInfoComponent,
     ProfileGalleryComponent,
+    ProileFollowersComponent,
+    ProileFollowingComponent,
   ],
   imports: [
     UsersRoutingModule,
