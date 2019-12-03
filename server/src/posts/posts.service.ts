@@ -36,15 +36,15 @@ export class PostsService {
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
     }
 
-    public async allAllowedPosts(userId): Promise<ShowPostDTO[]> {
+    public async allAllowedPosts(userId: string): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false
@@ -79,8 +79,8 @@ export class PostsService {
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount
@@ -100,8 +100,8 @@ export class PostsService {
             content: foundPost.content,
             imageURL: foundPost.imageURL,
             isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
@@ -131,8 +131,8 @@ export class PostsService {
             content: newPost.content,
             imageURL: newPost.imageURL,
             isPrivate: newPost.isPrivate,
-            dateCreated: moment(newPost.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(newPost.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(newPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(newPost.dateLastUpdated).startOf('minute').fromNow(),
             author: newPost.author.username,
             commentsCount: newPost.commentsCount,
             likes: newPost.likesCount
@@ -178,8 +178,8 @@ export class PostsService {
             content: post.content,
             imageURL: post.imageURL,
             isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(post.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             commentsCount: post.commentsCount,
             likes: post.likesCount

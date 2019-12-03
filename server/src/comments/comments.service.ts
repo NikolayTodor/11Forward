@@ -33,8 +33,8 @@ export class CommentsService {
         return Array.from(allComments.map((comment: Comment) => ({
             id: comment.id,
             content: comment.content,
-            dateCreated: moment(comment.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(comment.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(comment.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(comment.dateLastUpdated).startOf('minute').fromNow(),
             author: comment.author.username,
             likes: comment.likesCount
         })));
@@ -67,8 +67,8 @@ export class CommentsService {
         return {
             id: newComment.id,
             content: newComment.content,
-            dateCreated: moment(newComment.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(newComment.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(newComment.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(newComment.dateLastUpdated).startOf('minute').fromNow(),
             author: newComment.author.username,
             likes: newComment.likesCount
         };
@@ -116,8 +116,8 @@ export class CommentsService {
         return {
             id: foundComment.id,
             content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).format('MMMM Do YYYY, h:mm:ss a'),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).format('MMMM Do YYYY, h:mm:ss a'),
+            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
             author: foundComment.author.username,
             likes: foundComment.likesCount
         };
