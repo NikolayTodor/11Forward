@@ -31,7 +31,6 @@ export class CommentsController {
         @userDecorator() user: ShowUserDTO,
         @Param('postId') postId: string,
         @Body() newComment: CreateCommentDTO) {
-            console.log(postId);
         return await this.commentsService.createComment(user.id, postId, newComment);
     }
 
