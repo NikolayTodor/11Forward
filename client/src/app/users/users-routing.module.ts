@@ -9,6 +9,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { ProileFollowersComponent } from './profile/proile-followers/proile-followers.component';
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
+import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
 
 const userRoutes: Routes = [
   { path: 'register', component: RegisterComponent},
@@ -30,6 +31,7 @@ const userRoutes: Routes = [
     {
       path: 'followers',
       component: ProileFollowersComponent,
+      resolve: { followers: ProfileFollowersResolverService }
     },
     {
       path: 'following',
