@@ -4,7 +4,9 @@
 
   <div class="comments-list">
     <app-single-comment *ngFor="let comment of this.comments" [comment]="comment" class="one-comment"
-    (deleteComment)="this.deleteComment($event)">
+    (deleteComment)="this.deleteComment($event)"
+    (updateComment)="this.updateComment($event)"
+    >
     </app-single-comment>
 
   </div>

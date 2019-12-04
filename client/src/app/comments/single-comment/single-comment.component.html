@@ -6,12 +6,34 @@
         Posted on: {{ this.commentToShow.dateCreated }}<br />
         By: {{ this.commentToShow.author }}<br />
       </div>
+      <button mat-icon-button (click)="this.turnOnUpdateCommentForm()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+        <i class="material-icons">
+          build
+        </i>
+      </button>
       <button mat-icon-button (click)="this.onDeleteComment()"
         *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
         <i class="material-icons">
           remove_circle
         </i>
       </button>
+    </mat-card>
+    <mat-card *ngIf="this.isCommentForUpdate === true">
+      <form [formGroup]="this.updateCommentForm" (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">
+        <mat-form-field>
+          <input matInput placeholder="Write new comment here" required formControlName="content">
+          <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.required">
+            Some content is required!
+          </mat-error>
+        </mat-form-field>
+    
+        <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.updateCommentForm.invalid">
+          <i class="material-icons">
+            book
+          </i>
+        </button>
+      </form>
     </mat-card>
   </div>
 </div>

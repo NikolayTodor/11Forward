@@ -4,6 +4,7 @@ import { ShowCommentDTO } from '../models/comments/show-comment-dto';
 import { Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
 import { CreateCommentDTO } from '../models/comments/create-comment.dto';
+import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,12 @@ export class CommentsService {
     return this.http.get<ShowCommentDTO[]>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`);
   }
 
-  public createComment(commentId: string, comment: CreateCommentDTO): Observable<ShowCommentDTO> {
-    return this.http.post<ShowCommentDTO>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`, comment);
+  public createComment(postId: string, comment: CreateCommentDTO): Observable<ShowCommentDTO> {
+    return this.http.post<ShowCommentDTO>(`${CONFIG.DOMAIN_NAME}/comments/${postId}`, comment);
+  }
+
+  public updateComment(comment: UpdateCommentDTO): Observable<any> {
+    return this.http.put<any>(`${CONFIG.DOMAIN_NAME}/comments/${comment.id}`, comment);
   }
 
   public deleteComment(commentId: string): Observable<any> {

@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { CreateCommentDTO } from 'src/app/models/comments/create-comment.dto';
 import { CommentsService } from '../comments.service';
 import { ActivatedRoute } from '@angular/router';
+import { UpdateCommentDTO } from 'src/app/models/comments/update-comment.dto';
 
 @Component({
   selector: 'app-all-comments',
@@ -57,6 +58,14 @@ export class AllCommentsComponent implements OnInit {
         this.notificationService.success(`Comment created!`);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
+  }
+
+  public updateComment(comment: UpdateCommentDTO): void {
+    this.commentsService.updateComment(comment).subscribe((data: ShowCommentDTO) => {
+      this.notificationService.success(`The comment has been updated!`);
+      const index: number = this.comments.findIndex(com => com.id === comment.id);
+      this.comments.splice(index, 1, data);
+    });
   }
 
   public deleteComment(commentId: string): void {

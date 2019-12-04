@@ -3,6 +3,8 @@ import { ShowCommentDTO } from 'src/app/models/comments/show-comment-dto';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UpdateCommentDTO } from 'src/app/models/comments/update-comment.dto';
 
 @Component({
   selector: 'app-single-comment',
@@ -15,14 +17,20 @@ export class SingleCommentComponent implements OnInit {
   public subscription: Subscription;
 
   public commentToShow: ShowCommentDTO;
+  public isCommentForUpdate: boolean;
 
+  public updateCommentForm: FormGroup;
+
+  @Output() public updateComment: EventEmitter<UpdateCommentDTO> = new EventEmitter();
   @Output() public deleteComment: EventEmitter<string> = new EventEmitter();
 
   @Input() public set comment(value: ShowCommentDTO) {
     this.commentToShow = { ...value };
   }
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
@@ -30,6 +38,25 @@ export class SingleCommentComponent implements OnInit {
         this.loggedUser = loggedUser;
       }
     );
+
+    this.updateCommentForm = this.formBuilder.group({
+      content: ['', Validators.required]
+    });
+
+    this.isCommentForUpdate = false;
+  }
+
+  public turnOnUpdateCommentForm(): void {
+    if (this.isCommentForUpdate === false) {
+    this.isCommentForUpdate = true;
+    } else {
+      this.isCommentForUpdate = false;
+    }
+  }
+
+  public onUpdateComment(comment: UpdateCommentDTO): void {
+    comment.id = this.commentToShow.id;
+    this.updateComment.emit(comment);
   }
 
   public onDeleteComment(): void {
