@@ -1,12 +1,14 @@
 <div class='card-holder'>
 
-    <mat-card>
+    <mat-card (click)="navigate()">
         <mat-card-header>
-            <img mat-card-avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR42kIoeBmWFx4Am7w5knfRQZij-Fyr6Dx1aIeOTMh2I0acp-p3&s">
-            <mat-card-title>{{this.profileInfo.username}}</mat-card-title>
+            <img mat-card-avatar
+
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR42kIoeBmWFx4Am7w5knfRQZij-Fyr6Dx1aIeOTMh2I0acp-p3&s">
+            <mat-card-title >{{this.profileInfo.username}}</mat-card-title>
             <mat-card-subtitle>{{this.profileInfo.email}}</mat-card-subtitle>
           </mat-card-header>
-        <mat-card-content>
+        <mat-card-content >
             <p>
 
             </p>
