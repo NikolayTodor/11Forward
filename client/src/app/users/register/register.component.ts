@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroupDirective } from '@angular/forms';
-import { UserRegisterDTO } from 'src/app/models/user-register.dto';
+import { UserRegisterDTO } from 'src/app/models/users/user-register.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 

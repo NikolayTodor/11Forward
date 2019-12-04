@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Subscription } from 'rxjs';
-import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
+import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 
 @Component({
   selector: 'app-single-post-in-list',

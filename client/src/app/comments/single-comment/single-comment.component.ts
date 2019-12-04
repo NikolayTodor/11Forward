@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ShowCommentDTO } from 'src/app/models/show-comment-dto';
+import { ShowCommentDTO } from 'src/app/models/comments/show-comment-dto';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
+import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
 
 @Component({

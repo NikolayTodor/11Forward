@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { CreatePostDTO } from '../../models/create-post.dto';
+import { CreatePostDTO } from '../../models/posts/create-post.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

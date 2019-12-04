@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { CreatePostDTO } from 'src/app/models/create-post.dto';
+import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
 import { Subscription } from 'rxjs';
-import { LoggedUserDTO } from '../../models/logged-user.dto';
+import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({

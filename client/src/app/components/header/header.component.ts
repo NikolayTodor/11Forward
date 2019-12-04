@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
-import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
+import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 

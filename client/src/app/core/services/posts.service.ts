@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ShowPostDTO } from '../../models/show-post.dto';
+import { ShowPostDTO } from '../../models/posts/show-post.dto';
 import { CONFIG } from '../../common/config';
-import { CreatePostDTO } from '../../models/create-post.dto';
+import { CreatePostDTO } from '../../models/posts/create-post.dto';
 
 @Injectable()
 export class PostsService {

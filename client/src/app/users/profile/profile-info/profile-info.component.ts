@@ -1,4 +1,4 @@
-import { LoggedUserDTO } from './../../../models/logged-user.dto';
+import { LoggedUserDTO } from '../../../models/users/logged-user.dto';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
