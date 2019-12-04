@@ -46,7 +46,7 @@ export class SingleCommentComponent implements OnInit {
     this.isCommentForUpdate = false;
   }
 
-  public turnOnUpdateCommentForm(): void {
+  public turnOnOffUpdateCommentForm(): void {
     if (this.isCommentForUpdate === false) {
     this.isCommentForUpdate = true;
     } else {
