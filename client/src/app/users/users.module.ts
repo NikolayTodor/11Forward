@@ -1,5 +1,4 @@
 import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
-
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
 import { ProfileInfoResolverService } from './profile-info-resolver.service';
 import { NgModule } from '@angular/core';
@@ -14,6 +13,7 @@ import { ProfileInfoComponent } from './profile/profile-info/profile-info.compon
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
 import { ProileFollowersComponent } from './profile/proile-followers/proile-followers.component';
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
+import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,10 @@ import { ProileFollowingComponent } from './profile/proile-following/proile-foll
     SharedModule
   ],
 
-  providers: [ProfileInfoResolverService, ProfileGalleryResolverService, ProfileFollowersResolverService],
+  providers: [ProfileInfoResolverService,
+    ProfileGalleryResolverService,
+    ProfileFollowersResolverService,
+    ProfileFollowingResolverService],
 
   exports: [
     UsersComponent,

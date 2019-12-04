@@ -9,15 +9,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProileFollowersComponent implements OnInit {
 
-  public profilePosts: UserFollowDTO[];
+  public profileFollowers: UserFollowDTO[];
 
   constructor(
     private readonly route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe(({ followers }) => this.profilePosts = followers);
-    console.log(this.profilePosts);
+    this.route.data.subscribe(({ followers }) => this.profileFollowers = followers);
+    console.log(this.profileFollowers);
   }
 
 }

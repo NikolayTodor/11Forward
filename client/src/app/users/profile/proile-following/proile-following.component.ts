@@ -1,4 +1,6 @@
+import { UserFollowDTO } from './../../../models/user-follow.dto';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-proile-following',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProileFollowingComponent implements OnInit {
 
-  constructor() { }
+  public profileFollowing: UserFollowDTO[];
+
+  constructor(
+    private readonly route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.route.data.subscribe(({ following }) => this.profileFollowing = following);
+    console.log(this.profileFollowing);
   }
 
 }

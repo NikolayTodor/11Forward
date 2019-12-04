@@ -1,3 +1,4 @@
+import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
 import { ProfileInfoResolverService } from './profile-info-resolver.service';
 import { ProfileComponent } from './profile/profile.component';
@@ -16,7 +17,7 @@ const userRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: ':id', component: ProfileComponent,
   resolve: { user: ProfileInfoResolverService },
-  pathMatch:'prefix',
+  pathMatch: 'prefix',
   children: [
     {
       path: '',
@@ -35,7 +36,8 @@ const userRoutes: Routes = [
     },
     {
       path: 'following',
-      component: ProileFollowingComponent
+      component: ProileFollowingComponent,
+      resolve: { following: ProfileFollowingResolverService }
     }
 
   ],
