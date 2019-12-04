@@ -59,4 +59,13 @@ export class AllCommentsComponent implements OnInit {
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
 
+  public deleteComment(commentId: string): void {
+    this.commentsService.deleteComment(commentId).subscribe(() => {
+      this.notificationService.success(`Comment successfully deleted!`);
+    });
+
+    const index: number = this.comments.findIndex(comment => comment.id === commentId);
+    this.comments.splice(index, 1);
+  }
+
 }

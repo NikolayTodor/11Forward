@@ -14,11 +14,15 @@ export class CommentsService {
     private readonly http: HttpClient
   ) { }
 
-  public getComments(postId: string): Observable<ShowCommentDTO[]> {
-    return this.http.get<ShowCommentDTO[]>(`${CONFIG.DOMAIN_NAME}/comments/${postId}`);
+  public getComments(commentId: string): Observable<ShowCommentDTO[]> {
+    return this.http.get<ShowCommentDTO[]>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`);
   }
 
-  public createComment(postId: string, comment: CreateCommentDTO): Observable<ShowCommentDTO> {
-    return this.http.post<ShowCommentDTO>(`${CONFIG.DOMAIN_NAME}/comments/${postId}`, comment);
+  public createComment(commentId: string, comment: CreateCommentDTO): Observable<ShowCommentDTO> {
+    return this.http.post<ShowCommentDTO>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`, comment);
+  }
+
+  public deleteComment(commentId: string): Observable<any> {
+    return this.http.delete<any>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`);
   }
 }

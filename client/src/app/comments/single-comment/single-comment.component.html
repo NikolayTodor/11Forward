@@ -1,11 +1,17 @@
 <div *ngIf="(this.commentToShow)" class="comment-info-container">
-        <div class="single-comment-in-list-container" comment="comment.content">
-          <mat-card>
-            <div class="comment-item">
-              Content: {{ this.commentToShow.content }} <br />
-              Posted on: {{ this.commentToShow.dateCreated }}<br />
-              By: {{ this.commentToShow.author }}<br />
-            </div>
-          </mat-card>
-        </div>
+  <div class="single-comment-in-list-container" comment="comment.content">
+    <mat-card>
+      <div class="comment-item">
+        Content: {{ this.commentToShow.content }} <br />
+        Posted on: {{ this.commentToShow.dateCreated }}<br />
+        By: {{ this.commentToShow.author }}<br />
       </div>
+      <button mat-icon-button (click)="this.onDeleteComment()"
+        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+        <i class="material-icons">
+          remove_circle
+        </i>
+      </button>
+    </mat-card>
+  </div>
+</div>
