@@ -7,7 +7,8 @@
         Content: {{ this.post.content }} <br />
         Posted on: {{ this.post.dateCreated }}<br />
         By: {{ this.post.author }}<br />
-        Private? {{ this.post.isPrivate }}
+        Private? {{ this.post.isPrivate }}<br />
+        Comments: {{ this.post.commentsCount }}<br />
       </div>
       <button mat-icon-button (click)="this.onDeletePost()"
       *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
