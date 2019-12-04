@@ -9,6 +9,17 @@
         By: {{ this.post.author }}<br />
         Private? {{ this.post.isPrivate }}
       </div>
+      <button mat-icon-button (click)="this.onDeletePost()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+        <i class="material-icons">
+          remove_circle
+        </i>
+      </button>
+      <!-- <button mat-icon-button>
+        <i class="material-icons" (click)="this.onLikePost()">
+          thumb_up
+        </i>
+      </button> {{ this.post.likes }} -->
     </mat-card>
   </div>
   <mat-card class="mat-card">

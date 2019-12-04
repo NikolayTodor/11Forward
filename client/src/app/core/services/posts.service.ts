@@ -24,11 +24,15 @@ export class PostsService {
     return this.http.get<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts/${id}`);
   }
 
+  public getUserPosts(profileId: string) {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}`);
+  }
+
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
     return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
   }
 
-  public getUserPosts(profileId: string) {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}`);
+  public deletePost(postId: string): Observable<any> {
+    return this.http.delete<any>(`${CONFIG.DOMAIN_NAME}/posts/${postId}`);
   }
 }

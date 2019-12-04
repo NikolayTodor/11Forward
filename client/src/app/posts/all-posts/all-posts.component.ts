@@ -54,4 +54,13 @@ export class AllPostsComponent implements OnInit {
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
 
+  public deletePost(postId: string): void {
+    this.postsService.deletePost(postId).subscribe(() => {
+      this.notificationService.success(`Post successfully deleted!`);
+    });
+
+    const index: number = this.posts.findIndex(post => post.id === postId);
+    this.posts.splice(index, 1);
+  }
+
 }

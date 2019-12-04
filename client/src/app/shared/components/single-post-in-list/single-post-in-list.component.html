@@ -10,6 +10,12 @@
         Private? {{ this.postToShow.isPrivate }}<br />
         <button (click)="this.openSinglePost()">Open me</button>
       </div>
+      <button mat-icon-button (click)="this.onDeletePost()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
+        <i class="material-icons">
+          remove_circle
+        </i>
+      </button>
     </mat-card>
   </div>
 </div>
