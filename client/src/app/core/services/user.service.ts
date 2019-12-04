@@ -11,7 +11,7 @@ export class UsersService {
   constructor (private readonly http: HttpClient) {}
 
   public getSingleUser(userId: string): Observable<any> {
-    
+
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
