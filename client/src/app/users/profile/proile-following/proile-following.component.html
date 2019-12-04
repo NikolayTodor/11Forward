@@ -1,1 +1,8 @@
-<p>proile-following works!</p>
+<div class="container">
+    <div  *ngFor="let followee of profileFollowing">
+        <app-profile-card [profileInfo]="this.followee"></app-profile-card>
+    </div>
+</div>
+
+
+
