@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
 
+
 @Injectable()
 export class UsersDataService {
 
@@ -32,21 +33,32 @@ export class UsersDataService {
     }));
   }
 
-  public async getOneUser(userId: string): Promise<ShowUserProfileDTO> {
-
+  public async getOneUser(loggedUserId: string, userId: string): Promise<ShowUserProfileDTO> {
 
     const foundUser = await this.userRepo.findOne({
       where: {
         id: userId
-      }
+      },
+      relations: ['followers']
     });
+
+    if (!foundUser) {
+      throw new ApiSystemError('No such user found!', 404);
+    }
+
+      const checkIfFollowed = await foundUser.followers.
+      then(data => data.some(follower => follower.id === loggedUserId));
+
+      const checkIfOwner = foundUser.id === loggedUserId;
 
     return {
       id: foundUser.id,
       username: foundUser.username,
       email: foundUser.email,
       followersCount: foundUser.followersCount,
-      followingCount: foundUser.followingCount
+      followingCount: foundUser.followingCount,
+      isFollowed: checkIfFollowed,
+      isOwner: checkIfOwner
     };
   }
 
@@ -71,6 +83,10 @@ export class UsersDataService {
       where: { id: userId }
     });
 
+    if (!foundUser) {
+      throw new ApiSystemError('No such user found!', 404);
+    }
+
     const userFollowing = await foundUser.following;
 
     return userFollowing.map((user: User) => ({
@@ -94,6 +110,10 @@ export class UsersDataService {
       ]
 
     });
+
+    if (!foundUser) {
+      throw new ApiSystemError('No such user found!', 404);
+    }
 
     return plainToClass(ShowUserDTO, foundUser, {
       excludeExtraneousValues: true,
@@ -158,6 +178,9 @@ export class UsersDataService {
       },
     });
 
+    if (!userToFollow) {
+      throw new ApiSystemError('No such user found!', 404);
+    }
 
     const followedUsers: User[] = [...await userFollower.following];
     if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {
@@ -168,7 +191,14 @@ export class UsersDataService {
     await this.userRepo.save(userFollower);
     await this.userRepo.save(userToFollow);
 
-    return userFollower;
+    return {
+      id: userToFollow.id,
+      username: userToFollow.username,
+      email: userToFollow.email,
+      followersCount: userToFollow.followersCount,
+      followingCount: userToFollow.followingCount,
+      isFollowed: true,
+    };
   }
 
   public async unfollowUser(userName: string, unfollowUserName: string) {
@@ -186,6 +216,10 @@ export class UsersDataService {
       },
     });
 
+    if(!userToUnFollow) {
+      throw new ApiSystemError('No such user found!', 400);
+    }
+
     const followedUsers: User[] = [...await userFollower.following]
       .filter(_user => _user.username.toLowerCase() !== unfollowUserName.toLowerCase());
 
@@ -194,7 +228,14 @@ export class UsersDataService {
     this.userRepo.save(userFollower);
     this.userRepo.save(userToUnFollow);
 
-    return userFollower;
+    return {
+      id: userToUnFollow.id,
+      username: userToUnFollow.username,
+      email: userToUnFollow.email,
+      followersCount: userToUnFollow.followersCount,
+      followingCount: userToUnFollow.followingCount,
+      isFollowed: false,
+    }
 
   }
 
