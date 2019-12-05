@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ShowPostDTO } from '../../models/posts/show-post.dto';
 import { CONFIG } from '../../common/config';
 import { CreatePostDTO } from '../../models/posts/create-post.dto';
+import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -30,6 +31,10 @@ export class PostsService {
 
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
     return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
+  }
+
+  public updatePost(post: UpdatePostDTO): Observable<any> {
+    return this.http.put<any>(`${CONFIG.DOMAIN_NAME}/posts/${post.id}`, post);
   }
 
   public deletePost(postId: string): Observable<any> {

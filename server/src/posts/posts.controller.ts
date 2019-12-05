@@ -93,6 +93,7 @@ export class PostsController {
       @Body() body: UpdatePostDTO,
       @userDecorator() user: ShowUserDTO,
       ) {
+        console.log(body);
         return await this.postsService.updatePost(user.id, postId, body);
     }
 
