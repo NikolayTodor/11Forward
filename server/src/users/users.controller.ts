@@ -73,9 +73,6 @@ export class UsersController {
         @userDecorator('user') user: ShowUserDTO,
         @Body() body: { action: FollowActionType },
         @Param('name') followUserName: string) {
-
-            console.log(body);
-
             if ( body.action === FollowActionType.Follow ) {
                 return await this.usersService.followUser(user.username, followUserName);
             } else {
