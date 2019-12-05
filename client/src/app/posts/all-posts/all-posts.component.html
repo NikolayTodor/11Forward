@@ -6,6 +6,7 @@ What's new in our quantum universe:
 
   <div class="posts-list">
     <app-single-post-in-list *ngFor="let post of this.posts" [post]="post" class="one-post"
+    (toUpdatePost)="this.updatePost($event)"
     (deletePost)="this.deletePost($event)">
     </app-single-post-in-list>
 

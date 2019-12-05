@@ -23,6 +23,9 @@
       </button> {{ this.post.likes }} -->
     </mat-card>
   </div>
+  <mat-card>
+    <app-update-post *ngIf="this.isPostForUpdate===true"></app-update-post>
+  </mat-card>
   <mat-card class="mat-card">
     <app-all-comments></app-all-comments>
   </mat-card>

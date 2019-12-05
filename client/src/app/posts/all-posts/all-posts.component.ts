@@ -6,6 +6,7 @@ import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
+import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 
 @Component({
   selector: 'app-all-posts',
@@ -52,6 +53,15 @@ export class AllPostsComponent implements OnInit {
         this.notificationService.success(`Post created!`);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
+  }
+
+  public updatePost(post: UpdatePostDTO): void {
+    console.log(post);
+    this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
+      this.notificationService.success(`The post has been updated!`);
+      const index: number = this.posts.findIndex(com => com.id === post.id);
+      this.posts.splice(index, 1, data);
+    });
   }
 
   public deletePost(postId: string): void {
