@@ -10,4 +10,8 @@ export class ShowUserProfileDTO {
 
     public followingCount: number;
 
+    public isFollowed?: boolean;
+
+    public isOwner?: boolean;
+
 }
