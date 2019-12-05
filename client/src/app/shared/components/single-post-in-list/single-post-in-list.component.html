@@ -25,7 +25,8 @@
       </button>
     </mat-card>
     <mat-card>
-      <app-update-post *ngIf="this.isPostForUpdate===true" (toUpdatePost)="this.updatePost($event)" [val]="this.postToShow.id"></app-update-post>
+      <app-update-post *ngIf="this.isPostForUpdate===true"
+      (toUpdatePost)="this.updatePost($event)" [val]="this.postToShow.id"></app-update-post>
     </mat-card>
   </div>
 </div>

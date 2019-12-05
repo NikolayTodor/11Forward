@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 
 @Component({
   selector: 'app-single-post-comments',
@@ -17,7 +18,9 @@ export class SinglePostCommentsComponent implements OnInit {
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
   public post: ShowPostDTO;
+  public isPostForUpdate: boolean;
 
+  @Output() public readonly nowUpdatePost: EventEmitter<UpdatePostDTO> = new EventEmitter();
   @Output() public deletePost: EventEmitter<string> = new EventEmitter();
 
   constructor(
@@ -34,6 +37,8 @@ export class SinglePostCommentsComponent implements OnInit {
       }
     );
 
+    this.isPostForUpdate = false;
+
     const postId: string = this.activatedRoute.snapshot.params[`id`];
 
     this.postsService
@@ -41,6 +46,22 @@ export class SinglePostCommentsComponent implements OnInit {
       .subscribe((foundPost: ShowPostDTO) => {
         (this.post = foundPost);
       });
+  }
+
+  public turnOnOffUpdatePostForm(): void {
+    if (this.isPostForUpdate === false) {
+    this.isPostForUpdate = true;
+    } else {
+      this.isPostForUpdate = false;
+    }
+  }
+
+  public updatePost(post: UpdatePostDTO): void {
+    console.log(post);
+    this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
+      this.notificationService.success(`The post has been updated!`);
+      this.post = data;
+    });
   }
 
   public onDeletePost(): void {
