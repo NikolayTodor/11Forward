@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShowPostDTO } from 'src/app/models/show-post.dto';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.scss']
 })
-export class AllPostsComponent implements OnInit {
+export class AllPostsComponent implements OnInit, OnDestroy {
 
   public posts: ShowPostDTO[] = [];
   public loggedUser: LoggedUserDTO;
@@ -43,6 +43,11 @@ export class AllPostsComponent implements OnInit {
           this.posts = data;
         });
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+
   }
 
   public createPost(post: CreatePostDTO): void {
