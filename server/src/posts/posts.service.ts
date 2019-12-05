@@ -168,9 +168,23 @@ export class PostsService {
 
         const foundUser = await this.userRepo.findOne({
             where : {id: userWithPostsId},
-            relations: ['posts']
+            relations: ['posts', 'followers']
         });
-        const userPosts = await foundUser.posts;
+
+        // We check if the logged user follows this active profile
+
+        const checkIfFollower = await foundUser.followers
+                                .then(data => data.some(follower => follower.id === loggedUserId));
+
+        let userPosts = await foundUser.posts;
+
+        // If the logged user does not follow the profile then he will receive only 
+        // the public posts
+
+        if (!checkIfFollower) {
+            userPosts = userPosts.filter(post => !post.isPrivate);
+        }
+
         userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
         return Array.from(userPosts.map((post: Post) => ({
             id: post.id,
