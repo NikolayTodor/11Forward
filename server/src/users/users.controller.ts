@@ -36,8 +36,10 @@ export class UsersController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async showsingleUser(@Param('id') userId: string ) {
-        return await this.usersService.getOneUser(userId);
+    public async showsingleUser(
+        @userDecorator('user') loggedUser: ShowUserDTO,
+        @Param('id') userId: string ) {
+        return await this.usersService.getOneUser(loggedUser.id, userId);
     }
 
     @Get('/followers/:id')
@@ -66,11 +68,13 @@ export class UsersController {
     @Patch('/follow/:name')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
         @Body() body: { action: FollowActionType },
         @Param('name') followUserName: string) {
+
+            console.log(body);
 
             if ( body.action === FollowActionType.Follow ) {
                 return await this.usersService.followUser(user.username, followUserName);
