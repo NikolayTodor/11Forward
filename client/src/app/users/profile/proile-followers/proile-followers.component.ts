@@ -17,7 +17,6 @@ export class ProileFollowersComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(({ followers }) => this.profileFollowers = followers);
-    console.log(this.profileFollowers);
   }
 
 }
