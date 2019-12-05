@@ -1,3 +1,4 @@
+import { FollowActionType } from './../../../../../server/src/common/enums/follow-action-type';
 
 import { LoggedUserDTO } from './../../models/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
@@ -35,23 +36,13 @@ export class ProfileComponent implements OnInit {
 
     this.route.data.subscribe(({ user }) => this.profileInfo = user);
 
+  }
 
-
-    // this.postsService.getUserPosts(this.activatedRoute.snapshot.params.id)
-    //   .subscribe((data: ShowPostDTO[]) => {
-    //     this.profilePosts = data;
-    //   });
-
-    // this.usersService.getUserFollowers(this.activatedRoute.snapshot.params.id)
-    // .subscribe((data: UserFollowDTO[]) => {
-    //   this.followers = data;
-    //   console.log(data);
-    // })
-
-    // this.usersService.getUserFollowing(this.activatedRoute.snapshot.params.id)
-    // .subscribe((data: UserFollowDTO[]) => {
-    //   this.followers = data;
-    //   console.log(data);
-    // })
+  followUnfollow(change: boolean) {
+    const actionType = change ? FollowActionType.Follow : FollowActionType.Unfollow;
+    const actionBody = {action: actionType};
+    this.usersService.followUnfollow(this.profileInfo.username, actionBody).subscribe(
+      data => this.profileInfo = data
+    )
   }
 }
