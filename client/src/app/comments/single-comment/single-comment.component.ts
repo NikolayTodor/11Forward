@@ -22,6 +22,7 @@ export class SingleCommentComponent implements OnInit {
   public updateCommentForm: FormGroup;
 
   @Output() public updateComment: EventEmitter<UpdateCommentDTO> = new EventEmitter();
+  @Output() public toLikeComment: EventEmitter<string> = new EventEmitter();
   @Output() public deleteComment: EventEmitter<string> = new EventEmitter();
 
   @Input() public set comment(value: ShowCommentDTO) {
@@ -57,6 +58,10 @@ export class SingleCommentComponent implements OnInit {
   public onUpdateComment(comment: UpdateCommentDTO): void {
     comment.id = this.commentToShow.id;
     this.updateComment.emit(comment);
+  }
+
+  public onLikeComment(): void {
+    this.toLikeComment.emit(this.commentToShow.id);
   }
 
   public onDeleteComment(): void {

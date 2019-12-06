@@ -27,6 +27,10 @@ export class CommentsService {
     return this.http.put<any>(`${CONFIG.DOMAIN_NAME}/comments/${comment.id}`, comment);
   }
 
+  public likeComment(commentId: string): Observable<ShowCommentDTO> {
+    return this.http.post<ShowCommentDTO>(`${CONFIG.DOMAIN_NAME}/comments/likes/${commentId}`, commentId);
+  }
+
   public deleteComment(commentId: string): Observable<any> {
     return this.http.delete<any>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`);
   }

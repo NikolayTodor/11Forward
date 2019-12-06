@@ -18,6 +18,11 @@
           remove_circle
         </i>
       </button>
+      <button mat-icon-button *ngIf="this.loggedUser" (click)="this.onLikeComment()">
+        <i class="material-icons">
+          thumb_up
+        </i>
+      </button> {{ this.commentToShow.likes }}
     </mat-card>
     <mat-card *ngIf="this.isCommentForUpdate === true">
       <form [formGroup]="this.updateCommentForm" (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">

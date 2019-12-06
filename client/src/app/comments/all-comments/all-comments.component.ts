@@ -68,6 +68,13 @@ export class AllCommentsComponent implements OnInit {
     });
   }
 
+  public likeComment(commentId: string): void {
+    this.commentsService.likeComment(commentId).subscribe((likedComment: ShowCommentDTO) => {
+      const index: number = this.comments.findIndex((viewedComment) => viewedComment.id === likedComment.id);
+      this.comments[index] = likedComment;
+    });
+  }
+
   public deleteComment(commentId: string): void {
     this.commentsService.deleteComment(commentId).subscribe(() => {
       this.notificationService.success(`Comment successfully deleted!`);
