@@ -22,8 +22,8 @@
           remove_circle
         </i>
       </button>
-      <button mat-icon-button>
-        <i class="material-icons" (click)="this.onLikePost()">
+      <button mat-icon-button *ngIf="this.loggedUser" (click)="this.onLikePost()">
+        <i class="material-icons">
           thumb_up
         </i>
       </button> {{ this.post.likes }}

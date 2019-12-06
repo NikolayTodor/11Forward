@@ -20,6 +20,7 @@ export class SinglePostInListComponent implements OnInit {
   public isPostForUpdate: boolean;
 
   @Output() public readonly toUpdatePost: EventEmitter<UpdatePostDTO> = new EventEmitter();
+  @Output() public readonly toLikePost: EventEmitter<string> = new EventEmitter();
   @Output() public deletePost: EventEmitter<string> = new EventEmitter();
 
   @Input() public set post(value: ShowPostDTO) {
@@ -59,6 +60,10 @@ export class SinglePostInListComponent implements OnInit {
     };
     console.log(post);
     this.toUpdatePost.emit(postToUpdate);
+  }
+
+  public onLikePost(): void {
+    this.toLikePost.emit(this.postToShow.id);
   }
 
   public onDeletePost(): void {

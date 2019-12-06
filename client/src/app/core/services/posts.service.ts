@@ -37,8 +37,8 @@ export class PostsService {
     return this.http.put<any>(`${CONFIG.DOMAIN_NAME}/posts/${post.id}`, post);
   }
 
-  public likePost(postId: string): Observable<number> {
-    return this.http.post<number>(`${CONFIG.DOMAIN_NAME}/posts/likes/${postId}`, postId);
+  public likePost(postId: string): Observable<ShowPostDTO> {
+    return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts/likes/${postId}`, postId);
   }
 
   public deletePost(postId: string): Observable<any> {

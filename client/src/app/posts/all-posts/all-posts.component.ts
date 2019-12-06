@@ -56,11 +56,17 @@ export class AllPostsComponent implements OnInit {
   }
 
   public updatePost(post: UpdatePostDTO): void {
-    console.log(post);
     this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
       this.notificationService.success(`The post has been updated!`);
-      const index: number = this.posts.findIndex(com => com.id === post.id);
+      const index: number = this.posts.findIndex(item => item.id === post.id);
       this.posts.splice(index, 1, data);
+    });
+  }
+
+  public likePost(postId: string): void {
+    this.postsService.likePost(postId).subscribe((likedPost: ShowPostDTO) => {
+      const index: number = this.posts.findIndex((viewedPost) => viewedPost.id === likedPost.id);
+      this.posts[index] = likedPost;
     });
   }
 

@@ -67,7 +67,7 @@ export class SinglePostCommentsComponent implements OnInit {
   public onLikePost(): void {
     this.postsService
     .likePost(this.post.id)
-    .subscribe((data) => this.post.likes = data);
+    .subscribe((data) => this.post = data);
   }
 
   public onDeletePost(): void {

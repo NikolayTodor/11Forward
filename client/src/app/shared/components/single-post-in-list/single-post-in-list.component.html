@@ -23,6 +23,11 @@
           remove_circle
         </i>
       </button>
+      <button mat-icon-button *ngIf="this.loggedUser" (click)="this.onLikePost()">
+        <i class="material-icons">
+          thumb_up
+        </i>
+      </button> {{ this.postToShow.likes }}
     </mat-card>
     <mat-card>
       <app-update-post *ngIf="this.isPostForUpdate===true"

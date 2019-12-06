@@ -153,7 +153,18 @@ export class PostsService {
         const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
-          return foundPost.likesCount - 1;
+          return {
+            id: foundPost.id,
+            title: foundPost.title,
+            content: foundPost.content,
+            imageURL: foundPost.imageURL,
+            isPrivate: foundPost.isPrivate,
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundPost.author.username,
+            commentsCount: foundPost.commentsCount,
+            likes: foundPost.likesCount - 1
+        };
         }
 
         const newLike: LikePost = this.likePostRepo.create({});
@@ -161,7 +172,18 @@ export class PostsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likePostRepo.save(newLike);
 
-        return foundPost.likesCount + 1;
+        return {
+            id: foundPost.id,
+            title: foundPost.title,
+            content: foundPost.content,
+            imageURL: foundPost.imageURL,
+            isPrivate: foundPost.isPrivate,
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundPost.author.username,
+            commentsCount: foundPost.commentsCount,
+            likes: foundPost.likesCount + 1
+        };
       }
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
