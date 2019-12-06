@@ -153,7 +153,7 @@ export class PostsService {
         const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
-          return { msg: `You have unliked this Post. The Post now has ${foundPost.likesCount - 1} likes.`};
+          return foundPost.likesCount - 1;
         }
 
         const newLike: LikePost = this.likePostRepo.create({});
@@ -161,7 +161,7 @@ export class PostsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likePostRepo.save(newLike);
 
-        return { msg: `You have liked this Post. The Post now has ${foundPost.likesCount + 1} likes.`};
+        return foundPost.likesCount + 1;
       }
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
@@ -220,7 +220,7 @@ export class PostsService {
             author: foundPost.author.username,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
-        }
+        };
     }
 
     public async deletePost(userId: string, postId: string) {
