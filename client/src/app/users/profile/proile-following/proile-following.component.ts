@@ -1,6 +1,6 @@
-import { UserFollowDTO } from './../../../models/user-follow.dto';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserFollowDTO } from 'src/app/models/users/user-follow.dto';
 
 @Component({
   selector: 'app-proile-following',
