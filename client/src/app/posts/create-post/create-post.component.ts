@@ -66,6 +66,7 @@ toggleContainWithinAspectRatio(){
       imageURL: this.croppedImage
     };
     this.toCreatePost.emit(postToCreate);
+    this.createPostForm.reset()
   }
 }
 
