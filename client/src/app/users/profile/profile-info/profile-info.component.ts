@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ShowUserProfileDTO } from '../../../models/user-profile.dto';
+import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 
 @Component({
   selector: 'app-profile-info',

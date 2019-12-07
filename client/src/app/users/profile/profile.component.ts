@@ -1,13 +1,13 @@
 import { FollowActionType } from './../../../../../server/src/common/enums/follow-action-type';
 
-import { LoggedUserDTO } from './../../models/logged-user.dto';
+import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { PostsService } from '../../core/services/posts.service';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../core/services/user.service';
-import { ShowUserProfileDTO } from '../../models/user-profile.dto';
+import { ShowUserProfileDTO } from '../../models/users/user-profile.dto';
 
 @Component({
   selector: 'app-profile',

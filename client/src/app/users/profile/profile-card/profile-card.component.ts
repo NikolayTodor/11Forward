@@ -1,4 +1,4 @@
-import { ShowUserProfileDTO } from './../../../models/user-profile.dto';
+import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 

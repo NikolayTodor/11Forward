@@ -1,4 +1,4 @@
-import { UserFollowDTO } from './../../../models/user-follow.dto';
+import { UserFollowDTO } from '../../../models/users/user-follow.dto';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 

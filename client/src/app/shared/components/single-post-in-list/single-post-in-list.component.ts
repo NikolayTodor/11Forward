@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 import { Router } from '@angular/router';
 
 @Component({

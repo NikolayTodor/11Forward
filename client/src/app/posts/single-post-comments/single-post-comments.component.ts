@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
+import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
-import { ShowPostDTO } from 'src/app/models/show-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostsService } from '../../core/services/posts.service';

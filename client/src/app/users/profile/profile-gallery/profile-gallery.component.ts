@@ -1,4 +1,4 @@
-import { ShowPostDTO } from './../../../models/show-post.dto';
+import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 

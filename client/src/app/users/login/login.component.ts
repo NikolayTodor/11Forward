@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserLoginDTO } from 'src/app/models/user-login.dto';
+import { UserLoginDTO } from 'src/app/models/users/user-login.dto';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
