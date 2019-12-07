@@ -24,7 +24,8 @@ export class PostsService {
     return this.http.get<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts/${id}`);
   }
 
-  public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {
+  public createPost(post: CreatePostDTO): Observable<any> {
+
     return this.http.post<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts`, post);
   }
 
