@@ -5,6 +5,7 @@ import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UpdateCommentDTO } from 'src/app/models/comments/update-comment.dto';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-single-comment',
@@ -31,7 +32,8 @@ export class SingleCommentComponent implements OnInit {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly formBuilder: FormBuilder) {}
+    private readonly formBuilder: FormBuilder,
+    private readonly notificationService: NotificationService) {}
 
   ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
@@ -61,7 +63,11 @@ export class SingleCommentComponent implements OnInit {
   }
 
   public onLikeComment(): void {
-    this.toLikeComment.emit(this.commentToShow.id);
+    if (this.loggedUser) {
+      this.toLikeComment.emit(this.commentToShow.id);
+      } else {
+        this.notificationService.error(`Please log in to like posts and comments!`);
+      }
   }
 
   public onDeleteComment(): void {

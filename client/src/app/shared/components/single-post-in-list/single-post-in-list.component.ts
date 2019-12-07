@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-single-post-in-list',
@@ -29,7 +30,8 @@ export class SinglePostInListComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -63,7 +65,11 @@ export class SinglePostInListComponent implements OnInit {
   }
 
   public onLikePost(): void {
+    if (this.loggedUser) {
     this.toLikePost.emit(this.postToShow.id);
+    } else {
+      this.notificationService.error(`Please log in to like posts and comments!`);
+    }
   }
 
   public onDeletePost(): void {

@@ -65,9 +65,13 @@ export class SinglePostCommentsComponent implements OnInit {
   }
 
   public onLikePost(): void {
-    this.postsService
-    .likePost(this.post.id)
-    .subscribe((data) => this.post = data);
+    if (this.loggedUser) {
+      this.postsService
+        .likePost(this.post.id)
+        .subscribe((data) => this.post = data);
+      } else {
+        this.notificationService.error(`Please log in to like posts and comments!`);
+      }
   }
 
   public onDeletePost(): void {
