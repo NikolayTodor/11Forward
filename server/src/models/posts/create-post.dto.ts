@@ -14,9 +14,13 @@ export class CreatePostDTO {
     @Length(5, 1000)
     public content: string;
 
-    @IsUrl()
-    public imageURL: string;
-
     @IsBoolean()
     public isPrivate: boolean;
+
+    @IsString()
+    public imageURL: string;
 }
+
+// Suboptimal. CreatePostDTO receives its url only in
+// the createPost servie, after base64 is send to imgur and
+// returned as valid url. Should be considered for refactoring
