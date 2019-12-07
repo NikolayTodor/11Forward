@@ -9,6 +9,8 @@ import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
+import  axios from 'axios';
+import { ApiSystemError } from '../common/exceptions/api-system.error';
 
 @Injectable()
 export class PostsService {
@@ -108,7 +110,7 @@ export class PostsService {
         };
     }
 
-    public async createPost(userId: string, postToCreate: CreatePostDTO): Promise<ShowPostDTO> {
+    public async createPost(userId: string, postToCreate: CreatePostDTO): Promise<any> {
         const foundUser = await this.userRepo.findOne({
             where: {
                 id: userId
@@ -117,6 +119,16 @@ export class PostsService {
         if (foundUser === undefined || foundUser.isDeleted) {
             throw new NotFoundException('No such user found');
         }
+
+        // The base64 of the image is loaded in the CreatePostDTO
+        // that comes the frontend. 
+        //  We remove the initial "base64..." from the string, we upload it to imgur and 
+        // obtain the url for this image. Then we change the property imageURL from base64string to url
+        // At present this method is a 'hack' prone to unforseen errors. Should be carefully refactored!
+
+        const base = postToCreate.imageURL.slice(22);
+        const urlFromImgur: string = await this.uploadPhoto(base);
+        postToCreate.imageURL = urlFromImgur;
 
         const newPost: Post = this.postRepo.create(postToCreate);
         newPost.author = foundUser;
@@ -244,4 +256,25 @@ export class PostsService {
 
         return { msg: `Post successfully deleted!`};
     }
+
+    async uploadPhoto(base: string): Promise<string> {
+        // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
+        //   throw new ApiSystemError('Image failed test', 500);
+        // }
+
+     try {
+        const data = await axios(`https://api.imgur.com/3/upload`, {
+            method: 'POST',
+            headers: {
+               'Authorization': `Client-ID 7084d3c72f8fab9`,
+            },
+            data: {image: base},
+          });
+          return data.data.data.link;
+     }
+     catch(error) {
+         console.log(error);
+     }
+      }
+
 }
