@@ -1,3 +1,4 @@
+import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
 import { ProfileInfoResolverService } from './profile-info-resolver.service';
 import { ProfileComponent } from './profile/profile.component';
@@ -9,13 +10,14 @@ import { AuthGuard } from '../auth/auth.guard';
 import { ProileFollowersComponent } from './profile/proile-followers/proile-followers.component';
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
+import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
 
 const userRoutes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: ':id', component: ProfileComponent,
   resolve: { user: ProfileInfoResolverService },
-  pathMatch:'prefix',
+  pathMatch: 'prefix',
   children: [
     {
       path: '',
@@ -30,10 +32,12 @@ const userRoutes: Routes = [
     {
       path: 'followers',
       component: ProileFollowersComponent,
+      resolve: { followers: ProfileFollowersResolverService }
     },
     {
       path: 'following',
-      component: ProileFollowingComponent
+      component: ProileFollowingComponent,
+      resolve: { following: ProfileFollowingResolverService }
     }
 
   ],

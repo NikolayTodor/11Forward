@@ -4,10 +4,9 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
-import { UserRegisterDTO } from 'src/app/models/users/user-register.dto';
-import { UserLoginDTO } from 'src/app/models/users/user-login.dto';
-import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
+import { UserRegisterDTO } from 'src/app/models/user-register.dto';
+import { UserLoginDTO } from 'src/app/models/user-login.dto';
+import { LoggedUserDTO } from 'src/app/models/logged-user.dto';
 import { CONFIG } from 'src/app/common/config';
 
 @Injectable({

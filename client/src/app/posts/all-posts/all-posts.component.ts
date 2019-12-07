@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
@@ -7,13 +6,14 @@ import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.scss']
 })
-export class AllPostsComponent implements OnInit {
+export class AllPostsComponent implements OnInit, OnDestroy {
 
   public posts: ShowPostDTO[] = [];
   public loggedUser: LoggedUserDTO;
@@ -44,6 +44,11 @@ export class AllPostsComponent implements OnInit {
           this.posts = data;
         });
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+
   }
 
   public createPost(post: CreatePostDTO): void {
