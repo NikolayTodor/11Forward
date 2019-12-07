@@ -1,5 +1,5 @@
+import { ShowPostDTO } from './../../models/show-post.dto';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/show-post.dto';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CreatePostDTO } from 'src/app/models/create-post.dto';
@@ -51,10 +51,11 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   }
 
   public createPost(post: CreatePostDTO): void {
+
     this.postsService.createPost(post).subscribe(
-      (createPost: ShowPostDTO) => {
-        this.posts.unshift(createPost);
+      (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
+        this.posts.unshift(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
