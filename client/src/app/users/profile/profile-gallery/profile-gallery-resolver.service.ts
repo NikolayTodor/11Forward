@@ -18,7 +18,7 @@ export class ProfileGalleryResolverService implements Resolve<any> {
 
     const id = route.parent.url[0].path;
 
-    return this.postsService.getUserPosts(id)
+    return this.postsService.getUserPosts(id, 5, 0)
         .pipe(
           map(posts => {
             if (posts) {
