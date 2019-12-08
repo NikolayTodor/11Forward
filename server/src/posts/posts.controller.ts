@@ -17,16 +17,11 @@ export class PostsController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    public async getPublicPosts(@Query('username') username: string): Promise<ShowPostDTO[]> {
-        const posts: ShowPostDTO[] = await this.postsService.allPublicPosts();
-
-        if (username) {
-            return posts.filter(post =>
-              post.author.toLowerCase() === username.toLowerCase()
-            );
-        }
-
-        return posts;
+    public async getPublicPosts(
+        @Query('take') take: string,
+        @Query('skip') skip: string,
+        ): Promise<ShowPostDTO[]> {
+        return await this.postsService.allPublicPosts(+take, +skip);
     }
 
     @Get('/private')
@@ -34,16 +29,22 @@ export class PostsController {
     @HttpCode(HttpStatus.OK)
     public async getHomePagePostsPrivate(
         @userDecorator() user: ShowUserDTO,
-        @Query('username') username: string
+        @Query('take') take: string,
+        @Query('skip') skip: string,
     ): Promise<ShowPostDTO[]> {
-        const posts: ShowPostDTO[] = await this.postsService.allAllowedPosts(user.id);
+        return await this.postsService.allAllowedPosts(user.id, +take, +skip);
+    }
 
-        if (username) {
-            return posts.filter(post =>
-              post.author.toLowerCase() === username.toLowerCase()
-            );
-        }
-        return posts;
+    @Get('profile/:userId')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async getUserPosts(
+        @Param('userId') userId: string,
+        @userDecorator() user: ShowUserDTO,
+        @Query('take') take: string,
+        @Query('skip') skip: string,
+        ): Promise<ShowPostDTO[]> {
+        return await this.postsService.getProfilePosts(user.id, userId, +take, +skip);
     }
 
     @Get(':postId')
@@ -53,16 +54,6 @@ export class PostsController {
         ): Promise<ShowPostDTO> {
         return await this.postsService.onePost(postId);
     }
-
-    @Get('profile/:userId')
-    @UseGuards(AuthGuardWithBlacklisting)
-    @HttpCode(HttpStatus.OK)
-    public async getUserPosts(
-        @Param('userId') userId: string,
-        @userDecorator() user: ShowUserDTO
-    ): Promise<ShowPostDTO[]> {
-        return await this.postsService.getProfilePosts(user.id, userId);
-}
 
     @Post()
     @UseGuards(AuthGuardWithBlacklisting)
