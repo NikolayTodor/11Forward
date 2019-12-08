@@ -153,7 +153,18 @@ export class PostsService {
         const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
-          return { msg: `You have unliked this Post. The Post now has ${foundPost.likesCount - 1} likes.`};
+          return {
+            id: foundPost.id,
+            title: foundPost.title,
+            content: foundPost.content,
+            imageURL: foundPost.imageURL,
+            isPrivate: foundPost.isPrivate,
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundPost.author.username,
+            commentsCount: foundPost.commentsCount,
+            likes: foundPost.likesCount - 1
+        };
         }
 
         const newLike: LikePost = this.likePostRepo.create({});
@@ -161,7 +172,18 @@ export class PostsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likePostRepo.save(newLike);
 
-        return { msg: `You have liked this Post. The Post now has ${foundPost.likesCount + 1} likes.`};
+        return {
+            id: foundPost.id,
+            title: foundPost.title,
+            content: foundPost.content,
+            imageURL: foundPost.imageURL,
+            isPrivate: foundPost.isPrivate,
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundPost.author.username,
+            commentsCount: foundPost.commentsCount,
+            likes: foundPost.likesCount + 1
+        };
       }
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
@@ -211,15 +233,29 @@ export class PostsService {
         }
 
         Object.keys(body).forEach((prop: string) => {
-            if ((body as any)[prop] !== undefined) {
+            if ((body as any)[prop] !== undefined && (body as any)[prop] !== '') {
                 (foundPost as any)[prop] = (body as any)[prop];
             }
         });
+        if (foundPost.isPrivate === true) {
+           foundPost.hasPermission = false;
+        } else {
+            foundPost.hasPermission = true;
+        }
 
         await this.postRepo.save(foundPost);
 
         return {
-            msg: `The post has been successfully updated!`
+            id: foundPost.id,
+            title: foundPost.title,
+            content: foundPost.content,
+            imageURL: foundPost.imageURL,
+            isPrivate: foundPost.isPrivate,
+            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundPost.author.username,
+            commentsCount: foundPost.commentsCount,
+            likes: foundPost.likesCount
         };
     }
 

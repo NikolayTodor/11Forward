@@ -88,7 +88,14 @@ export class CommentsService {
         const foundLike: LikeComment = await this.likeCommentRepo.findOne({ where: { user: userId, comment: commentId }});
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
-          return { msg: `You have unliked this comment. The comment now has ${foundComment.likesCount - 1} likes.`};
+          return {
+            id: foundComment.id,
+            content: foundComment.content,
+            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundComment.author.username,
+            likes: foundComment.likesCount - 1
+            };
         }
 
         const newLike: LikeComment = this.likeCommentRepo.create({});
@@ -96,7 +103,14 @@ export class CommentsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likeCommentRepo.save(newLike);
 
-        return { msg: `You have liked this comment. The comment now has ${foundComment.likesCount + 1} likes.`};
+        return {
+            id: foundComment.id,
+            content: foundComment.content,
+            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
+            author: foundComment.author.username,
+            likes: foundComment.likesCount + 1
+            };
       }
 
     public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {

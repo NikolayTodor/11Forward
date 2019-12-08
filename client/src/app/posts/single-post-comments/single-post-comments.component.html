@@ -7,10 +7,32 @@
         Content: {{ this.post.content }} <br />
         Posted on: {{ this.post.dateCreated }}<br />
         By: {{ this.post.author }}<br />
-        Private? {{ this.post.isPrivate }}
+        Private? {{ this.post.isPrivate }}<br />
+        Comments: {{ this.post.commentsCount }}<br />
       </div>
+      <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+        <i class="material-icons">
+          build
+        </i>
+      </button>
+      <button mat-icon-button (click)="this.onDeletePost()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+        <i class="material-icons">
+          remove_circle
+        </i>
+      </button>
+      <button mat-icon-button (click)="this.onLikePost()">
+        <i class="material-icons">
+          thumb_up
+        </i>
+      </button> {{ this.post.likes }}
     </mat-card>
   </div>
+  <mat-card>
+    <app-update-post *ngIf="this.isPostForUpdate===true"
+    (toUpdatePost)="this.updatePost($event)" [val]="this.post.id"></app-update-post>
+  </mat-card>
   <mat-card class="mat-card">
     <app-all-comments></app-all-comments>
   </mat-card>

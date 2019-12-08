@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
+import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
+import { ShowPostDTO } from 'src/app/models/posts/show-post.dto';
 
 @Component({
   selector: 'app-all-posts',
@@ -57,6 +58,30 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         this.notificationService.success(`Post created!`);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
+  }
+
+  public updatePost(post: UpdatePostDTO): void {
+    this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
+      this.notificationService.success(`The post has been updated!`);
+      const index: number = this.posts.findIndex(item => item.id === post.id);
+      this.posts.splice(index, 1, data);
+    });
+  }
+
+  public likePost(postId: string): void {
+    this.postsService.likePost(postId).subscribe((likedPost: ShowPostDTO) => {
+      const index: number = this.posts.findIndex((viewedPost) => viewedPost.id === likedPost.id);
+      this.posts[index] = likedPost;
+    });
+  }
+
+  public deletePost(postId: string): void {
+    this.postsService.deletePost(postId).subscribe(() => {
+      this.notificationService.success(`Post successfully deleted!`);
+    });
+
+    const index: number = this.posts.findIndex(post => post.id === postId);
+    this.posts.splice(index, 1);
   }
 
 }
