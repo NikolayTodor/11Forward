@@ -1,5 +1,5 @@
+import { UserProfileDTO } from './../models/users/user-profile.dto';
 import { TransformInterceptor } from './../transformer/interceptors/transform.interceptor';
-import { UserFollowInfoDTO } from './../models/users/user-follow-info.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { FollowActionType } from './../common/enums/follow-action-type';
 import { userDecorator } from './../common/decorators/user.decorator';
@@ -69,19 +69,22 @@ export class UsersController {
     @Put(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    @UseInterceptors(new TransformInterceptor(UserProfileDTO))
     public async updateUser(
     @Body() updateInfo: UpdateUserDTO,
     @Param('id') userToUpdateId: string,
     @userDecorator('user') loggedUser: ShowUserDTO) {
-
+        
         return await this.usersService.updateUser(updateInfo, userToUpdateId, loggedUser.id);
+
 
     }
 
     @Patch('/follow/:name')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
