@@ -5,7 +5,7 @@
       </mat-card-header>
       <img mat-card-image class="example-header-image" [src]="this.profile.avatarUrl">
       <mat-card-actions *ngIf="this.profile.isOwner">
-          <button mat-button>Edit profile</button>
+          <button mat-button (click)="this.openDialogEditProfile()">Edit profile</button>
       </mat-card-actions>
 
       <mat-card-actions *ngIf="!this.profile.isOwner">
@@ -16,7 +16,7 @@
 
   <mat-toolbar class='profile-navbar'>
       <span>My Tools</span>
-      <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialog()">Add Pic</button>
+      <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialogPost()">Add Pic</button>
       <button mat-raised-button [routerLink]="['posts']">Pics</button>
       <button mat-raised-button [routerLink]="['followers']">Followers</button>
       <button mat-raised-button [routerLink]="['following']">Following</button>
