@@ -21,26 +21,12 @@ import { SinglePostInListComponent } from './components/single-post-in-list/sing
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 
-// @NgModule({
-//   declarations: [SinglePostInListComponent, CreatePostComponent, UpdatePostComponent],
-//   imports: [
-//     CommonModule,
-//     MatCardModule,
-//     MatDialogModule,
-//     MatInputModule,
-//     FormsModule,
-//     ImageCropperModule,
-//     ReactiveFormsModule,
-//     MatFormFieldModule,
-//     MatRadioModule],
-//   exports: [
-//     SinglePostInListComponent,
-//     MatButtonModule,
 
 
 @NgModule({
   declarations: [SinglePostInListComponent, UpdatePostComponent, CreatePostComponent],
   imports: [
+    ImageCropperModule,
     CommonModule,
     MatDialogModule,
     MatCardModule,
