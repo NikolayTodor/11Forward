@@ -34,7 +34,10 @@
     (toUpdatePost)="this.updatePost($event)" [val]="this.post.id"></app-update-post>
   </mat-card>
   <mat-card class="mat-card">
-    <app-all-comments></app-all-comments>
+    <app-all-comments
+    (hasCreatedComment)="this.hasNewComment($event)"
+    (hasDeletedComment)="this.hasOneLessComment($event)"
+    ></app-all-comments>
   </mat-card>
 </div>
 

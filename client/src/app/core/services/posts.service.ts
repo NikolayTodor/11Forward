@@ -13,20 +13,20 @@ export class PostsService {
     private readonly http: HttpClient
   ) { }
 
-  public getPublicPosts(): Observable<ShowPostDTO[]> {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts`);
+  public getPublicPosts(take: number, skip: number): Observable<ShowPostDTO[]> {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts?take=${take}&skip=${skip}`);
   }
 
-  public getAllPosts(): Observable<ShowPostDTO[]> {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private`);
+  public getAllPosts(take: number, skip: number): Observable<ShowPostDTO[]> {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private?take=${take}&skip=${skip}`);
   }
 
   public getPostById(id: string): Observable<ShowPostDTO> {
     return this.http.get<ShowPostDTO>(`${CONFIG.DOMAIN_NAME}/posts/${id}`);
   }
 
-  public getUserPosts(profileId: string) {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}`);
+  public getUserPosts(profileId: string, take: number, skip: number) {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/profile/${profileId}?take=${take}&skip=${skip}`);
   }
 
   public createPost(post: CreatePostDTO): Observable<ShowPostDTO> {

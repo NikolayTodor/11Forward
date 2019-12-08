@@ -1,14 +1,15 @@
-<div class="all-posts-container">
+<div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+  <div class="all-posts-container">
 
-  <app-create-comment *ngIf="this.loggedUser" (toCreateComment)="this.createComment($event)"></app-create-comment>
+    <app-create-comment *ngIf="this.loggedUser" (toCreateComment)="this.createComment($event)"></app-create-comment>
 
-  <div class="comments-list">
-    <app-single-comment *ngFor="let comment of this.comments" [comment]="comment" class="one-comment"
-    (updateComment)="this.updateComment($event)"
-    (toLikeComment)="this.likeComment($event)"
-    (deleteComment)="this.deleteComment($event)"
-    >
-    </app-single-comment>
+    <div class="comments-list">
+      <app-single-comment *ngFor="let comment of this.comments" [comment]="comment" class="one-comment"
+        (updateComment)="this.updateComment($event)"
+        (toLikeComment)="this.likeComment($event)"
+        (deleteComment)="this.deleteComment($event)">
+      </app-single-comment>
 
+    </div>
   </div>
 </div>
