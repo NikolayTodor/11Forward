@@ -1,3 +1,4 @@
+import { CreatePostComponent } from '../../shared/components/create-post/create-post.component';
 import { ShowPostDTO } from './../../models/show-post.dto';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostsService } from '../../core/services/posts.service';
@@ -6,6 +7,8 @@ import { CreatePostDTO } from 'src/app/models/create-post.dto';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
+import {MatDialog} from '@angular/material';
+
 
 @Component({
   selector: 'app-all-posts',
@@ -22,6 +25,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     private readonly postsService: PostsService,
     private readonly authService: AuthService,
     private readonly notificationService: NotificationService,
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -48,6 +52,18 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
 
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreatePostComponent, {
+      width: '60%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.data instanceof CreatePostDTO) {
+        this.createPost(result.data);
+      }
+    });
   }
 
   public createPost(post: CreatePostDTO): void {
