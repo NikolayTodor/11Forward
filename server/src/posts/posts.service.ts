@@ -105,7 +105,8 @@ export class PostsService {
 
         let userPosts = await foundUser.posts;
 
-        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+        userPosts = userPosts.filter((post) => post.isDeleted === false);
+        userPosts = userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
         // If the logged user does not follow the profile then he will receive only the public posts
 
