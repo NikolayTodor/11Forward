@@ -15,8 +15,8 @@ export class CommentsService {
     private readonly http: HttpClient
   ) { }
 
-  public getComments(commentId: string): Observable<ShowCommentDTO[]> {
-    return this.http.get<ShowCommentDTO[]>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}`);
+  public getComments(commentId: string, take: number, skip: number): Observable<ShowCommentDTO[]> {
+    return this.http.get<ShowCommentDTO[]>(`${CONFIG.DOMAIN_NAME}/comments/${commentId}?take=${take}&skip=${skip}`);
   }
 
   public createComment(postId: string, comment: CreateCommentDTO): Observable<ShowCommentDTO> {

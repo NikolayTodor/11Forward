@@ -28,7 +28,7 @@ export class CommentsService {
             },
             order: { dateCreated: 'DESC' },
             take,
-            skip: take * skip
+            skip: skip * take
         });
 
         return Array.from(allComments.map((comment: Comment) => ({

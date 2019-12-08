@@ -20,6 +20,9 @@ export class AllCommentsComponent implements OnInit {
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
   public postId: string;
+  public take = 5;
+  public skip = 0;
+  public showMore = true;
 
   constructor(
     private readonly commentsService: CommentsService,
@@ -36,18 +39,24 @@ export class AllCommentsComponent implements OnInit {
 
     this.postId = this.activatedRoute.snapshot.params[`id`];
 
-    if (this.loggedUser) {
-      this.commentsService
-        .getComments(this.postId)
-        .subscribe((data: ShowCommentDTO[]) => {
-          this.comments = data;
-        });
-    } else {
-      this.commentsService
-        .getComments(this.postId)
-        .subscribe((data: ShowCommentDTO[]) => {
-          this.comments = data;
-        });
+    this.commentsService
+      .getComments(this.postId, this.take, this.skip)
+      .subscribe((data: ShowCommentDTO[]) => {
+        this.comments = data;
+      });
+    }
+
+  onScroll(): void {
+    if (this.showMore === true) {
+    this.skip += 1;
+
+    this.commentsService.getComments(this.postId, this.take, this.skip)
+      .subscribe((data: ShowCommentDTO[]) => {
+        this.comments = [...this.comments, ...data];
+        if (data.length < this.take) {
+          this.showMore = false;
+        }
+      });
     }
   }
 

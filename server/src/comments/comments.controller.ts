@@ -20,7 +20,6 @@ export class CommentsController {
       @Query('take') take: string,
       @Query('skip') skip: string,
       ): Promise<ShowCommentDTO[]> {
-        console.log(take, skip);
         return await this.commentsService.allCommentsOfPost(postId, +take, +skip);
     }
 
