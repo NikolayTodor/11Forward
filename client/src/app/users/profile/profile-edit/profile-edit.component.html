@@ -1,0 +1,65 @@
+<input type="file" (change)="fileChangeEvent($event)" />
+
+<div>
+    <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [containWithinAspectRatio]="containWithinAspectRatio"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="512"
+        [cropperMinWidth]="512"
+        [cropperMinHeight]="512"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+        [alignImage]="'left'"
+    ></image-cropper>
+</div>
+
+
+<div class="update-profile-container">
+  <form [formGroup]="this.updateProfileForm" (ngSubmit)="this.onClikcUpdateProfile(this.updateProfileForm.value)">
+    <mat-form-field>
+      <input matInput placeholder="Username" formControlName="username">
+      <mat-error *ngIf="!!this.updateProfileForm.controls.username.errors?.minlength">
+        The username must be longert than 4 symbols!
+      </mat-error>
+      <mat-error *ngIf="!!this.updateProfileForm.controls.username.errors?.maxlength">
+        The username must be shorter that 15 symbols!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password">
+      <mat-error *ngIf="!!this.updateProfileForm.controls.password.errors?.minlength">
+        The password must be longert than 6 symbols!
+      </mat-error>
+      <mat-error *ngIf="!!this.updateProfileForm.controls.password.errors?.maxlength">
+        The password must be shorter that 15 symbols!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="!!this.updateProfileForm.controls.email.errors?.email">
+        The input should be valid email!
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-icon-button class="update-post-button"
+    type="submit"
+    [disabled]="!this.updateProfileForm.valid && !this.croppedImage" >
+      Update profile
+      <i class="material-icons">
+        book
+      </i>
+    </button>
+  </form>
+</div>
+
