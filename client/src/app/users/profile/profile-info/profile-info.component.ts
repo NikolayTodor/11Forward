@@ -1,4 +1,7 @@
 
+import { UsersService } from './../../../core/services/user.service';
+import { UpdateProfileDTO } from './../../../models/users/update-profile.dto';
+
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -7,6 +10,7 @@ import { CreatePostComponent } from '../../../shared/components/create-post/crea
 import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
+import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 
 @Component({
   selector: 'app-profile-info',
@@ -20,6 +24,7 @@ export class ProfileInfoComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private readonly postsService: PostsService,
+    private readonly usersService: UsersService,
 
   ) { }
 
@@ -28,7 +33,30 @@ export class ProfileInfoComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialog(): void {
+  openDialogEditProfile(): void {
+    const dialogRef = this.dialog.open(ProfileEditComponent, {
+      width: '100%',
+      height: '100%'
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.data) {
+        this.updateProfile(result.data)
+      }
+    });
+  }
+
+  updateProfile(updateProfileInfo: UpdateProfileDTO) {
+    this.usersService.updateProfile(updateProfileInfo, this.profile.id)
+    .subscribe((data: ShowUserProfileDTO) => {
+      this.notificationService.success(`Profile successfully updated!`);
+      this.profile = data;
+      console.log(data)
+    },
+    ()=>this.notificationService.error(`Unsuccessful profile update!`));
+  }
+
+   openDialogPost(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
       width: '100%',
       height: '100%'
