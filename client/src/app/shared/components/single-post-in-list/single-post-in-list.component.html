@@ -8,8 +8,30 @@
         Posted on: {{ this.postToShow.dateCreated }}<br />
         By: {{ this.postToShow.author }}<br />
         Private? {{ this.postToShow.isPrivate }}<br />
+        Comments: {{ this.postToShow.commentsCount }}<br />
         <button (click)="this.openSinglePost()">Open me</button>
       </div>
+      <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
+        <i class="material-icons">
+          build
+        </i>
+      </button>
+      <button mat-icon-button (click)="this.onDeletePost()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
+        <i class="material-icons">
+          remove_circle
+        </i>
+      </button>
+      <button mat-icon-button (click)="this.onLikePost()">
+        <i class="material-icons">
+          thumb_up
+        </i>
+      </button> {{ this.postToShow.likes }}
+    </mat-card>
+    <mat-card>
+      <app-update-post *ngIf="this.isPostForUpdate===true"
+      (toUpdatePost)="this.updatePost($event)" [val]="this.postToShow.id"></app-update-post>
     </mat-card>
   </div>
 </div>

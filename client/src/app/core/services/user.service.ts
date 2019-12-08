@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserFollowDTO } from '../../models/user-follow.dto';
+import { UserFollowDTO } from '../../models/users/user-follow.dto';
 import { CONFIG } from '../../common/config';
 import { FollowActionType } from '../../common/follow-action-types';
 

@@ -2,10 +2,10 @@ import { NotificationService } from './../../../core/services/notification.servi
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ShowUserProfileDTO } from '../../../models/user-profile.dto';
-import { ShowPostDTO } from '../../../models/show-post.dto';
 import { CreatePostDTO } from '../../../models/create-post.dto';
 import { PostsService } from '../../../core/services/posts.service';
 import { CreatePostComponent } from '../../../shared/components/create-post/create-post.component';
+import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 
 @Component({
   selector: 'app-profile-info',

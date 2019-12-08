@@ -1,3 +1,4 @@
+import { UpdatePostComponent } from './components/update-post/update-post.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -20,20 +21,44 @@ import { SinglePostInListComponent } from './components/single-post-in-list/sing
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 
+// @NgModule({
+//   declarations: [SinglePostInListComponent, CreatePostComponent, UpdatePostComponent],
+//   imports: [
+//     CommonModule,
+//     MatCardModule,
+//     MatDialogModule,
+//     MatInputModule,
+//     FormsModule,
+//     ImageCropperModule,
+//     ReactiveFormsModule,
+//     MatFormFieldModule,
+//     MatRadioModule],
+//   exports: [
+//     SinglePostInListComponent,
+//     MatButtonModule,
+
+
 @NgModule({
-  declarations: [SinglePostInListComponent, CreatePostComponent],
-  imports: [CommonModule,
-    MatCardModule,
+  declarations: [SinglePostInListComponent, UpdatePostComponent, CreatePostComponent],
+  imports: [
+    CommonModule,
     MatDialogModule,
-    MatInputModule,
-    FormsModule,
-    ImageCropperModule,
-    ReactiveFormsModule,
+    MatCardModule,
     MatFormFieldModule,
-    MatRadioModule],
+    MatInputModule,
+    MatIconModule,
+    MatRadioModule,
+    MatListModule,
+    MatMenuModule,
+    FormsModule,
+    MatGridListModule,
+    ReactiveFormsModule
+  ],
   exports: [
+    MatDialogModule,
     SinglePostInListComponent,
     MatButtonModule,
+    UpdatePostComponent,
     CommonModule,
     MatCardModule,
     MatCheckboxModule,

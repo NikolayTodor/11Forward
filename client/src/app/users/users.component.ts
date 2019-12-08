@@ -1,6 +1,6 @@
 import { AuthService } from './../core/services/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LoggedUserDTO } from '../models/logged-user.dto';
+import { LoggedUserDTO } from '../models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
 
 @Component({
