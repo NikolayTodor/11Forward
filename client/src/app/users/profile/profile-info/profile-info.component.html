@@ -3,7 +3,7 @@
         <div mat-card-avatar ></div>
         <mat-card-title>{{profile.username}}</mat-card-title>
       </mat-card-header>
-      <img mat-card-image class="example-header-image" src="https://creai-grand-est.fr/bundles/admin/images/user-empty-avatar.png">
+      <img mat-card-image class="example-header-image" [src]="this.profile.avatarUrl">
       <mat-card-actions *ngIf="this.profile.isOwner">
           <button mat-button>Edit profile</button>
       </mat-card-actions>

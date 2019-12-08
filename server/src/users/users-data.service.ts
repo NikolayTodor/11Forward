@@ -1,3 +1,4 @@
+import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
@@ -9,6 +10,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
+import  axios from 'axios';
 
 
 @Injectable()
@@ -28,6 +30,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
+      avatarUrl: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));
@@ -55,6 +58,7 @@ export class UsersDataService {
       id: foundUser.id,
       username: foundUser.username,
       email: foundUser.email,
+      avatarUrl: foundUser.avatarURL,
       followersCount: foundUser.followersCount,
       followingCount: foundUser.followingCount,
       isFollowed: checkIfFollowed,
@@ -73,6 +77,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
+      avatarUrl: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));
@@ -93,6 +98,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
+      avatarUrl: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));
@@ -191,6 +197,7 @@ export class UsersDataService {
       id: userToFollow.id,
       username: userToFollow.username,
       email: userToFollow.email,
+      avatarUrl: userToFollow.avatarURL,
       followersCount: userToFollow.followersCount,
       followingCount: userToFollow.followingCount,
       isFollowed: true,
@@ -228,11 +235,64 @@ export class UsersDataService {
       id: userToUnFollow.id,
       username: userToUnFollow.username,
       email: userToUnFollow.email,
+      avatarUrl: userToUnFollow.avatarURL,
       followersCount: userToUnFollow.followersCount,
       followingCount: userToUnFollow.followingCount,
       isFollowed: false,
     }
 
   }
+
+  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
+
+    if (loggedUserId !== usertoUpdateId) {
+      throw new ApiSystemError('You can not update other members profile!', 401);
+    }
+
+    const foundUser: User = await this.userRepo.findOne({id: usertoUpdateId});
+
+    if (updateInfo.base) {
+      const newURL = await this.uploadPhoto(updateInfo.base);
+      updateInfo.avatarURL = newURL;
+      updateInfo.base = '';
+    }
+
+    if (updateInfo.password) {
+      updateInfo.password = await bcrypt.hash(updateInfo.password, 10);
+    }
+
+    Object.keys(updateInfo).forEach((key) => {
+      foundUser[key] = updateInfo[key];
+    });
+
+    return await this.userRepo.save(foundUser);
+  }
+
+  async uploadPhoto(base: string): Promise<string> {
+    // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
+    //   throw new ApiSystemError('Image failed test', 500);
+    // }
+    
+
+ try {
+    const data = await axios(`https://api.imgur.com/3/upload`, {
+        method: 'POST',
+        headers: {
+           'Authorization': `Client-ID 7084d3c72f8fab9`,
+        },
+        data: {image: base},
+      });
+      return data.data.data.link;
+ }
+ catch(error) {
+     console.log(error);
+ }
+  }
+
+  /*
+    Comment: The function upload photo must be helper function imported from outside and nota part 
+    of the user-data service 
+
+  */
 
 }
