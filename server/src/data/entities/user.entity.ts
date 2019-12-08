@@ -1,8 +1,10 @@
+import { STATIC } from './../../static/static-urls';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, RelationCount, OneToMany } from 'typeorm';
 import { Post } from './post.entity';
 import { Comment } from './comment.entity';
 import { LikeComment } from './like-comment.entity';
 import { LikePost } from './like-post.entity';
+
 
 @Entity('users')
 export class User {
@@ -15,6 +17,9 @@ export class User {
 
     @Column({ type: 'nvarchar', nullable: false })
     public password: string;
+
+    @Column({default: STATIC.DEFAULT_AVATAR })
+    public avatarURL: string;
 
     @Column({type: 'nvarchar', nullable: false})
     public email: string;
