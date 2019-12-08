@@ -33,6 +33,14 @@ export class CreatePostComponent implements OnInit {
   }
 
   fileChangeEvent(event: any): void {
+
+    const file = event.srcElement.files[0];
+    if (!file || !(/image\/(gif|jpg|jpeg|png)$/i).test(file.type) || file.size > 2000000 ) {
+      console.log('File type/size invalid!');
+      return;
+    }
+
+
     this.imageChangedEvent = event;
 }
 
