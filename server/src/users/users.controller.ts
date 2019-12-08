@@ -4,12 +4,13 @@ import { ShowUserDTO } from './../models/users/show-user.dto';
 import { FollowActionType } from './../common/enums/follow-action-type';
 import { userDecorator } from './../common/decorators/user.decorator';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query } from '@nestjs/common';
+import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put } from '@nestjs/common';
 import { UsersDataService } from './users-data.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { ShowUserProfileDTO } from '../models/users/show-user-profile.dto';
+import { UpdateUserDTO } from '../models/users/update-user.dto';
 
 @Controller('users')
 @ApiUseTags('Users Controller')
@@ -63,6 +64,19 @@ export class UsersController {
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async addNewUser(@Body() newUser: CreateUserDTO) {
         return await this.usersService.createUser(newUser);
+    }
+
+    @Put(':id')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    public async updateUser(
+    @Body() updateInfo: UpdateUserDTO,
+    @Param('id') userToUpdateId: string,
+    @userDecorator('user') loggedUser: ShowUserDTO) {
+
+        return await this.usersService.updateUser(updateInfo, userToUpdateId, loggedUser.id);
+
     }
 
     @Patch('/follow/:name')
