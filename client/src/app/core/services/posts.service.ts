@@ -13,12 +13,12 @@ export class PostsService {
     private readonly http: HttpClient
   ) { }
 
-  public getPublicPosts(): Observable<ShowPostDTO[]> {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts`);
+  public getPublicPosts(take: number, skip: number): Observable<ShowPostDTO[]> {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts?take=${take}&skip=${skip}`);
   }
 
-  public getAllPosts(): Observable<ShowPostDTO[]> {
-    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private`);
+  public getAllPosts(take: number, skip: number): Observable<ShowPostDTO[]> {
+    return this.http.get<ShowPostDTO[]>(`${CONFIG.DOMAIN_NAME}/posts/private?take=${take}&skip=${skip}`);
   }
 
   public getPostById(id: string): Observable<ShowPostDTO> {

@@ -21,6 +21,9 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   public posts: ShowPostDTO[] = [];
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
+  public take = 5;
+  public skip = 0;
+  public showMore = true;
 
   constructor(
     private readonly postsService: PostsService,
@@ -37,13 +40,13 @@ export class AllPostsComponent implements OnInit, OnDestroy {
 
     if (this.loggedUser) {
       this.postsService
-        .getAllPosts()
+        .getAllPosts(this.take, this.skip)
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
         });
     } else {
       this.postsService
-        .getPublicPosts()
+        .getPublicPosts(this.take, this.skip)
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
         });
@@ -66,6 +69,32 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         this.createPost(result.data);
       }
     });
+  }
+
+  onScroll(): void {
+    if (this.showMore === true) {
+    this.skip += 1;
+
+    if (this.loggedUser) {
+      this.postsService
+        .getAllPosts(this.take, this.skip)
+        .subscribe((data: ShowPostDTO[]) => {
+          this.posts = [...this.posts, ...data];
+          if (data.length < this.take) {
+            this.showMore = false;
+          }
+        });
+    } else {
+      this.postsService
+        .getPublicPosts(this.take, this.skip)
+        .subscribe((data: ShowPostDTO[]) => {
+          this.posts = [...this.posts, ...data];
+          if (data.length < this.take) {
+            this.showMore = false;
+          }
+        });
+      }
+    }
   }
 
   public createPost(post: CreatePostDTO): void {
