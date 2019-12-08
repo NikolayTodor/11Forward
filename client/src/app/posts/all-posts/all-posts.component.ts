@@ -62,7 +62,6 @@ export class AllPostsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result.data);
         this.createPost(result.data);
       }
     });
