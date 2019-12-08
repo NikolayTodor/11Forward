@@ -111,10 +111,6 @@ export class UsersDataService {
 
     });
 
-    if (!foundUser) {
-      throw new ApiSystemError('No such user found!', 404);
-    }
-
     return plainToClass(ShowUserDTO, foundUser, {
       excludeExtraneousValues: true,
     });

@@ -20,12 +20,12 @@ export class AuthService {
 
         if (!foundUser) {
           throw new ApiSystemError(
-            'User with such username does not exist!',
+            'Incorrect Username/Password!',
             400,
           );
         }
         if (!(await this.userDataService.validateUserPassword(user))) {
-          throw new ApiSystemError('Invalid password!', 400);
+          throw new ApiSystemError('Incorrect Username/Password!', 400);
         }
 
         const payload: ShowUserDTO = { ...foundUser };
