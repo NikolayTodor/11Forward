@@ -105,13 +105,16 @@ export class PostsService {
 
         let userPosts = await foundUser.posts;
 
+        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
         // If the logged user does not follow the profile then he will receive only the public posts
 
         if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
         }
 
-        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+        userPosts = userPosts.slice(take * skip, take * (skip + 1));
+
         return Array.from(userPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
