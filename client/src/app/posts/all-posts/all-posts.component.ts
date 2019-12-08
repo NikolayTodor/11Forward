@@ -1,5 +1,4 @@
 import { CreatePostComponent } from '../../shared/components/create-post/create-post.component';
-import { ShowPostDTO } from './../../models/show-post.dto';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -9,6 +8,7 @@ import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
 import {MatDialog} from '@angular/material';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
+import { ShowPostDTO } from '../../models/posts/show-post.dto';
 
 
 @Component({
