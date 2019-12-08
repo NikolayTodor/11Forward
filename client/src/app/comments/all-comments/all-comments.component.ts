@@ -25,6 +25,7 @@ export class AllCommentsComponent implements OnInit {
   public showMore = true;
 
   @Output() public readonly hasCreatedComment: EventEmitter<CreateCommentDTO> = new EventEmitter();
+  @Output() public readonly hasDeletedComment: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private readonly commentsService: CommentsService,
@@ -90,6 +91,7 @@ export class AllCommentsComponent implements OnInit {
   public deleteComment(commentId: string): void {
     this.commentsService.deleteComment(commentId).subscribe(() => {
       this.notificationService.success(`Comment successfully deleted!`);
+      this.hasDeletedComment.emit(commentId);
     });
 
     const index: number = this.comments.findIndex(comment => comment.id === commentId);

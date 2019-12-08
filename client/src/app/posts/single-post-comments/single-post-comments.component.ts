@@ -84,4 +84,8 @@ export class SinglePostCommentsComponent implements OnInit {
     .subscribe(() => this.router.navigate(['/home']));
   }
 
+  public hasOneLessComment(): void {
+    this.post.commentsCount -= 1;
+  }
+
 }
