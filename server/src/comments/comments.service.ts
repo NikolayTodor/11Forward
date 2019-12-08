@@ -20,15 +20,16 @@ export class CommentsService {
         @InjectRepository(User) private readonly userRepo: Repository<User>
         ) {}
 
-    public async allCommentsOfPost(postId: string): Promise<ShowCommentDTO[]> {
+    public async allCommentsOfPost(postId: string, take: number, skip: number): Promise<ShowCommentDTO[]> {
         const allComments: Comment[] = await this.commentRepo.find({
             where: {
                 post: postId,
                 isDeleted: false
-            }
+            },
+            order: { dateCreated: 'DESC' },
+            take,
+            skip: take * skip
         });
-
-        allComments.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
         return Array.from(allComments.map((comment: Comment) => ({
             id: comment.id,

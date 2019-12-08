@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus, Param, Post,
-    UseGuards, Body, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+    UseGuards, Body, Put, Delete, ValidationPipe, UsePipes, Query } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
@@ -15,8 +15,13 @@ export class CommentsController {
 
     @Get(':postId')
     @HttpCode(HttpStatus.OK)
-    public async getCommentsOfPost(@Param('postId') postId: string): Promise<ShowCommentDTO[]> {
-        return await this.commentsService.allCommentsOfPost(postId);
+    public async getCommentsOfPost(
+      @Param('postId') postId: string,
+      @Query('take') take: string,
+      @Query('skip') skip: string,
+      ): Promise<ShowCommentDTO[]> {
+        console.log(take, skip);
+        return await this.commentsService.allCommentsOfPost(postId, +take, +skip);
     }
 
     @Post(':postId')
