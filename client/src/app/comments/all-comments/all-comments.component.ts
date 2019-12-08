@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ShowCommentDTO } from 'src/app/models/comments/show-comment-dto';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
@@ -23,6 +23,8 @@ export class AllCommentsComponent implements OnInit {
   public take = 5;
   public skip = 0;
   public showMore = true;
+
+  @Output() public readonly hasCreatedComment: EventEmitter<CreateCommentDTO> = new EventEmitter();
 
   constructor(
     private readonly commentsService: CommentsService,
@@ -65,6 +67,7 @@ export class AllCommentsComponent implements OnInit {
       (createComment: ShowCommentDTO) => {
         this.comments.unshift(createComment);
         this.notificationService.success(`Comment created!`);
+        this.hasCreatedComment.emit(createComment);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }

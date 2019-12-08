@@ -64,6 +64,10 @@ export class SinglePostCommentsComponent implements OnInit {
     });
   }
 
+  public hasNewComment(): void {
+    this.post.commentsCount += 1;
+  }
+
   public onLikePost(): void {
     if (this.loggedUser) {
       this.postsService
