@@ -184,7 +184,7 @@ export class PostsService {
         });
 
         // We check if the logged user follows this active profile
-
+        const checkIfOwner = loggedUserId = userWithPostsId;
         const checkIfFollower = await foundUser.followers
                                 .then(data => data.some(follower => follower.id === loggedUserId));
 
@@ -193,7 +193,7 @@ export class PostsService {
         // If the logged user does not follow the profile then he will receive only 
         // the public posts
 
-        if (!checkIfFollower) {
+        if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
         }
 
