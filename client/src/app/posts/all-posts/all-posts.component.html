@@ -2,7 +2,7 @@ What's new in our quantum universe:
 
 <div class="all-posts-container">
 
-  <app-create-post *ngIf="this.loggedUser" (toCreatePost)="this.createPost($event)"></app-create-post>
+<button *ngIf="this.loggedUser" mat-stroked-button color="primary" (click)="this.openDialog()">Create post</button>
 
   <div class="posts-list">
     <app-single-post-in-list *ngFor="let post of this.posts" [post]="post" class="one-post">
