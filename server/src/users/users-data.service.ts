@@ -243,7 +243,9 @@ export class UsersDataService {
 
   }
 
-  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
+  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string): Promise<any>
+  
+  {
 
     if (loggedUserId !== usertoUpdateId) {
       throw new ApiSystemError('You can not update other members profile!', 401);
@@ -252,7 +254,8 @@ export class UsersDataService {
     const foundUser: User = await this.userRepo.findOne({id: usertoUpdateId});
 
     if (updateInfo.base) {
-      const newURL = await this.uploadPhoto(updateInfo.base);
+      const correctBase = updateInfo.base.slice(22);
+      const newURL = await this.uploadPhoto(correctBase);
       updateInfo.avatarURL = newURL;
       updateInfo.base = '';
     }
@@ -261,9 +264,11 @@ export class UsersDataService {
       updateInfo.password = await bcrypt.hash(updateInfo.password, 10);
     }
 
-    Object.keys(updateInfo).forEach((key) => {
-      foundUser[key] = updateInfo[key];
-    });
+    Object.keys(updateInfo).forEach((prop: string) => {
+      if ((updateInfo as any)[prop] !== undefined && (updateInfo as any)[prop] !== '') {
+          (foundUser as any)[prop] = (updateInfo as any)[prop];
+      }
+  });
 
     return await this.userRepo.save(foundUser);
   }
@@ -272,6 +277,7 @@ export class UsersDataService {
     // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
     //   throw new ApiSystemError('Image failed test', 500);
     // }
+    
     
 
  try {
@@ -285,7 +291,7 @@ export class UsersDataService {
       return data.data.data.link;
  }
  catch(error) {
-     console.log(error);
+     console.log('error');
  }
   }
 
