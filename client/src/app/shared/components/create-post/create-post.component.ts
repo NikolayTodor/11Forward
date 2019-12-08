@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
-import { CreatePostDTO } from '../../../models/create-post.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { MatDialogRef } from '@angular/material';
+import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 
 
 @Component({
