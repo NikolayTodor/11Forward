@@ -15,6 +15,7 @@ import { ProileFollowersComponent } from './profile/proile-followers/proile-foll
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
 import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 import { ProfileCardComponent } from './profile/profile-card/profile-card.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ProfileCardComponent } from './profile/profile-card/profile-card.compon
     ProileFollowersComponent,
     ProileFollowingComponent,
     ProfileCardComponent,
+    ProfileEditComponent,
   ],
   imports: [
     UsersRoutingModule,
