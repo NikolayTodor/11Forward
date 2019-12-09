@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit {
     this.route.data.subscribe(({ user }) => {
       this.profileInfo = user;
     });
-
     this.profileService.passNewProfile(this.profileInfo);
   }
 
@@ -45,7 +44,10 @@ export class ProfileComponent implements OnInit {
     const actionType = change ? FollowActionType.Follow : FollowActionType.Unfollow;
     const actionBody = {action: actionType};
     this.usersService.followUnfollow(this.profileInfo.username, actionBody).subscribe(
-      data => this.profileInfo = data
+      (data) => {
+        this.profileInfo = data;
+        this.profileService.passNewProfile(this.profileInfo);
+      }
     )
   }
 }
