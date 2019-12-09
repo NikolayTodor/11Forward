@@ -1,5 +1,9 @@
 <div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
- <app-single-post-in-list *ngFor="let post of this.profilePosts" [post]="post" class="one-post">
+ <app-single-post-in-list
+ *ngFor="let post of this.profilePosts"
+ [post]="post" class="one-post"
+ (deletePost)="this.deletePost($event)"
+ >
   </app-single-post-in-list>
 </div>
 
