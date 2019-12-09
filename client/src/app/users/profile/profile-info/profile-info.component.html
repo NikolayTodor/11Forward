@@ -15,7 +15,6 @@
   </mat-card>
 
   <mat-toolbar class='profile-navbar'>
-      <span>My Tools</span>
       <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialog()">Add Pic</button>
       <button mat-raised-button [routerLink]="['posts']">Pics</button>
       <button mat-raised-button [routerLink]="['followers']">Followers</button>
