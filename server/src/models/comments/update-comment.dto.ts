@@ -6,6 +6,6 @@ export class UpdateCommentDTO {
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(10, 1000)
+    @Length(5, 1000)
     public content: string;
 }

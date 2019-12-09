@@ -9,7 +9,7 @@ import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
-import  axios from 'axios';
+import axios from 'axios';
 import { ApiSystemError } from '../common/exceptions/api-system.error';
 
 @Injectable()
@@ -18,19 +18,19 @@ export class PostsService {
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
-        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-    public async allPublicPosts(): Promise<ShowPostDTO[]> {
+    public async allPublicPosts(take: number, skip: number): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false,
                 isPrivate: false,
                 hasPermission: true
-            }
+            },
+            order: { dateLastUpdated: 'DESC' },
+            take,
+            skip: take * skip
         });
-
-        allPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
         return Array.from(allPosts.map((post: Post) => ({
             id: post.id,
@@ -46,11 +46,12 @@ export class PostsService {
         })));
     }
 
-    public async allAllowedPosts(userId: string): Promise<ShowPostDTO[]> {
+    public async allAllowedPosts(userId: string, take: number, skip: number): Promise<ShowPostDTO[]> {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false
-            }
+            },
+            order: { dateLastUpdated: 'DESC' },
         });
 
         const foundUser: User = await this.userRepo.findOne({where: {id: userId},
@@ -73,9 +74,49 @@ export class PostsService {
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
 
-        filteredPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1));
 
-        return Array.from(filteredPosts.map((post: Post) => ({
+        return Array.from(postsToReturn.map((post: Post) => ({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            imageURL: post.imageURL,
+            isPrivate: post.isPrivate,
+            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
+            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
+            author: post.author.username,
+            commentsCount: post.commentsCount,
+            likes: post.likesCount
+        })));
+    }
+
+    public async getProfilePosts(loggedUserId: string, userWithPostsId: string, take: number, skip: number) {
+
+
+        const foundUser = await this.userRepo.findOne({
+            where : {id: userWithPostsId},
+            relations: ['posts', 'followers']
+        });
+
+        // We check if the logged user follows this active profile
+        const checkIfOwner = loggedUserId === userWithPostsId;
+        const checkIfFollower = await foundUser.followers
+            .then(data => data.some(follower => follower.id === loggedUserId));
+
+        let userPosts = await foundUser.posts;
+
+        userPosts = userPosts.filter((post) => post.isDeleted === false);
+        userPosts = userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
+
+        // If the logged user does not follow the profile then he will receive only the public posts
+
+        if (!checkIfFollower && !checkIfOwner) {
+            userPosts = userPosts.filter(post => !post.isPrivate);
+        }
+
+        userPosts = userPosts.slice(take * skip, take * (skip + 1));
+
+        return Array.from(userPosts.map((post: Post) => ({
             id: post.id,
             title: post.title,
             content: post.content,
@@ -120,13 +161,8 @@ export class PostsService {
             throw new NotFoundException('No such user found');
         }
 
-        // The base64 of the image is loaded in the CreatePostDTO
-        // that comes the frontend. 
-        //  We remove the initial "base64..." from the string, we upload it to imgur and 
-        // obtain the url for this image. Then we change the property imageURL from base64string to url
-        // At present this method is a 'hack' prone to unforseen errors. Should be carefully refactored!
-
-        const base = postToCreate.imageURL.slice(22);
+        
+        const base = postToCreate.base.slice(22);
         const urlFromImgur: string = await this.uploadPhoto(base);
         postToCreate.imageURL = urlFromImgur;
 
@@ -198,48 +234,11 @@ export class PostsService {
         };
       }
 
-    public async getProfilePosts(loggedUserId: string, userWithPostsId: string) {
-
-        const foundUser = await this.userRepo.findOne({
-            where : {id: userWithPostsId},
-            relations: ['posts', 'followers']
-        });
-
-        // We check if the logged user follows this active profile
-        const checkIfOwner = loggedUserId = userWithPostsId;
-        const checkIfFollower = await foundUser.followers
-                                .then(data => data.some(follower => follower.id === loggedUserId));
-
-        let userPosts = await foundUser.posts;
-
-        // If the logged user does not follow the profile then he will receive only 
-        // the public posts
-
-        if (!checkIfFollower && !checkIfOwner) {
-            userPosts = userPosts.filter(post => !post.isPrivate);
-        }
-
-        userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
-        return Array.from(userPosts.map((post: Post) => ({
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            imageURL: post.imageURL,
-            isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
-            author: post.author.username,
-            commentsCount: post.commentsCount,
-            likes: post.likesCount
-        })));
-    }
-
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
         ) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
@@ -275,9 +274,7 @@ export class PostsService {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
-        if (foundPost.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
+        if (foundPost.author.id !== userId) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
@@ -294,23 +291,20 @@ export class PostsService {
     }
 
     async uploadPhoto(base: string): Promise<string> {
-        // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
-        //   throw new ApiSystemError('Image failed test', 500);
-        // }
+        
 
-     try {
+        try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
             method: 'POST',
             headers: {
-               'Authorization': `Client-ID 7084d3c72f8fab9`,
+               Authorization: `Client-ID 7084d3c72f8fab9`,
             },
             data: {image: base},
           });
           return data.data.data.link;
-     }
-     catch(error) {
+        } catch (error) {
          console.log(error);
-     }
-      }
+        }
+    }
 
 }

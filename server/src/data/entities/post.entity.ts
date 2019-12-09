@@ -36,7 +36,7 @@ export class Post {
     @OneToMany(type => Comment, comment => comment.post)
     public comments: Promise<Comment[]>;
 
-    @RelationCount((post: Post) => post.comments)
+    @Column({type: 'int', default: 0})
     public commentsCount: number;
 
     @OneToMany(type => LikePost, like => like.post, {eager: true})

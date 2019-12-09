@@ -1,3 +1,4 @@
+import { GalleryRefreshService } from './profile/profile-gallery/gallery-refresh.service';
 import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
 import { ProfileInfoResolverService } from './profile-info-resolver.service';
@@ -16,6 +17,7 @@ import { ProileFollowingComponent } from './profile/proile-following/proile-foll
 import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 import { ProfileCardComponent } from './profile/profile-card/profile-card.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
   providers: [ProfileInfoResolverService,
     ProfileGalleryResolverService,
     ProfileFollowersResolverService,
-    ProfileFollowingResolverService],
+    ProfileFollowingResolverService,
+   GalleryRefreshService],
 
   exports: [
     UsersComponent,

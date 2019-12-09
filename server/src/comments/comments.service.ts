@@ -20,15 +20,16 @@ export class CommentsService {
         @InjectRepository(User) private readonly userRepo: Repository<User>
         ) {}
 
-    public async allCommentsOfPost(postId: string): Promise<ShowCommentDTO[]> {
+    public async allCommentsOfPost(postId: string, take: number, skip: number): Promise<ShowCommentDTO[]> {
         const allComments: Comment[] = await this.commentRepo.find({
             where: {
                 post: postId,
                 isDeleted: false
-            }
+            },
+            order: { dateCreated: 'DESC' },
+            take,
+            skip: skip * take
         });
-
-        allComments.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
         return Array.from(allComments.map((comment: Comment) => ({
             id: comment.id,
@@ -63,6 +64,9 @@ export class CommentsService {
         newComment.author = foundUser;
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
+
+        foundPost.commentsCount += 1;
+        this.postRepo.save(foundPost);
 
         return {
             id: newComment.id,
@@ -146,6 +150,10 @@ export class CommentsService {
         ) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
+
+        const foundPost = await foundComment.post;
+        foundPost.commentsCount -= 1;
+        await this.postRepo.save(foundPost);
 
         const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
 

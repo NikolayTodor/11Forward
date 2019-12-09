@@ -64,6 +64,10 @@ export class SinglePostCommentsComponent implements OnInit {
     });
   }
 
+  public hasNewComment(): void {
+    this.post.commentsCount += 1;
+  }
+
   public onLikePost(): void {
     if (this.loggedUser) {
       this.postsService
@@ -78,6 +82,10 @@ export class SinglePostCommentsComponent implements OnInit {
     this.postsService
     .deletePost(this.post.id)
     .subscribe(() => this.router.navigate(['/home']));
+  }
+
+  public hasOneLessComment(): void {
+    this.post.commentsCount -= 1;
   }
 
 }

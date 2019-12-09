@@ -73,7 +73,7 @@ toggleContainWithinAspectRatio(){
     this.newPost = {
       ...post,
       isPrivate: post.isPrivate === 'Private' ? true : false,
-      imageURL: this.croppedImage
+      base: this.croppedImage
     };
     this.closeDialog(this.newPost);
   }

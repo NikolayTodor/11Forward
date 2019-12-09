@@ -1,7 +1,7 @@
 
 import { UsersService } from './../../../core/services/user.service';
 import { UpdateProfileDTO } from './../../../models/users/update-profile.dto';
-
+import { GalleryRefreshService } from './../profile-gallery/gallery-refresh.service';
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -25,13 +25,13 @@ export class ProfileInfoComponent implements OnInit {
     private readonly notificationService: NotificationService,
     private readonly postsService: PostsService,
     private readonly usersService: UsersService,
+    private readonly galleryRefresh: GalleryRefreshService
 
   ) { }
 
   @Output() followUnfollow: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openDialogEditProfile(): void {
     const dialogRef = this.dialog.open(ProfileEditComponent, {
@@ -74,6 +74,7 @@ export class ProfileInfoComponent implements OnInit {
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
+        this.galleryRefresh.addNewPost(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }

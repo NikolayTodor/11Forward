@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ShowCommentDTO } from 'src/app/models/comments/show-comment-dto';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,12 @@ export class AllCommentsComponent implements OnInit {
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
   public postId: string;
+  public take = 5;
+  public skip = 0;
+  public showMore = true;
+
+  @Output() public readonly hasCreatedComment: EventEmitter<CreateCommentDTO> = new EventEmitter();
+  @Output() public readonly hasDeletedComment: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private readonly commentsService: CommentsService,
@@ -36,18 +42,24 @@ export class AllCommentsComponent implements OnInit {
 
     this.postId = this.activatedRoute.snapshot.params[`id`];
 
-    if (this.loggedUser) {
-      this.commentsService
-        .getComments(this.postId)
-        .subscribe((data: ShowCommentDTO[]) => {
-          this.comments = data;
-        });
-    } else {
-      this.commentsService
-        .getComments(this.postId)
-        .subscribe((data: ShowCommentDTO[]) => {
-          this.comments = data;
-        });
+    this.commentsService
+      .getComments(this.postId, this.take, this.skip)
+      .subscribe((data: ShowCommentDTO[]) => {
+        this.comments = data;
+      });
+    }
+
+  onScroll(): void {
+    if (this.showMore === true) {
+    this.skip += 1;
+
+    this.commentsService.getComments(this.postId, this.take, this.skip)
+      .subscribe((data: ShowCommentDTO[]) => {
+        this.comments = [...this.comments, ...data];
+        if (data.length < this.take) {
+          this.showMore = false;
+        }
+      });
     }
   }
 
@@ -56,6 +68,7 @@ export class AllCommentsComponent implements OnInit {
       (createComment: ShowCommentDTO) => {
         this.comments.unshift(createComment);
         this.notificationService.success(`Comment created!`);
+        this.hasCreatedComment.emit(createComment);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
@@ -78,6 +91,7 @@ export class AllCommentsComponent implements OnInit {
   public deleteComment(commentId: string): void {
     this.commentsService.deleteComment(commentId).subscribe(() => {
       this.notificationService.success(`Comment successfully deleted!`);
+      this.hasDeletedComment.emit(commentId);
     });
 
     const index: number = this.comments.findIndex(comment => comment.id === commentId);

@@ -5,6 +5,7 @@ import { AuthService } from './services/auth.service';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { NotificationService } from './services/notification.service';
 import { PostsService } from './services/posts.service';
+import { ProfileInfoService } from './services/profile-info.service';
 
 @NgModule({
   providers: [
@@ -12,7 +13,8 @@ import { PostsService } from './services/posts.service';
       AuthService,
       StorageService,
       UsersService,
-      PostsService]
+      PostsService,
+      ProfileInfoService]
 })
 export class CoreModule {
   public constructor(@Optional() @SkipSelf() parent: CoreModule) {

@@ -1,11 +1,11 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, Length, IsUrl, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty, Length, IsUrl, IsBoolean, IsOptional } from 'class-validator';
 
 export class CreatePostDTO {
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(2, 40)
+    @Length(2, 60)
     public title: string;
 
     @ApiModelProperty()
@@ -17,8 +17,15 @@ export class CreatePostDTO {
     @IsBoolean()
     public isPrivate: boolean;
 
+    @IsOptional()
     @IsString()
-    public imageURL: string;
+    public imageURL?: string;
+
+    @IsOptional()
+    @IsString()
+    public base?: string;
+
+
 }
 
 // Suboptimal. CreatePostDTO receives its url only in

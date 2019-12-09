@@ -10,8 +10,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
-import  axios from 'axios';
-
+import axios from 'axios';
 
 @Injectable()
 export class UsersDataService {
@@ -243,9 +242,7 @@ export class UsersDataService {
 
   }
 
-  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string): Promise<any>
-  
-  {
+  public async updateUser(updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
 
     if (loggedUserId !== usertoUpdateId) {
       throw new ApiSystemError('You can not update other members profile!', 401);
@@ -274,12 +271,7 @@ export class UsersDataService {
   }
 
   async uploadPhoto(base: string): Promise<string> {
-    // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
-    //   throw new ApiSystemError('Image failed test', 500);
-    // }
-    
-    
-
+ 
  try {
     const data = await axios(`https://api.imgur.com/3/upload`, {
         method: 'POST',

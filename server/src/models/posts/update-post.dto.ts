@@ -6,14 +6,14 @@ export class UpdatePostDTO {
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(2, 40)
+    @Length(2, 60)
     public title: string;
 
     @IsOptional()
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(10, 1000)
+    @Length(5, 1000)
     public content: string;
 
     @IsOptional()

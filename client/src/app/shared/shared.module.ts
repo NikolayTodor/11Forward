@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SinglePostInListComponent } from './components/single-post-in-list/single-post-in-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -60,7 +61,8 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
     MatGridListModule,
     ReactiveFormsModule,
     MatDialogModule,
-    ImageCropperModule
+    ImageCropperModule,
+    InfiniteScrollModule
   ]
 })
 export class SharedModule {}

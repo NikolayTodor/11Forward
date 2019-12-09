@@ -1,16 +1,16 @@
-What's new in our quantum universe:
+<div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+  What's new in our quantum universe:
+  <div class="all-posts-container">
 
-<div class="all-posts-container">
+    <button *ngIf="this.loggedUser" mat-stroked-button color="primary" (click)="this.openDialog()">Create post</button>
 
-<button *ngIf="this.loggedUser" mat-stroked-button color="primary" (click)="this.openDialog()">Create post</button>
-
-  <div class="posts-list">
-    <ng-container *ngFor="let post of this.posts">
+    <div class="posts-list">
+      <ng-container *ngFor="let post of this.posts">
       <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
-      (toUpdatePost)="this.updatePost($event)"
-      (toLikePost)="this.likePost($event)"
-      (deletePost)="this.deletePost($event)">
-    </app-single-post-in-list>
+        (toUpdatePost)="this.updatePost($event)" (toLikePost)="this.likePost($event)"
+        (deletePost)="this.deletePost($event)">
+      </app-single-post-in-list>
     </ng-container>
+    </div>
   </div>
 </div>
