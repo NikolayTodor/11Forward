@@ -18,7 +18,6 @@ export class PostsService {
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
-        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
     public async allPublicPosts(take: number, skip: number): Promise<ShowPostDTO[]> {
@@ -162,10 +161,9 @@ export class PostsService {
             throw new NotFoundException('No such user found');
         }
 
-        // The base64 of the image is loaded in the CreatePostDTO
-        // that comes the frontend. 
-        //  We remove the initial "base64..." from the string, we upload it to imgur and 
-        // obtain the url for this image. Then we change the property imageURL from base64string to url
+        // The base64 of the image is loaded in the CreatePostDTO that comes the frontend.
+        // We remove the initial "base64..." from the string, we upload it to imgur and
+        // Obtain the url for this image. Then we change the property imageURL from base64string to url
         // At present this method is a 'hack' prone to unforseen errors. Should be carefully refactored!
 
         const base = postToCreate.imageURL.slice(22);
@@ -299,19 +297,18 @@ export class PostsService {
     async uploadPhoto(base: string): Promise<string> {
         
 
-     try {
+        try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
             method: 'POST',
             headers: {
-               'Authorization': `Client-ID 7084d3c72f8fab9`,
+               Authorization: `Client-ID 7084d3c72f8fab9`,
             },
             data: {image: base},
           });
           return data.data.data.link;
-     }
-     catch(error) {
+        } catch (error) {
          console.log(error);
-     }
-      }
+        }
+    }
 
 }

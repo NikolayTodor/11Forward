@@ -10,8 +10,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
-import  axios from 'axios';
-
+import axios from 'axios';
 
 @Injectable()
 export class UsersDataService {
@@ -243,7 +242,7 @@ export class UsersDataService {
 
   }
 
-  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
+  public async updateUser(updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
 
     if (loggedUserId !== usertoUpdateId) {
       throw new ApiSystemError('You can not update other members profile!', 401);

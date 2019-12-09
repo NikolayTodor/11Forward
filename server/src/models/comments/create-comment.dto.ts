@@ -5,6 +5,6 @@ export class CreateCommentDTO {
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(5, 1000)
+    @Length(5, 500)
     public content: string;
 }
