@@ -40,7 +40,7 @@ import { ProfileCardComponent } from './profile/profile-card/profile-card.compon
     ProfileGalleryResolverService,
     ProfileFollowersResolverService,
     ProfileFollowingResolverService,
-  GalleryRefreshService],
+   GalleryRefreshService],
 
   exports: [
     UsersComponent,
