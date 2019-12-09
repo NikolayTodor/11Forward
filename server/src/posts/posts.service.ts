@@ -93,13 +93,14 @@ export class PostsService {
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string, take: number, skip: number) {
 
+
         const foundUser = await this.userRepo.findOne({
             where : {id: userWithPostsId},
             relations: ['posts', 'followers']
         });
 
         // We check if the logged user follows this active profile
-        const checkIfOwner = loggedUserId = userWithPostsId;
+        const checkIfOwner = loggedUserId === userWithPostsId;
         const checkIfFollower = await foundUser.followers
             .then(data => data.some(follower => follower.id === loggedUserId));
 
