@@ -5,11 +5,12 @@ What's new in our quantum universe:
 <button *ngIf="this.loggedUser" mat-stroked-button color="primary" (click)="this.openDialog()">Create post</button>
 
   <div class="posts-list">
-    <app-single-post-in-list *ngFor="let post of this.posts" [post]="post" class="one-post"
-    (toUpdatePost)="this.updatePost($event)"
-    (toLikePost)="this.likePost($event)"
-    (deletePost)="this.deletePost($event)">
+    <ng-container *ngFor="let post of this.posts">
+      <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
+      (toUpdatePost)="this.updatePost($event)"
+      (toLikePost)="this.likePost($event)"
+      (deletePost)="this.deletePost($event)">
     </app-single-post-in-list>
-
+    </ng-container>
   </div>
 </div>
