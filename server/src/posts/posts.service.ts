@@ -244,7 +244,6 @@ export class PostsService {
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
         ) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
@@ -280,9 +279,7 @@ export class PostsService {
         const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
-        if (foundPost.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
+        if (foundPost.author.id !== userId) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
@@ -299,9 +296,7 @@ export class PostsService {
     }
 
     async uploadPhoto(base: string): Promise<string> {
-        // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
-        //   throw new ApiSystemError('Image failed test', 500);
-        // }
+        
 
      try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
