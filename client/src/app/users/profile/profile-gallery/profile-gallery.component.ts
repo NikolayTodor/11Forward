@@ -36,7 +36,7 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
 
     this.subscription = this.profileInfoService.profileInfo$.subscribe((data)=> {
       this.profileInfo = data;
-      console.log(this.profileInfo)})
+      })
       .add(
         this.galleryRefresh.addPost$.subscribe(
             (data: ShowPostDTO) => {
