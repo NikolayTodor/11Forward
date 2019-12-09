@@ -16,6 +16,7 @@ export class ProfileGalleryComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(({ posts }) => this.profilePosts = posts);
+    // subscription tuk
   }
 
 }
