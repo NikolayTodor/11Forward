@@ -1,3 +1,4 @@
+import { GalleryRefreshService } from './../profile-gallery/gallery-refresh.service';
 
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
@@ -20,6 +21,7 @@ export class ProfileInfoComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private readonly postsService: PostsService,
+    private readonly galleryRefresh: GalleryRefreshService
 
   ) { }
 
@@ -46,6 +48,7 @@ export class ProfileInfoComponent implements OnInit {
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
+        this.galleryRefresh.addNewPost(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
