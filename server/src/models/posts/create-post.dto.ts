@@ -5,7 +5,7 @@ export class CreatePostDTO {
     @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(2, 40)
+    @Length(2, 60)
     public title: string;
 
     @ApiModelProperty()
