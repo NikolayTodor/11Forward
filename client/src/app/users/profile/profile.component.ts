@@ -1,3 +1,4 @@
+import { ProfileInfoService } from '../../core/services/profile-info.service';
 
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ export class ProfileComponent implements OnInit {
   constructor(private readonly authService: AuthService,
               private readonly usersService: UsersService,
               private readonly route: ActivatedRoute,
+              private readonly profileService: ProfileInfoService
               ) { }
 
   ngOnInit() {
@@ -32,8 +34,11 @@ export class ProfileComponent implements OnInit {
         this.loggedUser = data;
       });
 
-    this.route.data.subscribe(({ user }) => this.profileInfo = user);
+    this.route.data.subscribe(({ user }) => {
+      this.profileInfo = user;
+    });
 
+    this.profileService.passNewProfile(this.profileInfo);
   }
 
   followUnfollow(change: boolean) {
