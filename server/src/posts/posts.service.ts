@@ -161,12 +161,8 @@ export class PostsService {
             throw new NotFoundException('No such user found');
         }
 
-        // The base64 of the image is loaded in the CreatePostDTO that comes the frontend.
-        // We remove the initial "base64..." from the string, we upload it to imgur and
-        // Obtain the url for this image. Then we change the property imageURL from base64string to url
-        // At present this method is a 'hack' prone to unforseen errors. Should be carefully refactored!
-
-        const base = postToCreate.imageURL.slice(22);
+        
+        const base = postToCreate.base.slice(22);
         const urlFromImgur: string = await this.uploadPhoto(base);
         postToCreate.imageURL = urlFromImgur;
 
