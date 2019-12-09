@@ -1,5 +1,4 @@
 import { GalleryRefreshService } from './../profile-gallery/gallery-refresh.service';
-
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -27,8 +26,7 @@ export class ProfileInfoComponent implements OnInit {
 
   @Output() followUnfollow: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
