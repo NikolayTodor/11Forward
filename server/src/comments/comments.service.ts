@@ -65,6 +65,9 @@ export class CommentsService {
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
 
+        foundPost.commentsCount += 1;
+        this.postRepo.save(foundPost);
+
         return {
             id: newComment.id,
             content: newComment.content,
@@ -147,6 +150,10 @@ export class CommentsService {
         ) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
+
+        const foundPost = await foundComment.post;
+        foundPost.commentsCount -= 1;
+        await this.postRepo.save(foundPost);
 
         const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
 
