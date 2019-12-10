@@ -60,8 +60,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
-      height: '100%',
-      width: '100%',
+     
     });
 
     dialogRef.afterClosed().subscribe(result => {
