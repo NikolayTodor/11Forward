@@ -14,6 +14,7 @@ import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
+import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.component';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { CommentsModule } from './comments/comments.module';
     PostsModule,
     CommentsModule
   ],
-  entryComponents: [CreatePostComponent],
+  entryComponents: [CreatePostComponent, ProfileEditComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

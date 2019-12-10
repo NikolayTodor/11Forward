@@ -18,14 +18,13 @@
           <mat-icon aria-label="Side nav toggle icon">menu
           </mat-icon>
         </button>
-        <span>11Forward</span>
+        <span style="cursor:pointer;" [routerLink]="['home']">11Forward</span>
         <span class="spacer"></span>
         <span *ngIf="!(isHandset | async)!.matches">
         <a mat-list-item [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
         <a mat-list-item [routerLink]="['users/login']" *ngIf="!this.loggedUser">Login</a>
         <a mat-list-item  *ngIf="this.loggedUser" [routerLink]="['users', loggedUser.id]">Profile</a>
         <a mat-list-item  *ngIf="this.loggedUser" (click)="this.logout()">Logout</a>
-        <a mat-list-item [routerLink]="['home']">Home</a>
         </span>
       </mat-toolbar>
       <ng-content></ng-content>

@@ -1,8 +1,18 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+
 #toast-container > .toast-success {
     font-size: 14px;
     font-family: 'Arial';
     opacity: 1;
 }
+
+.mat-dialog-container {
+  height: fit-content !important;
+  max-height: 70%;
+  max-width: 70%;
+}
+
+
+

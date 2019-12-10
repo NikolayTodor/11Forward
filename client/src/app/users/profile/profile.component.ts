@@ -1,5 +1,4 @@
 import { ProfileInfoService } from '../../core/services/profile-info.service';
-
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';

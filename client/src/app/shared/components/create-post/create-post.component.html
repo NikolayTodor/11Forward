@@ -1,7 +1,8 @@
 
+
 <input type="file" (change)="fileChangeEvent($event)" />
 
-<div>
+
     <image-cropper
         [imageChangedEvent]="imageChangedEvent"
         [maintainAspectRatio]="true"
@@ -21,7 +22,7 @@
         [style.display]="showCropper ? null : 'none'"
         [alignImage]="'left'"
     ></image-cropper>
-</div>
+
 
 
 <div class="create-post-container">
@@ -66,7 +67,4 @@
   </form>
 </div>
 
-<!-- Comment: Image cropper is impemented. At present implementation suboptimal.
-- No file upload validation - size and extension (3 MB max / png and jpeg )
-- The whole component should be made a modal that automatically closes
-and clear up the cropped image one the upload is done  -->
+

@@ -41,6 +41,7 @@ export class PostsService {
             dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
+            authorUrl: post.author.avatarURL,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -85,6 +86,7 @@ export class PostsService {
             dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
+            authorUrl: post.author.avatarURL,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -93,10 +95,13 @@ export class PostsService {
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string, take: number, skip: number) {
 
 
+
         const foundUser = await this.userRepo.findOne({
             where : {id: userWithPostsId},
             relations: ['posts', 'followers']
         });
+
+
 
         // We check if the logged user follows this active profile
         const checkIfOwner = loggedUserId === userWithPostsId;
@@ -125,6 +130,7 @@ export class PostsService {
             dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
+            authorUrl: post.author.avatarURL,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -137,6 +143,7 @@ export class PostsService {
             }
         });
 
+        console.log(foundPost);
         return {
             id: foundPost.id,
             title: foundPost.title,
@@ -146,6 +153,7 @@ export class PostsService {
             dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
+            authorUrl: foundPost.author.avatarURL,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
         };
@@ -182,6 +190,7 @@ export class PostsService {
             dateCreated: moment(newPost.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(newPost.dateLastUpdated).startOf('minute').fromNow(),
             author: newPost.author.username,
+            authorUrl: newPost.author.avatarURL,
             commentsCount: newPost.commentsCount,
             likes: newPost.likesCount
         };
@@ -210,6 +219,7 @@ export class PostsService {
             dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
+            authorUrl: foundPost.author.avatarURL,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount - 1
         };
@@ -229,6 +239,7 @@ export class PostsService {
             dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
+            authorUrl: foundPost.author.avatarURL,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount + 1
         };
@@ -265,6 +276,7 @@ export class PostsService {
             dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
+            authorUrl: foundPost.author.avatarURL,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
         };
