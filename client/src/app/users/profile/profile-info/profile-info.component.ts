@@ -72,6 +72,7 @@ export class ProfileInfoComponent implements OnInit {
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
+        postCreated.likes = 0;
         this.galleryRefresh.addNewPost(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));

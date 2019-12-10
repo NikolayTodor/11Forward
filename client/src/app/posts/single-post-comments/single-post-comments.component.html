@@ -31,7 +31,7 @@
   </div>
   <mat-card>
     <app-update-post *ngIf="this.isPostForUpdate===true"
-    (toUpdatePost)="this.updatePost($event)" [val]="this.post.id"></app-update-post>
+    (toUpdatePost)="this.updatePost($event)" [postToUpdate]="this.post"></app-update-post>
   </mat-card>
   <mat-card class="mat-card">
     <app-all-comments
