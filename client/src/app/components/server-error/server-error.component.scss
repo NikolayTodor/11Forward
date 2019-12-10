@@ -1,0 +1,28 @@
+.not-found-container {
+    height: 85vh;
+}
+
+.image-container {
+    width: 50%;
+    position: relative;
+    top: 20%;
+    animation-name: moving;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    transition: transform .2s;
+    margin: auto;
+}
+  
+  .image-container:hover {
+    transform: scale(1.5);
+}
+
+.image {
+    width: 100%;
+}
+
+.text {
+    font-family: sans-serif;
+    font-size: 3vw;
+    text-align: center;
+}

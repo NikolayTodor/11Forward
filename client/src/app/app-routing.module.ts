@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SinglePostCommentsComponent } from './posts/single-post-comments/single-post-comments.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'posts/:id', component: SinglePostCommentsComponent },
 
   { path: 'not-found', component: NotFoundComponent },
-  // { path: 'server-error', component: ServerErrorComponent },
+  { path: 'server-error', component: ServerErrorComponent },
 
   { path: '**', redirectTo: '/not-found' }
 ];
