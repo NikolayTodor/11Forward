@@ -27,9 +27,9 @@
     <mat-card *ngIf="this.isCommentForUpdate === true">
       <form [formGroup]="this.updateCommentForm" (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">
         <mat-form-field>
-          <input matInput placeholder="Write new comment here" required formControlName="content">
+          <input matInput placeholder="Write new comment here" required [value]="this.commentToShow.content" formControlName="content">
           <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.required">
-            Some content is required!
+            Some changed content is required!
           </mat-error>
           <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.minlength">
             The comment must be at least 5 symbols long!

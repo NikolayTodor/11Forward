@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UpdatePostDTO } from '../../../models/posts/update-post.dto';
+import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 
 @Component({
   selector: 'app-update-post',
@@ -12,7 +13,7 @@ export class UpdatePostComponent implements OnInit {
   public updatePostForm: FormGroup;
   public constructor(private readonly formBuilder: FormBuilder) { }
 
-  @Input() public val: string;
+  @Input() public postToUpdate: ShowPostDTO;
   @Output() public readonly toUpdatePost: EventEmitter<UpdatePostDTO> = new EventEmitter();
 
   ngOnInit() {
@@ -30,21 +31,21 @@ export class UpdatePostComponent implements OnInit {
   }
 
   public updatePost(post): void {
-    const postToUpdate: UpdatePostDTO = {
-      id: this.val,
+    const updatedPost: UpdatePostDTO = {
+      id: this.postToUpdate.id,
     };
     if (post.title !== '') {
-      postToUpdate.title = post.title;
+      updatedPost.title = post.title;
     }
     if (post.content !== '') {
-      postToUpdate.content = post.content;
+      updatedPost.content = post.content;
     }
     if (post.isPrivate !== '') {
       post.isPrivate === 'Private' ?
-      postToUpdate.isPrivate = true : postToUpdate.isPrivate = false;
+      updatedPost.isPrivate = true : updatedPost.isPrivate = false;
     }
     console.log(post);
-    this.toUpdatePost.emit(postToUpdate);
+    this.toUpdatePost.emit(updatedPost);
   }
 
 }
