@@ -19,11 +19,11 @@ export class UpdatePostComponent implements OnInit {
     this.updatePostForm = this.formBuilder.group({
       title: [
         '',
-        [Validators.minLength(2), Validators.maxLength(40)]
+        [Validators.minLength(2), Validators.maxLength(60)]
       ],
       content: [
         '',
-        [Validators.minLength(10), Validators.maxLength(1000)]
+        [Validators.minLength(5), Validators.maxLength(1000)]
       ],
       isPrivate: ['']
     });
