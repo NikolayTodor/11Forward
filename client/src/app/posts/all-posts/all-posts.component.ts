@@ -102,6 +102,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
+        postCreated.likes = 0;
         this.posts.unshift(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
