@@ -35,8 +35,7 @@ export class ProfileInfoComponent implements OnInit {
 
   openDialogEditProfile(): void {
     const dialogRef = this.dialog.open(ProfileEditComponent, {
-      width: '100%',
-      height: '100%'
+      
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -51,15 +50,14 @@ export class ProfileInfoComponent implements OnInit {
     .subscribe((data: ShowUserProfileDTO) => {
       this.notificationService.success(`Profile successfully updated!`);
       this.profile = data;
-      console.log(data)
+      console.log(data);
     },
     ()=>this.notificationService.error(`Unsuccessful profile update!`));
   }
 
    openDialogPost(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
-      width: '100%',
-      height: '100%'
+      width: '50%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
