@@ -149,7 +149,7 @@ export class UsersDataService {
     });
 
     if (foundUser) {
-      throw new Error('User with such username/email already exists!');
+      throw new ApiSystemError('User with such username/email already exists!', 404);
     }
 
     const newUser: User = this.userRepo.create(userToCreate);

@@ -67,8 +67,8 @@ export class RegisterComponent implements OnInit {
       this.notification.success('Registered successfully!');
       this.router.navigate(['users/login']);
     },
-    () => {
-      this.notification.error('Registration failed!');
+    (data) => {
+      this.notification.error(data.error.error);
     }
     );
   }

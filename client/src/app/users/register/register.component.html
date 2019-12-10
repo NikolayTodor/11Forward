@@ -1,7 +1,7 @@
 <div class="register-container">
   <mat-card class="register-card">
-    <mat-card-header>
-      <mat-card-title>Register</mat-card-title>
+    <mat-card-header class="register-header">
+      <mat-card-title class="register-title">Register</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="this.registerForm" (ngSubmit)="this.register(this.registerForm.value)">
@@ -19,7 +19,7 @@
             The username must be less than 20 symbols long!
           </mat-error>
         </mat-form-field>
-        <br />
+        <br /><br />
         <mat-form-field>
           <input matInput placeholder="Email" name="email" required class="register-input" formControlName="email">
           <mat-error *ngIf="!!this.registerForm.controls.email.errors?.required">
@@ -29,7 +29,7 @@
             This should be a valid email
           </mat-error>
         </mat-form-field>
-        <br />
+        <br /><br />
         <mat-form-field>
           <input matInput placeholder="Password" type="password" name="password" required class="register-input"
             formControlName="password">
@@ -43,7 +43,7 @@
             The password must be at least 6 symbols!
           </mat-error>
         </mat-form-field>
-        <br />
+        <br /><br />
         <mat-form-field>
           <input matInput type="password" placeholder="Confirm password" formControlName="password2"
             [errorStateMatcher]="this.confirmErrorMatcher">
@@ -54,7 +54,7 @@
             The passwords do not match!
           </mat-error>
         </mat-form-field>
-        <br />
+        <br /><br />
 
         <button mat-raised-button color="primary" type="submit" [disabled]="this.registerForm.invalid">Register</button>
 
