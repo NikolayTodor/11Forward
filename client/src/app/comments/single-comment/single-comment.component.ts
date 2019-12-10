@@ -43,7 +43,10 @@ export class SingleCommentComponent implements OnInit {
     );
 
     this.updateCommentForm = this.formBuilder.group({
-      content: ['', Validators.required]
+      content: [
+        '',
+        [Validators.minLength(5), Validators.maxLength(500), Validators.required]
+    ],
     });
 
     this.isCommentForUpdate = false;

@@ -31,6 +31,12 @@
           <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.required">
             Some content is required!
           </mat-error>
+          <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.minlength">
+            The comment must be at least 5 symbols long!
+          </mat-error>
+          <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.maxlength">
+            The comment must be shorter that 500 symbols!
+          </mat-error>
         </mat-form-field>
     
         <button mat-icon-button class="update-comment-button" type="submit" [disabled]="this.updateCommentForm.invalid">
