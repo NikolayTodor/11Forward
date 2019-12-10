@@ -37,6 +37,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatRadioModule,
     MatListModule,
     MatMenuModule,
+    MatButtonModule,
     FormsModule,
     MatGridListModule,
     ReactiveFormsModule
