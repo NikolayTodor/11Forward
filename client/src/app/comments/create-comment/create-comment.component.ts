@@ -17,7 +17,10 @@ export class CreateCommentComponent implements OnInit {
 
   ngOnInit() {
     this.createCommentForm = this.formBuilder.group({
-      content: ['', Validators.required]
+      content: [
+        '',
+        [Validators.minLength(5), Validators.maxLength(500), Validators.required]
+    ]
     });
   }
 
