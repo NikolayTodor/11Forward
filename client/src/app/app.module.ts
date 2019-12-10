@@ -15,6 +15,7 @@ import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
 import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    NotFoundComponent,
   ],
   imports: [
     CoreModule,
