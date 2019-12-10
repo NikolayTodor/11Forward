@@ -1,4 +1,8 @@
-.outlet-container {
-  margin-left: 60px;
-  margin-right: 60px;
+@media only screen and (min-width: 375px) {
+  .outlet-container {
+    margin-left: 60px;
+    margin-right: 60px;
+  }
 }
+
+
