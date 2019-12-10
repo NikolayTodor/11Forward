@@ -5,7 +5,7 @@
             <img mat-card-avatar
             [src]="this.postToShow.authorUrl">
             <mat-card-title>{{this.postToShow.author}}</mat-card-title>
-            <mat-card-subtitle>Title goes here</mat-card-subtitle>
+            <mat-card-subtitle>{{this.postToShow.title}}</mat-card-subtitle>
           </mat-card-header>
       <img class='post-image' src="{{this.postToShow.imageURL}}" (click)="this.openSinglePost()">
       <div class="post-item">
@@ -37,9 +37,9 @@
       </mat-card-actions>
 
     </mat-card>
-    <!-- <mat-card>
+    <mat-card>
       <app-update-post *ngIf="this.isPostForUpdate===true"
       (toUpdatePost)="this.updatePost($event)" [val]="this.postToShow.id"></app-update-post>
-    </mat-card> -->
+    </mat-card>
   </div>
 </div>
