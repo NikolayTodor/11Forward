@@ -41,6 +41,8 @@ export class SinglePostInListComponent implements OnInit {
       }
     );
 
+
+
     this.isPostForUpdate = false;
   }
 
