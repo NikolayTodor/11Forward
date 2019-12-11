@@ -41,7 +41,7 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
         this.galleryRefresh.addPost$.subscribe(
             (data: ShowPostDTO) => {
               this.profilePosts.unshift(data);
-            }))
+            }));
 
     this.route.data.subscribe(({ posts }) => {
       this.profilePosts = posts;
