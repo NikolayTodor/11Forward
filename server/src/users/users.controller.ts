@@ -31,9 +31,6 @@ export class UsersController {
           );
         }
 
-        // users.sort((a, b) => (a.followersCount < b.followersCount) ? 1 :
-        //     (a.followersCount === b.followersCount) ? ((a.username > b.username) ? 1 : -1) : -1 );
-
         return users;
     }
 
@@ -43,7 +40,8 @@ export class UsersController {
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async showsingleUser(
         @userDecorator('user') loggedUser: ShowUserDTO,
-        @Param('id') userId: string ) {
+        @Param('id') userId: string
+        ) {
         return await this.usersService.getOneUser(loggedUser.id, userId);
     }
 
@@ -51,16 +49,24 @@ export class UsersController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async getFollowers(@Param('id') userId: string ) {
-        return await this.usersService.getFollowers(userId);
+    public async getFollowers(
+        @Param('id') userId: string,
+        @Query('take') take: string,
+        @Query('skip') skip: string
+        ) {
+        return await this.usersService.getFollowers(userId, +take, +skip);
     }
 
     @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
-    public async getFollowing(@Param('id') userId: string ) {
-        return await this.usersService.getFollowing(userId);
+    public async getFollowing(
+        @Param('id') userId: string,
+        @Query('take') take: string,
+        @Query('skip') skip: string
+        ) {
+        return await this.usersService.getFollowing(userId, +take, +skip);
     }
 
     @Post()

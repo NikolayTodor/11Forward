@@ -23,7 +23,6 @@ export class UsersDataService {
       where: {
         isDeleted: false
       },
-      relations: ['followers'],
       order: { username: 'ASC' },
       take,
       skip: take * skip
@@ -69,12 +68,15 @@ export class UsersDataService {
     };
   }
 
-  public async getFollowers(userId: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowers(userId: string, take: number, skip: number): Promise<ShowUserProfileDTO[]> {
     const foundUser = await this.userRepo.findOne({
-      where: { id: userId },
+      where: { id: userId }
     });
 
     const userFollowers = await foundUser.followers;
+    userFollowers.sort((a, b) => (a.username > b.username) ? 1 : -1 );
+    userFollowers.splice(0, take * skip);
+    userFollowers.splice(take, userFollowers.length);
 
     return userFollowers.map((user: User) => ({
       id: user.id,
@@ -86,7 +88,7 @@ export class UsersDataService {
     }));
   }
 
-  public async getFollowing(userId: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowing(userId: string, take: number, skip: number): Promise<ShowUserProfileDTO[]> {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -96,6 +98,9 @@ export class UsersDataService {
     }
 
     const userFollowing = await foundUser.following;
+    userFollowing.sort((a, b) => (a.username > b.username) ? 1 : -1 );
+    userFollowing.splice(0, take * skip);
+    userFollowing.splice(take, userFollowing.length);
 
     return userFollowing.map((user: User) => ({
       id: user.id,

@@ -22,12 +22,12 @@ export class UsersService {
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
-  public getUserFollowers(userId: string): Observable<UserFollowDTO[]> {
-    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/followers/${userId}`);
+  public getUserFollowers(userId: string, take: number, skip: number): Observable<UserFollowDTO[]> {
+    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/followers/${userId}?take=${take}&skip=${skip}`);
   }
 
-  public getUserFollowing(userId: string): Observable<UserFollowDTO[]> {
-    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}`);
+  public getUserFollowing(userId: string, take: number, skip: number): Observable<UserFollowDTO[]> {
+    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}?take=${take}&skip=${skip}`);
   }
 
   public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<any> {

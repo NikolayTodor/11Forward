@@ -1,7 +1,9 @@
-<div class="container">
-    <div  *ngFor="let followee of profileFollowing">
-        <app-profile-card [profileInfo]="this.followee"></app-profile-card>
+<div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+  <div class="container">
+    <div *ngFor="let followee of profileFollowing">
+      <app-profile-card [profileInfo]="this.followee"></app-profile-card>
     </div>
+  </div>
 </div>
 
 
