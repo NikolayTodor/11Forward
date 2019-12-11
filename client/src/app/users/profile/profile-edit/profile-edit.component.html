@@ -52,9 +52,19 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+      <input matInput placeholder="Current password" formControlName="oldPassword" required>
+      <mat-error *ngIf="!!this.updateProfileForm.controls.oldPassword.errors?.minlength">
+        The password must be longert than 6 symbols!
+      </mat-error>
+      <mat-error *ngIf="!!this.updateProfileForm.controls.oldPassword.errors?.maxlength">
+        The password must be shorter that 15 symbols!
+      </mat-error>
+    </mat-form-field>
+
     <button mat-icon-button class="update-post-button"
     type="submit"
-    [disabled]="!this.updateProfileForm.valid && !this.croppedImage" >
+    [disabled]="!this.updateProfileForm.valid" >
       Update profile
       <i class="material-icons">
         book
