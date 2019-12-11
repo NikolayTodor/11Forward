@@ -145,7 +145,6 @@ export class PostsService {
             }
         });
 
-        console.log(foundPost);
         return {
             id: foundPost.id,
             title: foundPost.title,
