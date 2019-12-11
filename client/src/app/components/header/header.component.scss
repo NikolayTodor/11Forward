@@ -7,6 +7,10 @@
   box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
 }
 
+.toolbar {
+  background-image: url('./../../../assets/horizon.jpg');
+}
+
 .hidden {
   display: none;
 }
@@ -18,7 +22,11 @@
 mat-toolbar a {
   display: inline-block;
   margin: 0 10px;
-  color: white;
+  color: black;
   text-decoration: none;
+}
+
+.eleven-forward {
+  color: black;
 }
 
