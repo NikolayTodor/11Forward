@@ -5,12 +5,11 @@ import { Repository } from 'typeorm';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
 import { User } from '../data/entities/user.entity';
 import { ShowPostDTO } from '../models/posts/show-post.dto';
-import { Comment } from '../data/entities/comment.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
 import axios from 'axios';
-import { ApiSystemError } from '../common/exceptions/api-system.error';
+
 
 @Injectable()
 export class PostsService {
@@ -42,6 +41,7 @@ export class PostsService {
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             authorUrl: post.author.avatarURL,
+            authorId: post.author.id,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -87,6 +87,7 @@ export class PostsService {
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             authorUrl: post.author.avatarURL,
+            authorId: post.author.id,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -113,7 +114,7 @@ export class PostsService {
         userPosts = userPosts.filter((post) => post.isDeleted === false);
         userPosts = userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
-        // If the logged user does not follow the profile then he will receive only the public posts
+        
 
         if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
@@ -131,6 +132,7 @@ export class PostsService {
             dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
             author: post.author.username,
             authorUrl: post.author.avatarURL,
+            authorId: post.author.id,
             commentsCount: post.commentsCount,
             likes: post.likesCount
         })));
@@ -154,6 +156,7 @@ export class PostsService {
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             authorUrl: foundPost.author.avatarURL,
+            authorId: foundPost.author.id,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
         };
@@ -191,6 +194,7 @@ export class PostsService {
             dateLastUpdated: moment(newPost.dateLastUpdated).startOf('minute').fromNow(),
             author: newPost.author.username,
             authorUrl: newPost.author.avatarURL,
+            autorId: newPost.author.id,
             commentsCount: newPost.commentsCount,
             likes: newPost.likesCount
         };
@@ -220,6 +224,7 @@ export class PostsService {
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             authorUrl: foundPost.author.avatarURL,
+            authorId: foundPost.author.id,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount - 1
         };
@@ -240,6 +245,7 @@ export class PostsService {
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             authorUrl: foundPost.author.avatarURL,
+            authorId: foundPost.author.id,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount + 1
         };
@@ -277,6 +283,7 @@ export class PostsService {
             dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
             author: foundPost.author.username,
             authorUrl: foundPost.author.avatarURL,
+            authorId: foundPost.author.id,
             commentsCount: foundPost.commentsCount,
             likes: foundPost.likesCount
         };
@@ -302,8 +309,7 @@ export class PostsService {
         return { msg: `Post successfully deleted!`};
     }
 
-    async uploadPhoto(base: string): Promise<string> {
-        
+    async uploadPhoto (base: string): Promise<string> {
 
         try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
