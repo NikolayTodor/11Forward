@@ -21,6 +21,7 @@ import { SinglePostInListComponent } from './components/single-post-in-list/sing
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -40,7 +41,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatButtonModule,
     FormsModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     MatDialogModule,
