@@ -61,15 +61,16 @@
         The password must be shorter that 15 symbols!
       </mat-error>
     </mat-form-field>
-
-    <button mat-icon-button class="update-post-button"
-    type="submit"
-    [disabled]="!this.updateProfileForm.valid" >
-      Update profile
-      <i class="material-icons">
-        book
-      </i>
-    </button>
+    <div>
+      <button mat-icon-button class="update-post-button"
+      type="submit"
+      [disabled]="!this.updateProfileForm.valid" >
+        Update profile
+        <i class="material-icons">
+          book
+        </i>
+      </button>
+    </div>
   </form>
 </div>
 
