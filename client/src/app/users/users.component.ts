@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit , OnDestroy {
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
   public users: ShowUserProfileDTO[] = [];
-  public take = 8;
+  public take = 12;
   public skip = 0;
   public showMore = true;
 
