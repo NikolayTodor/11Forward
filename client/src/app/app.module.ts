@@ -15,6 +15,9 @@ import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
 import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 
 @NgModule({
@@ -22,6 +25,8 @@ import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    NotFoundComponent,
+    ServerErrorComponent
   ],
   imports: [
     CoreModule,
@@ -41,7 +46,12 @@ import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

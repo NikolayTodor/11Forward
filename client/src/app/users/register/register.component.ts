@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
   public password2: string;
 
   public confirmErrorMatcher = {
-    isErrorState: (control: FormControl, registerForm: FormGroupDirective): boolean => {
+    isErrorState: (control: FormControl): boolean => {
       const controlInvalid = control.touched && control.invalid;
       const formInvalid = control.touched && this.registerForm.get('password').touched && this.registerForm.invalid;
       return controlInvalid || formInvalid;
@@ -38,16 +38,15 @@ export class RegisterComponent implements OnInit {
       null : { passwordMismatch: true };
   }
 
-
     public ngOnInit() {
       this.registerForm = this.formBuilder.group({
         username: [
           '',
-          [Validators.required, Validators.minLength(2), Validators.maxLength(20)]
+          [Validators.required, Validators.minLength(4), Validators.maxLength(20)]
         ],
         password: [
           '',
-          [Validators.required, Validators.minLength(6), Validators.maxLength(50)]
+          [Validators.required, Validators.minLength(6), Validators.maxLength(20)]
         ],
         password2: ['', [Validators.required]],
         email: [
@@ -68,8 +67,8 @@ export class RegisterComponent implements OnInit {
       this.notification.success('Registered successfully!');
       this.router.navigate(['users/login']);
     },
-    () => {
-      this.notification.error('Registration failed!');
+    (data) => {
+      this.notification.error(data.error.error);
     }
     );
   }
