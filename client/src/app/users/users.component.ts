@@ -15,6 +15,9 @@ export class UsersComponent implements OnInit , OnDestroy {
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
   public users: ShowUserProfileDTO[] = [];
+  public take = 8;
+  public skip = 0;
+  public showMore = true;
 
   constructor(
     private readonly authService: AuthService,
@@ -28,10 +31,24 @@ export class UsersComponent implements OnInit , OnDestroy {
       }
     );
     this.usersService
-        .getAllUsers()
+        .getAllUsers(this.take, this.skip)
         .subscribe((data: ShowUserProfileDTO[]) => {
           this.users = data;
         });
+  }
+
+  onScroll(): void {
+    if (this.showMore === true) {
+    this.skip += 1;
+
+    this.usersService.getAllUsers(this.take, this.skip)
+      .subscribe((data: ShowUserProfileDTO[]) => {
+        this.users = [...this.users, ...data];
+        if (data.length < this.take) {
+          this.showMore = false;
+        }
+      });
+    }
   }
 
   public ngOnDestroy() {

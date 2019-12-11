@@ -18,11 +18,15 @@ export class UsersDataService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-  public async getAllUsers(): Promise<ShowUserProfileDTO[]> {
+  public async getAllUsers(take: number, skip: number): Promise<ShowUserProfileDTO[]> {
     const foundUsers = await this.userRepo.find({
       where: {
         isDeleted: false
-      }
+      },
+      relations: ['followers'],
+      order: { username: 'ASC' },
+      take,
+      skip: take * skip
     });
 
     return foundUsers.map((user: User) => ({

@@ -19,16 +19,20 @@ export class UsersController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    public async getAllUsers(@Query('name') name: string): Promise<ShowUserProfileDTO[]> {
-        const users: ShowUserProfileDTO[] = await this.usersService.getAllUsers();
+    public async getAllUsers(
+        @Query('name') name: string,
+        @Query('take') take: string,
+        @Query('skip') skip: string,
+        ): Promise<ShowUserProfileDTO[]> {
+        const users: ShowUserProfileDTO[] = await this.usersService.getAllUsers(+take, +skip);
         if (name) {
           return users.filter(user =>
             user.username.toLowerCase().includes(name.toLowerCase()),
           );
         }
 
-        users.sort((a, b) => (a.followersCount < b.followersCount) ? 1 :
-            (a.followersCount === b.followersCount) ? ((a.username > b.username) ? 1 : -1) : -1 );
+        // users.sort((a, b) => (a.followersCount < b.followersCount) ? 1 :
+        //     (a.followersCount === b.followersCount) ? ((a.username > b.username) ? 1 : -1) : -1 );
 
         return users;
     }

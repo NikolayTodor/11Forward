@@ -14,8 +14,8 @@ export class UsersService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users`);
+  public getAllUsers(take: number, skip: number): Observable<any> {
+    return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users?take=${take}&skip=${skip}`);
   }
 
   public getSingleUser(userId: string): Observable<any> {
