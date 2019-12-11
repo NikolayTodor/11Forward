@@ -1,5 +1,5 @@
+import { UpdateUserDTO } from './../../../models/users/update-profile.dto';
 import { NotificationService } from './../../../core/services/notification.service';
-import { UpdateProfileDTO } from './../../../models/users/update-profile.dto';
 import { MatDialogRef } from '@angular/material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -15,7 +15,7 @@ import { ImageCroppedEvent, ImageCropperComponent  } from 'ngx-image-cropper';
 export class ProfileEditComponent implements OnInit {
 
   public updateProfileForm: FormGroup;
-  public updateProfile: UpdateProfileDTO;
+  public updateProfile: UpdateUserDTO;
   public createPostForm: FormGroup;
   public imageChangedEvent: any = '';
   public  croppedImage: any = '';
@@ -35,7 +35,9 @@ export class ProfileEditComponent implements OnInit {
       ],
       password: ['', [Validators.minLength(6), Validators.maxLength(15)]
       ],
-      email:['', [Validators.email]]
+      email: ['', [Validators.email]],
+
+      oldPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]]
     });
 
   }
@@ -70,12 +72,9 @@ loadImageFailed() {
 
 public onClikcUpdateProfile(update): void {
     this.updateProfile = {
-      ...update,
-
+      ...update
     };
     if(this.croppedImage) {
-      console.log('there is cropped image');
-      console.log(this.croppedImage);
       this.updateProfile.base = this.croppedImage;
     }
     this.closeDialog(this.updateProfile);
