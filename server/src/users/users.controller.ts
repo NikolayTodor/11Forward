@@ -80,14 +80,13 @@ export class UsersController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
-    @UseInterceptors(new TransformInterceptor(UserProfileDTO))
+    // @UseInterceptors(new TransformInterceptor(UserProfileDTO))
     public async updateUser(
     @Body() updateInfo: UpdateUserDTO,
     @Param('id') userToUpdateId: string,
     @userDecorator('user') loggedUser: ShowUserDTO) {
-        
         return await this.usersService.updateUser(updateInfo, userToUpdateId, loggedUser.id);
-
+       
 
     }
 

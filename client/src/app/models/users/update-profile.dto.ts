@@ -1,5 +1,5 @@
 
-export class UpdateProfileDTO {
+export class UpdateUserDTO {
 
     public username?: string;
 
@@ -8,5 +8,7 @@ export class UpdateProfileDTO {
     public email?: string;
 
     public base?: string;
+
+    public oldPassword?: string;
 
 }

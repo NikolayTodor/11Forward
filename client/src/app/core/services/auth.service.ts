@@ -44,6 +44,7 @@ export class AuthService {
       this.storage.setItem('token', token);
       const decodedUser: LoggedUserDTO = this.jwtService.decodeToken(token);
       this.loggedInSubject$.next(decodedUser);
+
     }));
   }
 
@@ -51,6 +52,7 @@ export class AuthService {
       this.storage.removeItem('token');
       this.loggedInSubject$.next(null);
       this.isLoggedInSubject$.next(false);
+      
   }
 
   public getLoggedUserData(): LoggedUserDTO {

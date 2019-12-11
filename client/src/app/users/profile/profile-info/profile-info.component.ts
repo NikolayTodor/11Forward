@@ -1,6 +1,5 @@
 
 import { UsersService } from './../../../core/services/user.service';
-import { UpdateProfileDTO } from './../../../models/users/update-profile.dto';
 import { GalleryRefreshService } from './../profile-gallery/gallery-refresh.service';
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
@@ -11,6 +10,7 @@ import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
+import { UpdateUserDTO } from '../../../models/users/update-profile.dto';
 
 @Component({
   selector: 'app-profile-info',
@@ -20,6 +20,7 @@ import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 export class ProfileInfoComponent implements OnInit {
 
   @Input() profile: ShowUserProfileDTO;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
@@ -30,29 +31,26 @@ export class ProfileInfoComponent implements OnInit {
   ) { }
 
   @Output() followUnfollow: EventEmitter<boolean> = new EventEmitter<boolean>();
-
+  @Output() editProfile: EventEmitter<UpdateUserDTO> = new EventEmitter<UpdateUserDTO>();
   ngOnInit() {}
 
   openDialogEditProfile(): void {
     const dialogRef = this.dialog.open(ProfileEditComponent, {
-      
+
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result.data) {
+      if (result) {
         this.updateProfile(result.data)
       }
     });
   }
 
-  updateProfile(updateProfileInfo: UpdateProfileDTO) {
-    this.usersService.updateProfile(updateProfileInfo, this.profile.id)
-    .subscribe((data: ShowUserProfileDTO) => {
-      this.notificationService.success(`Profile successfully updated!`);
-      this.profile = data;
-      console.log(data);
-    },
-    ()=>this.notificationService.error(`Unsuccessful profile update!`));
+  updateProfile(updateProfileInfo: UpdateUserDTO) {
+
+    this.editProfile.emit(updateProfileInfo);
+
+
   }
 
    openDialogPost(): void {

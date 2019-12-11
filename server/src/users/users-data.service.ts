@@ -247,6 +247,7 @@ export class UsersDataService {
       followersCount: userToUnFollow.followersCount,
       followingCount: userToUnFollow.followingCount,
       isFollowed: false,
+      isOwner: true,
     }
 
   }
@@ -262,8 +263,7 @@ export class UsersDataService {
     if (updateInfo.base) {
       const correctBase = updateInfo.base.slice(22);
       const newURL = await this.uploadPhoto(correctBase);
-      updateInfo.avatarURL = newURL;
-      updateInfo.base = '';
+      foundUser.avatarURL = newURL;
     }
 
     if (updateInfo.password) {
@@ -276,7 +276,18 @@ export class UsersDataService {
       }
   });
 
-    return await this.userRepo.save(foundUser);
+    await this.userRepo.save(foundUser);
+
+    return {
+      id: foundUser.id,
+      username: foundUser.username,
+      email: foundUser.email,
+      avatarUrl: foundUser.avatarURL,
+      followersCount: foundUser.followersCount,
+      followingCount: foundUser.followingCount,
+      isFollowed: false,
+      isOwner: true,
+    };
   }
 
   async uploadPhoto(base: string): Promise<string> {

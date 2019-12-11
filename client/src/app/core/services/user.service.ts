@@ -1,12 +1,12 @@
 
 import { ShowUserProfileDTO } from './../../models/users/user-profile.dto';
-import { UpdateProfileDTO } from './../../models/users/update-profile.dto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserFollowDTO } from '../../models/users/user-follow.dto';
 import { CONFIG } from '../../common/config';
 import { FollowActionType } from '../../common/follow-action-types';
+import { UpdateUserDTO } from '../../models/users/update-profile.dto';
 
 
 @Injectable()
@@ -34,7 +34,7 @@ export class UsersService {
     return this.http.patch(`${CONFIG.DOMAIN_NAME}/users/follow/${username}`, actionBody);
   }
 
-  public updateProfile(updateProfileInfo: UpdateProfileDTO, profileId: string): Observable<ShowUserProfileDTO> {
+  public updateProfile(updateProfileInfo: UpdateUserDTO, profileId: string): Observable<any> {
     return this.http.put<ShowUserProfileDTO>(`${CONFIG.DOMAIN_NAME}/users/${profileId}`, updateProfileInfo);
   }
 

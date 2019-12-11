@@ -20,7 +20,5 @@ export class UpdateUserDTO {
     @IsString()
     public base?: string;
 
-    @IsOptional()
-    @IsUrl()
-    public avatarURL?: string;
+    
 }

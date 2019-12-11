@@ -8,9 +8,27 @@
     opacity: 1;
 }
 
+img.source-image {
+  max-height: 70vh !important;
+}
+
+@media only screen and (max-width: 380px) {
+  img.source-image {
+    max-height: 40vh !important;
+    max-width: 80vw !important;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .mat-dialog-container {
+    min-height: 100vh !important;
+    min-width: 100vw !important;
+  }
+}
+
 .mat-dialog-container {
   height: fit-content !important;
-  max-height: 70%;
+  max-height: 90vh;
   max-width: 70%;
 }
 
