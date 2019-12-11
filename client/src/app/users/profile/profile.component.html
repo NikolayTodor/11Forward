@@ -1,6 +1,9 @@
 
 
-<app-profile-info [profile]="this.profileInfo" (followUnfollow)="this.followUnfollow($event)"></app-profile-info>
+<app-profile-info [profile]="this.profileInfo"
+(followUnfollow)="this.followUnfollow($event)"
+(editProfile)="this.updateProfile($event)"
+></app-profile-info>
 
 <router-outlet></router-outlet>
 
