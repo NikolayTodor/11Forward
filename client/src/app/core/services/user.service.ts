@@ -12,10 +12,13 @@ import { FollowActionType } from '../../common/follow-action-types';
 @Injectable()
 export class UsersService {
 
-  constructor (private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
+
+  public getAllUsers(): Observable<any> {
+    return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users`);
+  }
 
   public getSingleUser(userId: string): Observable<any> {
-
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 

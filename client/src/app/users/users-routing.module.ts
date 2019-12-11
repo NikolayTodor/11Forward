@@ -11,8 +11,10 @@ import { ProileFollowersComponent } from './profile/proile-followers/proile-foll
 import { ProileFollowingComponent } from './profile/proile-following/proile-following.component';
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
 import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
+import { UsersComponent } from './users.component';
 
 const userRoutes: Routes = [
+  { path: '', component: UsersComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: ':id', component: ProfileComponent,
