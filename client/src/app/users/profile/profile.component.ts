@@ -1,3 +1,5 @@
+import { UpdateUserDTO } from './../../models/users/update-profile.dto';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProfileInfoService } from '../../core/services/profile-info.service';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { Component, OnInit } from '@angular/core';
@@ -23,7 +25,8 @@ export class ProfileComponent implements OnInit {
   constructor(private readonly authService: AuthService,
               private readonly usersService: UsersService,
               private readonly route: ActivatedRoute,
-              private readonly profileService: ProfileInfoService
+              private readonly profileService: ProfileInfoService,
+              private readonly notificationService: NotificationService
               ) { }
 
   ngOnInit() {
@@ -37,6 +40,7 @@ export class ProfileComponent implements OnInit {
       this.profileInfo = user;
     });
     this.profileService.passNewProfile(this.profileInfo);
+
   }
 
   followUnfollow(change: boolean) {
@@ -48,5 +52,25 @@ export class ProfileComponent implements OnInit {
         this.profileService.passNewProfile(this.profileInfo);
       }
     )
+  }
+
+  updateProfile(updateProfileInfo: UpdateUserDTO) {
+    console.log(updateProfileInfo);
+    this.usersService.updateProfile(updateProfileInfo, this.loggedUser.id)
+    .subscribe((data) => {
+
+      this.notificationService.success(`Profile successfully updated!`);
+      this.profileInfo = data;
+      this.profileService.passNewProfile(this.profileInfo);
+      const currUsername: string = data.username;
+      const currPassword: string = updateProfileInfo.password !== '' ?
+      updateProfileInfo.password : updateProfileInfo.oldPassword;
+      console.log(currPassword)
+      this.authService.logout();
+      this.authService.login({credential: currUsername, password: currPassword}).subscribe((data)=>{
+      })
+
+    },
+    ()=>this.notificationService.error(`Unsuccessful profile update!`));
   }
 }
