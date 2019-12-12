@@ -4,5 +4,7 @@ export class ShowCommentDTO {
     public dateCreated: string;
     public dateLastUpdated: string;
     public author: string;
+    public authorAvatar?: string;
+    public authorId?: string;
     public likes: number;
 }
