@@ -33,6 +33,8 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+
     this.subscription = this.authService.loggedUserData$.subscribe(
       (loggedUser: LoggedUserDTO) => {
         this.loggedUser = loggedUser;
@@ -49,8 +51,10 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         .getPublicPosts(this.take, this.skip)
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
+    
         });
     }
+
   }
 
   ngOnDestroy() {
@@ -60,7 +64,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
-     
+
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -101,7 +105,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
-        postCreated.likes = 0;
+        postCreated.likesCount = 0;
         this.posts.unshift(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));
