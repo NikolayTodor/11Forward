@@ -18,7 +18,7 @@ export class ProfileFollowersResolverService implements Resolve<any> {
 
     const id = route.parent.url[0].path;
 
-    return this.usersService.getUserFollowers(id)
+    return this.usersService.getUserFollowers(id, 8, 0)
         .pipe(
           map(followers => {
             if (followers) {

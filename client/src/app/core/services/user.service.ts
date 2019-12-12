@@ -12,19 +12,22 @@ import { UpdateUserDTO } from '../../models/users/update-profile.dto';
 @Injectable()
 export class UsersService {
 
-  constructor (private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
+
+  public getAllUsers(take: number, skip: number): Observable<any> {
+    return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users?take=${take}&skip=${skip}`);
+  }
 
   public getSingleUser(userId: string): Observable<any> {
-
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
-  public getUserFollowers(userId: string): Observable<UserFollowDTO[]> {
-    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/followers/${userId}`);
+  public getUserFollowers(userId: string, take: number, skip: number): Observable<UserFollowDTO[]> {
+    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/followers/${userId}?take=${take}&skip=${skip}`);
   }
 
-  public getUserFollowing(userId: string): Observable<UserFollowDTO[]> {
-    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}`);
+  public getUserFollowing(userId: string, take: number, skip: number): Observable<UserFollowDTO[]> {
+    return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}?take=${take}&skip=${skip}`);
   }
 
   public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<any> {
