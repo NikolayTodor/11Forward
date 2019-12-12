@@ -37,6 +37,8 @@ export class CommentsService {
             dateCreated: moment(comment.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(comment.dateLastUpdated).startOf('minute').fromNow(),
             author: comment.author.username,
+            authorAvatar: comment.author.avatarURL,
+            authorId: comment.author.id,
             likes: comment.likesCount
         })));
     }
@@ -137,6 +139,8 @@ export class CommentsService {
             dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
             dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
             author: foundComment.author.username,
+            authorAvatar: foundComment.author.avatarURL,
+            authorId: foundComment.author.id,
             likes: foundComment.likesCount
         };
     }
