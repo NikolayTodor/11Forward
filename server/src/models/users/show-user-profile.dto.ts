@@ -1,19 +1,30 @@
+import { Publish } from '../../transformer/decorators/publish';
+
 export class ShowUserProfileDTO {
 
+    @Publish()
     public id: string;
 
+    @Publish()
     public username: string;
 
-    public email: string;
-
+    @Publish()
     public avatarURL: string;
 
+    @Publish()
+    public email: string;
+
+    @Publish()
     public followersCount: number;
 
+    @Publish()
     public followingCount: number;
 
-    public isFollowed?: boolean;
+    @Publish()
+    public isFollowed: boolean;
 
-    public isOwner?: boolean;
+    @Publish()
+    public isOwner: boolean;
+
 
 }
