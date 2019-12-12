@@ -1,7 +1,7 @@
 <div *ngIf="(this.post)" class="post-info-container">
   <div class="single-post-in-list-container" post="post.title">
     <mat-card>
-      <img src="{{this.post.imageURL}}">
+      <img src="{{this.post.imageURL}}" class="post-img">
       <div class="post-item">
         Title: {{ this.post.title }} <br />
         Content: {{ this.post.content }} <br />

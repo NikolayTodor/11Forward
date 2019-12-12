@@ -238,7 +238,7 @@ export class UsersDataService {
       followersCount: userToUnFollow.followersCount,
       followingCount: userToUnFollow.followingCount,
       isFollowed: false,
-      isOwner: true,
+      isOwner: false,
     }
 
   }
