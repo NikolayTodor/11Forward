@@ -1,11 +1,11 @@
-import { ShowUserProfileDTO } from './../models/users/show-user-profile.dto';
+
 import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -15,7 +15,6 @@ import { LikePost } from '../data/entities/like-post.entity';
 import { Post } from '../data/entities/post.entity';
 import { Comment } from '../data/entities/comment.entity';
 import { LikeComment } from '../data/entities/like-comment.entity';
-import { PostsService } from '../posts/posts.service';
 
 @Injectable()
 export class UsersDataService {
@@ -57,7 +56,7 @@ export class UsersDataService {
   const checkIfFollowed = await this.checkIfFollowed(foundUser, loggedUserId);
   const checkIfOwner = foundUser.id === loggedUserId;
 
-    return {...foundUser, isFollowed: checkIfFollowed, isOwner: checkIfOwner }
+    return {...foundUser, isFollowed: checkIfFollowed, isOwner: checkIfOwner };
   }
 
   public async getFollowers(userId: string, take: number, skip: number) {
@@ -148,7 +147,7 @@ export class UsersDataService {
   }
 
   public async followUser(userName: string, followUserName: string) {
-    
+
     if (userName.toLowerCase() === followUserName.toLowerCase()) {
       throw new ApiSystemError('You can not follow yourself!', 500);
     }
@@ -200,11 +199,11 @@ export class UsersDataService {
       },
     });
 
-    if(!userToUnFollow) {
+    if (!userToUnFollow) {
       throw new ApiSystemError('No such user found!', 400);
     }
 
-    if(!this.checkIfFollowed(userToUnFollow, userFollower.id)) {
+    if (!this.checkIfFollowed(userToUnFollow, userFollower.id)) {
       throw new ApiSystemError('You can not unfollow user you dont follow!', 400)
     }
 
@@ -219,7 +218,7 @@ export class UsersDataService {
     return {
       ...userToUnFollow,
       isFollowed: false,
-    }
+    };
 
   }
 
@@ -313,18 +312,7 @@ export class UsersDataService {
       return {msg: 'User successfully deleted!'};
   }
 
-
-
-
-
-
-
-
-
-
-  
-
-  private async checkIfFollowed (foundUser: User, loggedUserId: string) {
+  private async checkIfFollowed(foundUser: User, loggedUserId: string): Promise<boolean> {
     return await foundUser.followers.
       then((data: User[]) => data.some((follower: User) => follower.id === loggedUserId));
   }

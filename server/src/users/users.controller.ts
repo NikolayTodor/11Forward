@@ -72,6 +72,7 @@ export class UsersController {
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
+    @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async addNewUser(@Body() newUser: CreateUserDTO) {
         return await this.usersService.createUser(newUser);
