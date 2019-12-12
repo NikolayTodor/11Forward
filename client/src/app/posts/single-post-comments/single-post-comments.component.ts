@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostsService } from '../../core/services/posts.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-single-post-comments',
@@ -28,7 +30,8 @@ export class SinglePostCommentsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly postsService: PostsService,
     private readonly notificationService: NotificationService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly dialog: MatDialog) { }
 
   ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
@@ -76,6 +79,18 @@ export class SinglePostCommentsComponent implements OnInit {
       } else {
         this.notificationService.error(`Please log in to like posts and comments!`);
       }
+  }
+
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '70%',
+      data: `Are you sure you want to delete your post? This  will also delete the post's comments and likes!`
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onDeletePost();
+      }
+    });
   }
 
   public onDeletePost(): void {

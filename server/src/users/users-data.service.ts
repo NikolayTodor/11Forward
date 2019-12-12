@@ -4,19 +4,29 @@ import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
 import axios from 'axios';
+import { LikePost } from '../data/entities/like-post.entity';
+import { Post } from '../data/entities/post.entity';
+import { Comment } from '../data/entities/comment.entity';
+import { LikeComment } from '../data/entities/like-comment.entity';
+import { PostsService } from '../posts/posts.service';
 
 @Injectable()
 export class UsersDataService {
 
   constructor(
-    @InjectRepository(User) private readonly userRepo: Repository<User>) {}
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+    @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
+    @InjectRepository(LikeComment) private readonly likeCommentRepo: Repository<LikeComment>,
+    @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
+    ) {}
 
   public async getAllUsers(take: number, skip: number): Promise<ShowUserProfileDTO[]> {
     const foundUsers = await this.userRepo.find({
@@ -290,9 +300,9 @@ export class UsersDataService {
     };
   }
 
-  async uploadPhoto(base: string): Promise<string> {
- 
- try {
+  public async uploadPhoto(base: string): Promise<string> {
+
+  try {
     const data = await axios(`https://api.imgur.com/3/upload`, {
         method: 'POST',
         headers: {
@@ -301,16 +311,53 @@ export class UsersDataService {
         data: {image: base},
       });
       return data.data.data.link;
- }
- catch(error) {
+  }
+  catch(error) {
      console.log('error');
- }
+  }
   }
 
-  /*
-    Comment: The function upload photo must be helper function imported from outside and nota part 
-    of the user-data service 
+  public async deleteUser(requesterId: string, userId: string) {
+    if (userId !== requesterId) {
+      throw new ApiSystemError(`You don't have permission to delete other people's profiles!`, 403);
+    }
 
-  */
+    const userToDelete: User = await this.userRepo.findOne({id: userId});
+    if (!userToDelete || userToDelete.isDeleted === true) {
+      throw new ApiSystemError(`No such user exists!`, 404);
+    }
+
+    userToDelete.isDeleted = true;
+
+    await this.userRepo.save(userToDelete);
+
+    const foundPostLikes = await this.likePostRepo.find({where: {user: userId}});
+      if (foundPostLikes.length) {
+        foundPostLikes.forEach(async (like: LikePost) => await this.likePostRepo.delete(like));
+      }
+
+    const foundCommentLikes = await this.likeCommentRepo.find({where: {user: userId}});
+      if (foundCommentLikes.length) {
+        foundCommentLikes.forEach(async (like: LikeComment) => await this.likeCommentRepo.delete(like));
+      }
+
+    const foundPosts = await this.postRepo.find({where: {author: userId}});
+      if (foundPosts.length) {
+        foundPosts.forEach(async (post: Post) => {
+          post.isDeleted = true;
+          await this.postRepo.save(post);
+        });
+      }
+
+    const foundComments = await this.commentRepo.find({where: {author: userId}});
+      if (foundComments.length) {
+        foundComments.forEach(async (comment: Comment) => {
+          comment.isDeleted = true;
+          await this.commentRepo.save(comment);
+        });
+      }
+
+      return {msg: 'User successfully deleted!'};
+  }
 
 }

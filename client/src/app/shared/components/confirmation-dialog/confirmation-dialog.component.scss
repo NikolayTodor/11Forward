@@ -1,0 +1,25 @@
+@media only screen and (max-width: 600px) {
+    .image {
+        display: none;
+    }
+}
+
+.dialog-container {
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
+.message-and-buttons {
+    padding: 5%;
+}
+
+.message {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.image {
+    height: 80%;
+    max-height: 150px;
+    padding: 5%;
+}

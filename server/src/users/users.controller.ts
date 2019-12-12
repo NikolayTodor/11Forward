@@ -4,7 +4,7 @@ import { ShowUserDTO } from './../models/users/show-user.dto';
 import { FollowActionType } from './../common/enums/follow-action-type';
 import { userDecorator } from './../common/decorators/user.decorator';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put } from '@nestjs/common';
+import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put, Delete } from '@nestjs/common';
 import { UsersDataService } from './users-data.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -30,7 +30,6 @@ export class UsersController {
             user.username.toLowerCase().includes(name.toLowerCase()),
           );
         }
-
         return users;
     }
 
@@ -86,14 +85,11 @@ export class UsersController {
     @Param('id') userToUpdateId: string,
     @userDecorator('user') loggedUser: ShowUserDTO) {
         return await this.usersService.updateUser(updateInfo, userToUpdateId, loggedUser.id);
-       
-
     }
 
     @Patch('/follow/:name')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
@@ -103,6 +99,16 @@ export class UsersController {
                 return await this.usersService.followUser(user.username, followUserName);
             } else {
                 return await this.usersService.unfollowUser(user.username, followUserName);
-                     }
             }
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuardWithBlacklisting)
+    @HttpCode(HttpStatus.OK)
+    public async deleteUser(
+        @userDecorator('user') loggedUser: ShowUserDTO,
+        @Param('id') userId: string
+        ) {
+        return await this.usersService.deleteUser(loggedUser.id, userId);
+    }
 }
