@@ -61,7 +61,7 @@ export class UsersController {
     @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
+    @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowing(
         @Param('id') userId: string,
         @Query('take') take: string,

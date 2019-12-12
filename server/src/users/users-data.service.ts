@@ -73,7 +73,7 @@ export class UsersDataService {
     return userFollowers;
   }
 
-  public async getFollowing(userId: string, take: number, skip: number): Promise<any[]> {
+  public async getFollowing(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -87,14 +87,7 @@ export class UsersDataService {
     userFollowing.splice(0, take * skip);
     userFollowing.splice(take, userFollowing.length);
 
-    return userFollowing.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarURL: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowing;
   }
 
   public async findUserByCredential(credential: string): Promise<ShowUserDTO> {
