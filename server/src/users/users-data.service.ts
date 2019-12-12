@@ -60,7 +60,7 @@ export class UsersDataService {
     return {...foundUser, isFollowed: checkIfFollowed, isOwner: checkIfOwner }
   }
 
-  public async getFollowers(userId: string, take: number, skip: number): Promise<any[]> {
+  public async getFollowers(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -70,14 +70,7 @@ export class UsersDataService {
     userFollowers.splice(0, take * skip);
     userFollowers.splice(take, userFollowers.length);
 
-    return userFollowers.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarURL: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowers;
   }
 
   public async getFollowing(userId: string, take: number, skip: number): Promise<any[]> {

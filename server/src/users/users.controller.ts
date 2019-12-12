@@ -10,6 +10,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { UpdateUserDTO } from '../models/users/update-user.dto';
 import { ShowUsersProfilesDTO } from '../models/users/show-users-profiles.dto';
+import { UserFollowInfoDTO } from '../models/users/user-follow-info.dto';
 
 @Controller('users')
 @ApiUseTags('Users Controller')
@@ -48,7 +49,7 @@ export class UsersController {
     @Get('/followers/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    // @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
+    @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowers(
         @Param('id') userId: string,
         @Query('take') take: string,
