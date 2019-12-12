@@ -1,5 +1,5 @@
 <div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
-  <div class="all-posts-container">
+  <div class="all-comments-container">
 
     <app-create-comment *ngIf="this.loggedUser" (toCreateComment)="this.createComment($event)"></app-create-comment>
 
