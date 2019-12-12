@@ -22,10 +22,10 @@ export class Post {
     public hasPermission: boolean;
 
     @CreateDateColumn()
-    public dateCreated: Date;
+    public dateCreated: string;
 
     @UpdateDateColumn()
-    public dateLastUpdated: Date;
+    public dateLastUpdated: string;
 
     @Column({type: 'bool', nullable: false})
     public isPrivate: boolean;
