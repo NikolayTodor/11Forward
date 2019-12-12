@@ -2,12 +2,12 @@
   <div class="single-post-in-list-container" post="post.title">
     <mat-card>
 
-        <mat-card-header [routerLink]="['/users', this.postToShow.authorId]" >
+        <mat-card-header [routerLink]="['/users', this.postToShow.author.id]" >
             <img mat-card-avatar
-            [src]="this.postToShow.authorUrl"
+            [src]="this.postToShow.author.avatarURL"
             style="cursor: pointer;"
             class='profile-avatar'>
-            <mat-card-title>{{this.postToShow.author}}</mat-card-title>
+            <mat-card-title>{{this.postToShow.author.username}}</mat-card-title>
             <mat-card-subtitle>{{this.postToShow.title}}</mat-card-subtitle>
           </mat-card-header>
 
@@ -26,7 +26,7 @@
         <i class="material-icons">
           thumb_up
         </i>
-      </button> {{ this.postToShow.likes }}
+      </button> {{ this.postToShow.likesCount }}
       </mat-card-actions>
 
     </mat-card>
