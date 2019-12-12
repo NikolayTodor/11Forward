@@ -6,7 +6,7 @@ export class ShowUserProfileDTO {
 
   public email: string;
 
-  public avatarUrl: string;
+  public avatarURL: string;
 
   public followersCount: number;
 

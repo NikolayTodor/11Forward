@@ -9,10 +9,10 @@ export class UserProfileDTO {
     public username: string;
 
     @Publish()
-    public email: string;
+    public avatarURL: string;
 
     @Publish()
-    public avatarUrl: string;
+    public email: string;
 
     @Publish()
     public followersCount: number;
@@ -21,9 +21,9 @@ export class UserProfileDTO {
     public followingCount: number;
 
     @Publish()
-    public isFollowed?: boolean;
+    public isFollowed: boolean;
 
     @Publish()
-    public isOwner?: boolean;
+    public isOwner: boolean;
 
 }

@@ -42,7 +42,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
-      avatarUrl: user.avatarURL,
+      avatarURL: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));
@@ -70,7 +70,7 @@ export class UsersDataService {
       id: foundUser.id,
       username: foundUser.username,
       email: foundUser.email,
-      avatarUrl: foundUser.avatarURL,
+      avatarURL: foundUser.avatarURL,
       followersCount: foundUser.followersCount,
       followingCount: foundUser.followingCount,
       isFollowed: checkIfFollowed,
@@ -92,7 +92,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
-      avatarUrl: user.avatarURL,
+      avatarURL: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));
@@ -116,7 +116,7 @@ export class UsersDataService {
       id: user.id,
       username: user.username,
       email: user.email,
-      avatarUrl: user.avatarURL,
+      avatarURL: user.avatarURL,
       followersCount: user.followersCount,
       followingCount: user.followingCount
     }));

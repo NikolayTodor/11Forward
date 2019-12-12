@@ -3,7 +3,7 @@
         <div mat-card-avatar ></div>
         <mat-card-title>{{profile.username}}</mat-card-title>
       </mat-card-header>
-      <img mat-card-image class="example-header-image" [src]="this.profile.avatarUrl">
+      <img mat-card-image class="example-header-image" [src]="this.profile.avatarURL">
       <mat-card-actions *ngIf="this.profile.isOwner">
           <button mat-button (click)="this.openDialogEditProfile()">Edit profile</button>
           <button mat-button (click)="this.confirmDelete()">Delete profile</button>
