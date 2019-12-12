@@ -10,7 +10,6 @@ import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
 import axios from 'axios';
 
-
 @Injectable()
 export class PostsService {
 
@@ -95,14 +94,10 @@ export class PostsService {
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string, take: number, skip: number) {
 
-
-
         const foundUser = await this.userRepo.findOne({
             where : {id: userWithPostsId},
             relations: ['posts', 'followers']
         });
-
-
 
         // We check if the logged user follows this active profile
         const checkIfOwner = loggedUserId === userWithPostsId;
@@ -113,8 +108,6 @@ export class PostsService {
 
         userPosts = userPosts.filter((post) => post.isDeleted === false);
         userPosts = userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
-
-        
 
         if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
@@ -170,8 +163,7 @@ export class PostsService {
         if (foundUser === undefined || foundUser.isDeleted) {
             throw new NotFoundException('No such user found');
         }
-
-        
+ 
         const base = postToCreate.base.slice(22);
         const urlFromImgur: string = await this.uploadPhoto(base);
         postToCreate.imageURL = urlFromImgur;
@@ -251,7 +243,6 @@ export class PostsService {
       }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId
@@ -289,7 +280,6 @@ export class PostsService {
     }
 
     public async deletePost(userId: string, postId: string) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId) {
@@ -308,7 +298,7 @@ export class PostsService {
         return { msg: `Post successfully deleted!`};
     }
 
-    async uploadPhoto (base: string): Promise<string> {
+    public async uploadPhoto(base: string): Promise<string> {
 
         try {
         const data = await axios(`https://api.imgur.com/3/upload`, {

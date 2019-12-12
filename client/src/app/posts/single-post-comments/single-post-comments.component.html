@@ -3,6 +3,7 @@
     <mat-card>
       <img src="{{this.post.imageURL}}" class="post-image">
       <div class="post-item">
+          {{ this.post.commentsCount }}
       
       </div>
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
