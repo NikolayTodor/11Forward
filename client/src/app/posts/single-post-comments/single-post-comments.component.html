@@ -3,7 +3,7 @@
     <mat-card>
       <img src="{{this.post.imageURL}}" class="post-image">
       <div class="post-item">
-      
+
       </div>
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
       *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
@@ -21,7 +21,7 @@
         <i class="material-icons">
           thumb_up
         </i>
-      </button> {{ this.post.likes }}
+      </button> {{ this.post.likesCount }}
     </mat-card>
   </div>
 
