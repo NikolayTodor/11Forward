@@ -6,6 +6,7 @@
       <img mat-card-image class="example-header-image" [src]="this.profile.avatarUrl">
       <mat-card-actions *ngIf="this.profile.isOwner">
           <button mat-button (click)="this.openDialogEditProfile()">Edit profile</button>
+          <button mat-button (click)="this.deleteProfile()">Delete profile</button>
       </mat-card-actions>
 
       <mat-card-actions *ngIf="!this.profile.isOwner">

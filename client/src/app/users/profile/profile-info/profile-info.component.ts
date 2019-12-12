@@ -11,6 +11,10 @@ import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 import { UpdateUserDTO } from '../../../models/users/update-profile.dto';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { LoggedUserDTO } from '../../../models/users/logged-user.dto';
 
 @Component({
   selector: 'app-profile-info',
@@ -19,24 +23,34 @@ import { UpdateUserDTO } from '../../../models/users/update-profile.dto';
 })
 export class ProfileInfoComponent implements OnInit {
 
+  public subscription: Subscription;
+  public loggedUser: LoggedUserDTO;
+
   @Input() profile: ShowUserProfileDTO;
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
     private readonly postsService: PostsService,
+    private readonly authService: AuthService,
     private readonly usersService: UsersService,
-    private readonly galleryRefresh: GalleryRefreshService
-
+    private readonly galleryRefresh: GalleryRefreshService,
+    private readonly route: Router
   ) { }
 
   @Output() followUnfollow: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() editProfile: EventEmitter<UpdateUserDTO> = new EventEmitter<UpdateUserDTO>();
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.subscription = this.authService.loggedUserData$.subscribe(
+      (loggedUser: LoggedUserDTO) => {
+        this.loggedUser = loggedUser;
+      }
+    );
+  }
 
   openDialogEditProfile(): void {
     const dialogRef = this.dialog.open(ProfileEditComponent, {
-
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -47,10 +61,7 @@ export class ProfileInfoComponent implements OnInit {
   }
 
   updateProfile(updateProfileInfo: UpdateUserDTO) {
-
     this.editProfile.emit(updateProfileInfo);
-
-
   }
 
    openDialogPost(): void {
@@ -76,8 +87,16 @@ export class ProfileInfoComponent implements OnInit {
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
 
-  onClickFollowUnfollow(change: boolean) {
+  public onClickFollowUnfollow(change: boolean) {
     this.followUnfollow.emit(change);
+  }
+
+  public deleteProfile() {
+    this.usersService.deleteUser(this.loggedUser.id).subscribe(() => {
+      this.authService.logout();
+      this.notificationService.success(`User successfully deleted!`);
+    });
+    this.route.navigate(['/home']);
   }
 
 }
