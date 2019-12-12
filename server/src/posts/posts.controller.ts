@@ -1,5 +1,5 @@
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe,
-    Body, UseGuards, Get, Param, Put, Delete, Query } from '@nestjs/common';
+    Body, UseGuards, Get, Param, Put, Delete, Query, UseInterceptors } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
@@ -8,6 +8,7 @@ import { userDecorator } from '../common/decorators/user.decorator';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
+import { TransformInterceptor } from '../transformer/interceptors/transform.interceptor';
 
 @Controller('posts')
 @ApiUseTags('Posts Controller')
@@ -17,38 +18,43 @@ export class PostsController {
 
     @Get()
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getPublicPosts(
         @Query('take') take: string,
         @Query('skip') skip: string,
-        ): Promise<ShowPostDTO[]> {
+        ) {
         return await this.postsService.allPublicPosts(+take, +skip);
     }
 
     @Get('/private')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getHomePagePostsPrivate(
         @userDecorator() user: ShowUserDTO,
         @Query('take') take: string,
         @Query('skip') skip: string,
-    ): Promise<ShowPostDTO[]> {
+    ) {
         return await this.postsService.allAllowedPosts(user.id, +take, +skip);
     }
 
     @Get('profile/:userId')
     @UseGuards(AuthGuardWithBlacklisting)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     @HttpCode(HttpStatus.OK)
     public async getUserPosts(
         @Param('userId') userId: string,
         @userDecorator() user: ShowUserDTO,
         @Query('take') take: string,
         @Query('skip') skip: string,
-        ): Promise<ShowPostDTO[]> {
+        ) {
         return await this.postsService.getProfilePosts(user.id, userId, +take, +skip);
     }
 
     @Get(':postId')
+    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getOnePost(
         @Param('postId') postId: string,
         ): Promise<ShowPostDTO> {
