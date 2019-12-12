@@ -1,3 +1,4 @@
+import { ShowUserProfileDTO } from './../models/users/show-user-profile.dto';
 import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
@@ -9,7 +10,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
-import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
 import axios from 'axios';
 import { LikePost } from '../data/entities/like-post.entity';
 import { Post } from '../data/entities/post.entity';
