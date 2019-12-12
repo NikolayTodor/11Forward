@@ -19,7 +19,8 @@
           <mat-icon aria-label="Side nav toggle icon">menu
           </mat-icon>
         </button>
-        <span style="cursor:pointer;" [routerLink]="['home']" class="eleven-forward">11Forward</span>
+        <span class="spacer"></span>
+        <img class="logo" style="cursor:pointer;" src="./../../../assets/logo-draft.png" [routerLink]="['home']">
         <span class="spacer"></span>
         <span *ngIf="!(isHandset | async)!.matches">
         <a mat-list-item [routerLink]="['users/login']" *ngIf="!this.loggedUser">Login</a>
@@ -28,6 +29,7 @@
         <a mat-list-item  *ngIf="this.loggedUser" [routerLink]="['users', loggedUser.id]">Profile</a>
         <a mat-list-item  *ngIf="this.loggedUser" (click)="this.logout()">Logout</a>
         </span>
+        <span class="spacer"></span>
       </mat-toolbar>
       <ng-content></ng-content>
     </mat-sidenav-content>
