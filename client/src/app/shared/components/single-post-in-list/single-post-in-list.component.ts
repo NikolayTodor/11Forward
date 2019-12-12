@@ -59,13 +59,6 @@ export class SinglePostInListComponent implements OnInit {
     }
   }
 
-  public updatePost(post): void {
-    const postToUpdate: UpdatePostDTO = {
-      ...post,
-    };
-    console.log(post);
-    this.toUpdatePost.emit(postToUpdate);
-  }
 
   public onLikePost(): void {
     if (this.loggedUser) {
