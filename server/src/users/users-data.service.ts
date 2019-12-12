@@ -249,15 +249,7 @@ export class UsersDataService {
 
     await this.userRepo.save(foundUser);
 
-    return {
-      id: foundUser.id,
-      username: foundUser.username,
-      email: foundUser.email,
-      avatarURL: foundUser.avatarURL,
-      followersCount: foundUser.followersCount,
-      followingCount: foundUser.followingCount,
-      isFollowed: false,
-      isOwner: true,
+    return {...foundUser, isFollowed: false, isOwner: true,
     };
   }
 
