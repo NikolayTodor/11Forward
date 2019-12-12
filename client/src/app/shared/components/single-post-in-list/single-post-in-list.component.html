@@ -13,7 +13,7 @@
 
       <img class='post-image' src="{{this.postToShow.imageURL}}" (click)="this.openSinglePost()" style="cursor: pointer;">
       <div class="post-item">
-      
+
       </div>
       <mat-card-actions>
           <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
@@ -35,10 +35,6 @@
       </button> {{ this.postToShow.likes }}
       </mat-card-actions>
 
-    </mat-card>
-    <mat-card>
-      <app-update-post *ngIf="this.isPostForUpdate===true"
-      (toUpdatePost)="this.updatePost($event)" [postToUpdate]="this.postToShow"></app-update-post>
     </mat-card>
   </div>
 </div>
