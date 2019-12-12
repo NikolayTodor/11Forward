@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
 import { User } from '../data/entities/user.entity';
-import { ShowPostDTO } from '../models/posts/show-post.dto';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
@@ -19,7 +18,7 @@ export class PostsService {
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
         @InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-    public async allPublicPosts(take: number, skip: number): Promise<ShowPostDTO[]> {
+    public async allPublicPosts(take: number, skip: number) {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false,
@@ -31,23 +30,12 @@ export class PostsService {
             skip: take * skip
         });
 
-        return Array.from(allPosts.map((post: Post) => ({
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            imageURL: post.imageURL,
-            isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
-            author: post.author.username,
-            authorUrl: post.author.avatarURL,
-            authorId: post.author.id,
-            commentsCount: post.commentsCount,
-            likes: post.likesCount
-        })));
+        const postsToReturn: Post[] = allPosts.map((post: Post) => this.dateTransform(post));
+
+        return postsToReturn;
     }
 
-    public async allAllowedPosts(userId: string, take: number, skip: number): Promise<ShowPostDTO[]> {
+    public async allAllowedPosts(userId: string, take: number, skip: number) {
         const allPosts: Post[] = await this.postRepo.find({
             where: {
                 isDeleted: false
@@ -75,46 +63,28 @@ export class PostsService {
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
 
-        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1));
+        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1)).map((post:Post) => this.dateTransform(post))
 
-        return Array.from(postsToReturn.map((post: Post) => ({
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            imageURL: post.imageURL,
-            isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
-            author: post.author.username,
-            authorUrl: post.author.avatarURL,
-            authorId: post.author.id,
-            commentsCount: post.commentsCount,
-            likes: post.likesCount
-        })));
+        return postsToReturn;
     }
 
     public async getProfilePosts(loggedUserId: string, userWithPostsId: string, take: number, skip: number) {
-
-
 
         const foundUser = await this.userRepo.findOne({
             where : {id: userWithPostsId},
             relations: ['posts', 'followers']
         });
 
-
-
         // We check if the logged user follows this active profile
         const checkIfOwner = loggedUserId === userWithPostsId;
         const checkIfFollower = await foundUser.followers
             .then(data => data.some(follower => follower.id === loggedUserId));
 
-        let userPosts = await foundUser.posts;
+        let userPosts: Post[] = await foundUser.posts;
+        userPosts = userPosts.map(post => this.dateTransform(post));
 
         userPosts = userPosts.filter((post) => post.isDeleted === false);
         userPosts = userPosts.sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
-
-        
 
         if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
@@ -122,43 +92,21 @@ export class PostsService {
 
         userPosts = userPosts.slice(take * skip, take * (skip + 1));
 
-        return Array.from(userPosts.map((post: Post) => ({
-            id: post.id,
-            title: post.title,
-            content: post.content,
-            imageURL: post.imageURL,
-            isPrivate: post.isPrivate,
-            dateCreated: moment(post.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(post.dateLastUpdated).startOf('minute').fromNow(),
-            author: post.author.username,
-            authorUrl: post.author.avatarURL,
-            authorId: post.author.id,
-            commentsCount: post.commentsCount,
-            likes: post.likesCount
-        })));
+        return userPosts;
     }
 
-    public async onePost(postId: string): Promise<ShowPostDTO> {
+    public async onePost(postId: string) {
         const foundPost: Post = await this.postRepo.findOne({
             where: {
                 id: postId
             }
         });
 
-        return {
-            id: foundPost.id,
-            title: foundPost.title,
-            content: foundPost.content,
-            imageURL: foundPost.imageURL,
-            isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundPost.author.username,
-            authorUrl: foundPost.author.avatarURL,
-            authorId: foundPost.author.id,
-            commentsCount: foundPost.commentsCount,
-            likes: foundPost.likesCount
-        };
+        foundPost.dateCreated = moment(foundPost.dateCreated).startOf('minute').fromNow();
+        foundPost.dateLastUpdated = moment(foundPost.dateLastUpdated).startOf('minute').fromNow();
+
+        return foundPost;
+
     }
 
     public async createPost(userId: string, postToCreate: CreatePostDTO): Promise<any> {
@@ -171,7 +119,6 @@ export class PostsService {
             throw new NotFoundException('No such user found');
         }
 
-        
         const base = postToCreate.base.slice(22);
         const urlFromImgur: string = await this.uploadPhoto(base);
         postToCreate.imageURL = urlFromImgur;
@@ -183,20 +130,10 @@ export class PostsService {
         }
         await this.postRepo.save(newPost);
 
-        return {
-            id: newPost.id,
-            title: newPost.title,
-            content: newPost.content,
-            imageURL: newPost.imageURL,
-            isPrivate: newPost.isPrivate,
-            dateCreated: moment(newPost.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(newPost.dateLastUpdated).startOf('minute').fromNow(),
-            author: newPost.author.username,
-            authorUrl: newPost.author.avatarURL,
-            autorId: newPost.author.id,
-            commentsCount: newPost.commentsCount,
-            likes: newPost.likesCount
-        };
+        newPost.dateCreated = moment(newPost.dateCreated).startOf('minute').fromNow();
+        newPost.dateCreated = moment(newPost.dateLastUpdated).startOf('minute').fromNow();
+
+        return newPost;
     }
 
     public async likePost(postId: string, userId: string) {
@@ -322,6 +259,12 @@ export class PostsService {
         } catch (error) {
          console.log(error);
         }
+    }
+
+    private dateTransform(post: Post): Post {
+        post.dateCreated = moment(post.dateCreated).startOf('minute').fromNow();
+        post.dateLastUpdated = moment(post.dateLastUpdated).startOf('minute').fromNow();
+        return post;
     }
 
 }
