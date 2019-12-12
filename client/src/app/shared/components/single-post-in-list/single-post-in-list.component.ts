@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-single-post-in-list',
@@ -31,7 +33,8 @@ export class SinglePostInListComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -40,8 +43,6 @@ export class SinglePostInListComponent implements OnInit {
         this.loggedUser = loggedUser;
       }
     );
-
-
 
     this.isPostForUpdate = false;
   }
@@ -72,6 +73,18 @@ export class SinglePostInListComponent implements OnInit {
     } else {
       this.notificationService.error(`Please log in to like posts and comments!`);
     }
+  }
+
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '70%',
+      data: `Are you sure you want to delete your post? This  will also delete the post's comments and likes!`
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onDeletePost();
+      }
+    });
   }
 
   public onDeletePost(): void {

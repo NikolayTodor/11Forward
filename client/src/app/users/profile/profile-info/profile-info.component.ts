@@ -11,10 +11,11 @@ import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 import { UpdateUserDTO } from '../../../models/users/update-profile.dto';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoggedUserDTO } from '../../../models/users/logged-user.dto';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-profile-info',
@@ -89,6 +90,18 @@ export class ProfileInfoComponent implements OnInit {
 
   public onClickFollowUnfollow(change: boolean) {
     this.followUnfollow.emit(change);
+  }
+
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '50%',
+      data: 'Are you sure you want to delete your profile? This action will also delete all your posts, comments and likes!'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteProfile();
+      }
+    });
   }
 
   public deleteProfile() {
