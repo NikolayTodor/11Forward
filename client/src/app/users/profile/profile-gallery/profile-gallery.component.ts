@@ -33,7 +33,6 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
     this.subscription = this.profileInfoService.profileInfo$.subscribe((data)=> {
       this.profileInfo = data;
       })
@@ -42,7 +41,7 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
             (data: ShowPostDTO) => {
               this.profilePosts.unshift(data);
             }));
-            
+
     this.route.data.subscribe(({ posts }) => {
       this.profilePosts = posts;
     });
