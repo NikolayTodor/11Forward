@@ -3,9 +3,9 @@
     <mat-card>
       <mat-card-header>
           <img mat-card-avatar
-          [src]="this.commentToShow.authorAvatar"
+          [src]="this.commentToShow.author.avatarURL"
           (click)="this.navigate()">
-          <mat-card-title class="author-name">{{this.commentToShow.author}}</mat-card-title>
+          <mat-card-title class="author-name">{{this.commentToShow.author.username}}</mat-card-title>
       </mat-card-header>
       <div class="comment-item">
         {{ this.commentToShow.content }}
@@ -32,7 +32,7 @@
               <i class="material-icons">
                 thumb_up
               </i>
-            </button> {{ this.commentToShow.likes }}
+            </button> {{ this.commentToShow.likesCount }}
 
       </span>
 
