@@ -75,7 +75,6 @@ export class PostsService {
             relations: ['posts', 'followers']
         });
 
-        // We check if the logged user follows this active profile
         const checkIfOwner = loggedUserId === userWithPostsId;
         const checkIfFollower = await foundUser.followers
             .then(data => data.some(follower => follower.id === loggedUserId));
@@ -150,45 +149,22 @@ export class PostsService {
         const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
-          return {
-            id: foundPost.id,
-            title: foundPost.title,
-            content: foundPost.content,
-            imageURL: foundPost.imageURL,
-            isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundPost.author.username,
-            authorUrl: foundPost.author.avatarURL,
-            authorId: foundPost.author.id,
-            commentsCount: foundPost.commentsCount,
-            likes: foundPost.likesCount - 1
-        };
+          foundPost.likesCount -= 1;
+          const returnPost = this.dateTransform(foundPost);
+          return returnPost;
         }
 
         const newLike: LikePost = this.likePostRepo.create({});
         newLike.post = Promise.resolve(foundPost);
         newLike.user = Promise.resolve(foundUser);
         await this.likePostRepo.save(newLike);
+        foundPost.likesCount += 1;
+        const returnPost = this.dateTransform(foundPost);
+        return returnPost;
 
-        return {
-            id: foundPost.id,
-            title: foundPost.title,
-            content: foundPost.content,
-            imageURL: foundPost.imageURL,
-            isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundPost.author.username,
-            authorUrl: foundPost.author.avatarURL,
-            authorId: foundPost.author.id,
-            commentsCount: foundPost.commentsCount,
-            likes: foundPost.likesCount + 1
-        };
       }
 
     public async updatePost(userId: string, postId: string, body: UpdatePostDTO) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId
@@ -208,25 +184,12 @@ export class PostsService {
         }
 
         await this.postRepo.save(foundPost);
-
-        return {
-            id: foundPost.id,
-            title: foundPost.title,
-            content: foundPost.content,
-            imageURL: foundPost.imageURL,
-            isPrivate: foundPost.isPrivate,
-            dateCreated: moment(foundPost.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundPost.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundPost.author.username,
-            authorUrl: foundPost.author.avatarURL,
-            authorId: foundPost.author.id,
-            commentsCount: foundPost.commentsCount,
-            likes: foundPost.likesCount
-        };
+        const returnPost = this.dateTransform(foundPost);
+        return returnPost;
     }
 
     public async deletePost(userId: string, postId: string) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId) {
