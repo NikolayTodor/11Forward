@@ -65,10 +65,9 @@ export class ProfileComponent implements OnInit {
       const currUsername: string = data.username;
       const currPassword: string = updateProfileInfo.password !== '' ?
       updateProfileInfo.password : updateProfileInfo.oldPassword;
-      console.log(currPassword)
       this.authService.logout();
       this.authService.login({credential: currUsername, password: currPassword}).subscribe((data)=>{
-      })
+      });
 
     },
     ()=>this.notificationService.error(`Unsuccessful profile update!`));
