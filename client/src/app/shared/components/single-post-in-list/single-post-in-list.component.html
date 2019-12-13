@@ -16,12 +16,6 @@
 
       </div>
       <mat-card-actions>
-      <button mat-icon-button (click)="this.confirmDelete()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
-        <i class="material-icons">
-          remove_circle
-        </i>
-      </button>
       <button mat-icon-button (click)="this.onLikePost()">
         <i class="material-icons">
           thumb_up
