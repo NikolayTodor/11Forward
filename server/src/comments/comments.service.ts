@@ -32,16 +32,9 @@ export class CommentsService {
             skip: skip * take
         });
 
-        return Array.from(allComments.map((comment: Comment) => ({
-            id: comment.id,
-            content: comment.content,
-            dateCreated: moment(comment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(comment.dateLastUpdated).startOf('minute').fromNow(),
-            author: comment.author.username,
-            authorAvatar: comment.author.avatarURL,
-            authorId: comment.author.id,
-            likes: comment.likesCount
-        })));
+        const returnComments = allComments.map((comment) => this.dateTransform(comment));
+
+        return returnComments;
     }
 
     public async createComment(userId: string, postId: string, commentToCreate: CreateCommentDTO): Promise<ShowCommentDTO> {
@@ -68,14 +61,9 @@ export class CommentsService {
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
 
-        return {
-            id: newComment.id,
-            content: newComment.content,
-            dateCreated: moment(newComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(newComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: newComment.author.username,
-            likes: newComment.likesCount
-        };
+        const returnComment = this.dateTransform(newComment);
+
+        return returnComment;
     }
 
     public async likeComment(commentId: string, userId: string) {
@@ -92,14 +80,9 @@ export class CommentsService {
         const foundLike: LikeComment = await this.likeCommentRepo.findOne({ where: { user: userId, comment: commentId }});
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
-          return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            likes: foundComment.likesCount - 1
-            };
+          foundComment.likesCount -= 1;
+          const returnComment = this.dateTransform(foundComment);
+          return returnComment;
         }
 
         const newLike: LikeComment = this.likeCommentRepo.create({});
@@ -107,37 +90,25 @@ export class CommentsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likeCommentRepo.save(newLike);
 
-        return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            likes: foundComment.likesCount + 1
-            };
+        foundComment.likesCount += 1;
+        const returnComment = this.dateTransform(foundComment)
+
+        return returnComment;
       }
 
     public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
         if (foundComment.author.id !== userId) {
-            throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
+            throw new ApiSystemError(`You are not the author of this post!`, 404);
         }
 
         foundComment.content = body.content;
 
         await this.commentRepo.save(foundComment);
+        const returnComment = this.dateTransform(foundComment);
 
-        return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            authorAvatar: foundComment.author.avatarURL,
-            authorId: foundComment.author.id,
-            likes: foundComment.likesCount
-        };
+        return returnComment;
     }
 
     public async deleteComment(userId: string, commentId: string) {
@@ -158,5 +129,11 @@ export class CommentsService {
         }
 
         return { msg: `Comment successfully deleted!`};
+    }
+
+    private dateTransform(comment: Comment): Comment {
+        comment.dateCreated = moment(comment.dateCreated).startOf('minute').fromNow();
+        comment.dateLastUpdated = moment(comment.dateLastUpdated).startOf('minute').fromNow();
+        return comment;
     }
 }

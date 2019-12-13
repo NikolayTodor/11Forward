@@ -4,12 +4,11 @@ import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
-import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
 import axios from 'axios';
 import { LikePost } from '../data/entities/like-post.entity';
 import { Post } from '../data/entities/post.entity';
@@ -31,7 +30,7 @@ export class UsersDataService {
     @Inject(PostsService) private readonly postsService
     ) {}
 
-  public async getAllUsers(take: number, skip: number): Promise<ShowUserProfileDTO[]> {
+  public async getAllUsers(take: number, skip: number) {
     const foundUsers = await this.userRepo.find({
       where: {
         isDeleted: false
@@ -41,17 +40,10 @@ export class UsersDataService {
       skip: take * skip
     });
 
-    return foundUsers.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return foundUsers;
   }
 
-  public async getOneUser(loggedUserId: string, userId: string): Promise<ShowUserProfileDTO> {
+  public async getOneUser(loggedUserId: string, userId: string) {
 
     const foundUser = await this.userRepo.findOne({
       where: {
@@ -64,24 +56,13 @@ export class UsersDataService {
       throw new ApiSystemError('No such user found!', 404);
     }
 
-      const checkIfFollowed = await foundUser.followers.
-      then(data => data.some(follower => follower.id === loggedUserId));
+  const checkIfFollowed = await this.checkIfFollowed(foundUser, loggedUserId);
+  const checkIfOwner = foundUser.id === loggedUserId;
 
-      const checkIfOwner = foundUser.id === loggedUserId;
-
-    return {
-      id: foundUser.id,
-      username: foundUser.username,
-      email: foundUser.email,
-      avatarUrl: foundUser.avatarURL,
-      followersCount: foundUser.followersCount,
-      followingCount: foundUser.followingCount,
-      isFollowed: checkIfFollowed,
-      isOwner: checkIfOwner
-    };
+    return {...foundUser, isFollowed: checkIfFollowed, isOwner: checkIfOwner };
   }
 
-  public async getFollowers(userId: string, take: number, skip: number): Promise<ShowUserProfileDTO[]> {
+  public async getFollowers(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -91,17 +72,10 @@ export class UsersDataService {
     userFollowers.splice(0, take * skip);
     userFollowers.splice(take, userFollowers.length);
 
-    return userFollowers.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowers;
   }
 
-  public async getFollowing(userId: string, take: number, skip: number): Promise<ShowUserProfileDTO[]> {
+  public async getFollowing(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -115,14 +89,7 @@ export class UsersDataService {
     userFollowing.splice(0, take * skip);
     userFollowing.splice(take, userFollowing.length);
 
-    return userFollowing.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowing;
   }
 
   public async findUserByCredential(credential: string): Promise<ShowUserDTO> {
@@ -215,12 +182,7 @@ export class UsersDataService {
     await this.userRepo.save(userToFollow);
 
     return {
-      id: userToFollow.id,
-      username: userToFollow.username,
-      email: userToFollow.email,
-      avatarUrl: userToFollow.avatarURL,
-      followersCount: userToFollow.followersCount,
-      followingCount: userToFollow.followingCount,
+     ...userToFollow,
       isFollowed: true,
     };
   }
@@ -240,8 +202,12 @@ export class UsersDataService {
       },
     });
 
-    if(!userToUnFollow) {
+    if (!userToUnFollow) {
       throw new ApiSystemError('No such user found!', 400);
+    }
+
+    if (!this.checkIfFollowed(userToUnFollow, userFollower.id)) {
+      throw new ApiSystemError('You can not unfollow user you dont follow!', 400)
     }
 
     const followedUsers: User[] = [...await userFollower.following]
@@ -253,15 +219,9 @@ export class UsersDataService {
     this.userRepo.save(userToUnFollow);
 
     return {
-      id: userToUnFollow.id,
-      username: userToUnFollow.username,
-      email: userToUnFollow.email,
-      avatarUrl: userToUnFollow.avatarURL,
-      followersCount: userToUnFollow.followersCount,
-      followingCount: userToUnFollow.followingCount,
+      ...userToUnFollow,
       isFollowed: false,
-      isOwner: false,
-    }
+    };
 
   }
 
@@ -291,15 +251,7 @@ export class UsersDataService {
 
     await this.userRepo.save(foundUser);
 
-    return {
-      id: foundUser.id,
-      username: foundUser.username,
-      email: foundUser.email,
-      avatarUrl: foundUser.avatarURL,
-      followersCount: foundUser.followersCount,
-      followingCount: foundUser.followingCount,
-      isFollowed: false,
-      isOwner: true,
+    return {...foundUser, isFollowed: false, isOwner: true,
     };
   }
 
@@ -360,5 +312,11 @@ export class UsersDataService {
 
       return {msg: 'User successfully deleted!'};
   }
+
+  private async checkIfFollowed(foundUser: User, loggedUserId: string): Promise<boolean> {
+    return await foundUser.followers.
+      then((data: User[]) => data.some((follower: User) => follower.id === loggedUserId));
+  }
+
 
 }

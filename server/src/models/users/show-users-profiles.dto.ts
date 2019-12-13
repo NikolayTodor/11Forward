@@ -1,7 +1,6 @@
 import { Publish } from '../../transformer/decorators/publish';
 
-export class UserProfileDTO {
-
+export class ShowUsersProfilesDTO {
     @Publish()
     public id: string;
 
@@ -9,21 +8,15 @@ export class UserProfileDTO {
     public username: string;
 
     @Publish()
-    public email: string;
+    public avatarURL: string;
 
     @Publish()
-    public avatarUrl: string;
+    public email: string;
 
     @Publish()
     public followersCount: number;
 
     @Publish()
     public followingCount: number;
-
-    @Publish()
-    public isFollowed?: boolean;
-
-    @Publish()
-    public isOwner?: boolean;
 
 }

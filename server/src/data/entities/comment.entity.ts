@@ -13,10 +13,10 @@ export class Comment {
     public content: string;
 
     @CreateDateColumn()
-    public dateCreated: Date;
+    public dateCreated: string;
 
     @UpdateDateColumn()
-    public dateLastUpdated: Date;
+    public dateLastUpdated: string;
 
     @ManyToOne(type => User, user => user.comments, {eager: true})
     public author: User;

@@ -18,7 +18,7 @@ export class UsersService {
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users?take=${take}&skip=${skip}`);
   }
 
-  public getSingleUser(userId: string): Observable<any> {
+  public getSingleUser(userId: string): Observable<ShowUserProfileDTO> {
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
@@ -30,7 +30,7 @@ export class UsersService {
     return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}?take=${take}&skip=${skip}`);
   }
 
-  public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<any> {
+  public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<ShowUserProfileDTO> {
     return this.http.patch<any>(`${CONFIG.DOMAIN_NAME}/users/follow/${username}`, actionBody);
   }
 

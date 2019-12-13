@@ -3,9 +3,9 @@
     <mat-card>
       <mat-card-header>
           <img mat-card-avatar
-          [src]="this.commentToShow.authorAvatar"
+          [src]="this.commentToShow.author.avatarURL"
           (click)="this.navigate()">
-          <mat-card-title class="author-name">{{this.commentToShow.author}}</mat-card-title>
+          <mat-card-title class="author-name">{{this.commentToShow.author.username}}</mat-card-title>
       </mat-card-header>
       <div class="comment-item">
         {{ this.commentToShow.content }}
@@ -15,13 +15,13 @@
          {{ this.commentToShow.dateCreated }}
         </div>
       <button mat-icon-button (click)="this.turnOnOffUpdateCommentForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           build
         </i>
       </button>
       <button mat-icon-button (click)="this.onDeleteComment()"
-        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           remove_circle
         </i>
@@ -32,7 +32,7 @@
               <i class="material-icons">
                 thumb_up
               </i>
-            </button> {{ this.commentToShow.likes }}
+            </button> {{ this.commentToShow.likesCount }}
 
       </span>
 

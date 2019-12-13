@@ -80,7 +80,7 @@ export class SingleCommentComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigate([`users/${this.commentToShow.authorId}`]);
+    this.router.navigate([`users/${this.commentToShow.author.id}`]);
   }
 
 }

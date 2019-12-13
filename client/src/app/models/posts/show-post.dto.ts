@@ -6,9 +6,7 @@ export class ShowPostDTO {
     public isPrivate: boolean;
     public dateCreated: string;
     public dateLastUpdated: string;
-    public author: string;
-    public authorUrl: string;
-    public authorId: string;
+    public author: any;
     public commentsCount: number;
-    public likes: number;
+    public likesCount: number;
 }
