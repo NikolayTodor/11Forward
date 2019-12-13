@@ -108,8 +108,8 @@ export class ProfileInfoComponent implements OnInit {
     this.usersService.deleteUser(this.loggedUser.id).subscribe(() => {
       this.authService.logout();
       this.notificationService.success(`User successfully deleted!`);
+      this.route.navigate(['/home']);
     });
-    this.route.navigate(['/home']);
   }
 
 }

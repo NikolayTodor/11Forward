@@ -147,15 +147,15 @@ export class CommentsService {
             throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
         }
 
-        const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
-
-        if (foundLikes.length) {
-            foundLikes.forEach(async (like) => await this.likeCommentRepo.delete(like));
-        }
-
         foundComment.isDeleted = true;
         foundComment.post = null;
         await this.commentRepo.save(foundComment);
+
+        const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
+
+        if (foundLikes.length) {
+            await Promise.all(foundLikes.map(async (like) => await this.likeCommentRepo.delete(like)));
+        }
 
         return { msg: `Comment successfully deleted!`};
     }

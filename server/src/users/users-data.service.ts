@@ -336,28 +336,27 @@ export class UsersDataService {
 
     const foundPostLikes = await this.likePostRepo.find({where: {user: userId}});
       if (foundPostLikes.length) {
-        foundPostLikes.forEach(async (like: LikePost) => await this.likePostRepo.delete(like));
+        await Promise.all(foundPostLikes.map(async (like: LikePost) => await this.likePostRepo.delete(like)));
       }
 
     const foundCommentLikes = await this.likeCommentRepo.find({where: {user: userId}});
       if (foundCommentLikes.length) {
-        foundCommentLikes.forEach(async (like: LikeComment) => await this.likeCommentRepo.delete(like));
+        await Promise.all(foundCommentLikes.map(async (like: LikeComment) => await this.likeCommentRepo.delete(like)));
       }
 
     const foundPosts = await this.postRepo.find({where: {author: userId}});
       if (foundPosts.length) {
-        foundPosts.forEach(async (post: Post) => {
+        await Promise.all(foundPosts.map(async (post: Post) => {
           await this.postsService.deletePost(userId, post.id);
-        });
+        }));
       }
 
     const foundComments = await this.commentRepo.find({where: {author: userId}});
       if (foundComments.length) {
-        foundComments.forEach(async (comment: Comment) => {
-          this.commentsService.deleteComment(userId, comment.id);
-        });
+        await Promise.all(foundComments.map(async (comment: Comment) => {
+          await this.commentsService.deleteComment(userId, comment.id);
+        }));
       }
-      // await this.commentRepo.save(foundComments);
 
       return {msg: 'User successfully deleted!'};
   }
