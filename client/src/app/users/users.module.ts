@@ -1,7 +1,7 @@
 import { GalleryRefreshService } from './profile/profile-gallery/gallery-refresh.service';
 import { ProfileFollowersResolverService } from './profile/proile-followers/profile-followers-resolver.service';
 import { ProfileGalleryResolverService } from './profile/profile-gallery/profile-gallery-resolver.service';
-import { ProfileInfoResolverService } from './profile-info-resolver.service';
+import { ProfileInfoResolverService } from './profile/profile-info-resolver.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';

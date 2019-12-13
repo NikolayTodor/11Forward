@@ -1,6 +1,6 @@
 import { ProfileFollowingResolverService } from './profile/proile-following/profile-following-resolver.service';
 import { ProfileGalleryComponent } from './profile/profile-gallery/profile-gallery.component';
-import { ProfileInfoResolverService } from './profile-info-resolver.service';
+import { ProfileInfoResolverService } from './profile/profile-info-resolver.service';
 import { ProfileComponent } from './profile/profile.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
