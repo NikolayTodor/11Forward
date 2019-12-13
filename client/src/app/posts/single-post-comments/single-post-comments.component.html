@@ -6,13 +6,13 @@
 
       </div>
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author.username">
         <i class="material-icons">
           build
         </i>
       </button>
       <button mat-icon-button (click)="this.confirmDelete()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author.username">
         <i class="material-icons">
           remove_circle
         </i>
