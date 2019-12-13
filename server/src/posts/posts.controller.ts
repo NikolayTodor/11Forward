@@ -52,7 +52,6 @@ export class PostsController {
     }
 
     @Get(':postId')
-    @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getOnePost(
