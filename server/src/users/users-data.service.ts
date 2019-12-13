@@ -16,6 +16,7 @@ import { Post } from '../data/entities/post.entity';
 import { Comment } from '../data/entities/comment.entity';
 import { LikeComment } from '../data/entities/like-comment.entity';
 import { PostsService } from '../posts/posts.service';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class UsersDataService {
@@ -26,6 +27,8 @@ export class UsersDataService {
     @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
     @InjectRepository(LikeComment) private readonly likeCommentRepo: Repository<LikeComment>,
     @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
+    @Inject(CommentsService) private readonly commentsService,
+    @Inject(PostsService) private readonly postsService
     ) {}
 
   public async getAllUsers(take: number, skip: number): Promise<ShowUserProfileDTO[]> {
@@ -344,18 +347,17 @@ export class UsersDataService {
     const foundPosts = await this.postRepo.find({where: {author: userId}});
       if (foundPosts.length) {
         foundPosts.forEach(async (post: Post) => {
-          post.isDeleted = true;
-          await this.postRepo.save(post);
+          await this.postsService.deletePost(userId, post.id);
         });
       }
 
     const foundComments = await this.commentRepo.find({where: {author: userId}});
       if (foundComments.length) {
         foundComments.forEach(async (comment: Comment) => {
-          comment.isDeleted = true;
-          await this.commentRepo.save(comment);
+          this.commentsService.deleteComment(userId, comment.id);
         });
       }
+      // await this.commentRepo.save(foundComments);
 
       return {msg: 'User successfully deleted!'};
   }

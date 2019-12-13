@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { CreateCommentDTO } from '../models/comments/create-comment.dto';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
 import { LikeComment } from '../data/entities/like-comment.entity';
+import { ApiSystemError } from '../common/exceptions/api-system.error';
 
 @Injectable()
 export class CommentsService {
@@ -67,9 +68,6 @@ export class CommentsService {
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
 
-        foundPost.commentsCount += 1;
-        this.postRepo.save(foundPost);
-
         return {
             id: newComment.id,
             content: newComment.content,
@@ -120,13 +118,10 @@ export class CommentsService {
       }
 
     public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
-        if (foundComment.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
-            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        if (foundComment.author.id !== userId) {
+            throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
         }
 
         foundComment.content = body.content;
@@ -146,18 +141,11 @@ export class CommentsService {
     }
 
     public async deleteComment(userId: string, commentId: string) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
-        if (foundComment.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
-            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        if (foundComment.author.id !== userId) {
+            throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
         }
-
-        const foundPost = await foundComment.post;
-        foundPost.commentsCount -= 1;
-        await this.postRepo.save(foundPost);
 
         const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
 
@@ -166,6 +154,7 @@ export class CommentsService {
         }
 
         foundComment.isDeleted = true;
+        foundComment.post = null;
         await this.commentRepo.save(foundComment);
 
         return { msg: `Comment successfully deleted!`};
