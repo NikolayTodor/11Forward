@@ -22,17 +22,10 @@ export class UsersController {
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async getAllUsers(
-        @Query('name') name: string,
         @Query('take') take: string,
         @Query('skip') skip: string,
         ) {
-        const users: ShowUsersProfilesDTO[] = await this.usersService.getAllUsers(+take, +skip);
-        if (name) {
-          return users.filter(user =>
-            user.username.toLowerCase().includes(name.toLowerCase()),
-          );
-        }
-        return users;
+        return await this.usersService.getAllUsers(+take, +skip);
     }
 
     @Get(':id')
@@ -81,7 +74,7 @@ export class UsersController {
     @Put(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
-    // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    // @UsePipes(new ValidationPipe({whitelist: true, transform: true})) ** Comment: the pipe rejects DTO
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async updateUser(
     @Body() updateInfo: UpdateUserDTO,
