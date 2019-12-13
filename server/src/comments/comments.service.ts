@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { CreateCommentDTO } from '../models/comments/create-comment.dto';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
 import { LikeComment } from '../data/entities/like-comment.entity';
+import { ApiSystemError } from '../common/exceptions/api-system.error';
 
 @Injectable()
 export class CommentsService {
@@ -31,14 +32,9 @@ export class CommentsService {
             skip: skip * take
         });
 
-        return Array.from(allComments.map((comment: Comment) => ({
-            id: comment.id,
-            content: comment.content,
-            dateCreated: moment(comment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(comment.dateLastUpdated).startOf('minute').fromNow(),
-            author: comment.author.username,
-            likes: comment.likesCount
-        })));
+        const returnComments = allComments.map((comment) => this.dateTransform(comment));
+
+        return returnComments;
     }
 
     public async createComment(userId: string, postId: string, commentToCreate: CreateCommentDTO): Promise<ShowCommentDTO> {
@@ -65,17 +61,9 @@ export class CommentsService {
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
 
-        foundPost.commentsCount += 1;
-        this.postRepo.save(foundPost);
+        const returnComment = this.dateTransform(newComment);
 
-        return {
-            id: newComment.id,
-            content: newComment.content,
-            dateCreated: moment(newComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(newComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: newComment.author.username,
-            likes: newComment.likesCount
-        };
+        return returnComment;
     }
 
     public async likeComment(commentId: string, userId: string) {
@@ -92,14 +80,9 @@ export class CommentsService {
         const foundLike: LikeComment = await this.likeCommentRepo.findOne({ where: { user: userId, comment: commentId }});
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
-          return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            likes: foundComment.likesCount - 1
-            };
+          foundComment.likesCount -= 1;
+          const returnComment = this.dateTransform(foundComment);
+          return returnComment;
         }
 
         const newLike: LikeComment = this.likeCommentRepo.create({});
@@ -107,63 +90,50 @@ export class CommentsService {
         newLike.user = Promise.resolve(foundUser);
         await this.likeCommentRepo.save(newLike);
 
-        return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            likes: foundComment.likesCount + 1
-            };
+        foundComment.likesCount += 1;
+        const returnComment = this.dateTransform(foundComment)
+
+        return returnComment;
       }
 
     public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
-        if (foundComment.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
-            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        if (foundComment.author.id !== userId) {
+            throw new ApiSystemError(`You are not the author of this post!`, 404);
         }
 
         foundComment.content = body.content;
 
         await this.commentRepo.save(foundComment);
+        const returnComment = this.dateTransform(foundComment);
 
-        return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            likes: foundComment.likesCount
-        };
+        return returnComment;
     }
 
     public async deleteComment(userId: string, commentId: string) {
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
-        if (foundComment.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
-            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+        if (foundComment.author.id !== userId) {
+            throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
         }
 
-        const foundPost = await foundComment.post;
-        foundPost.commentsCount -= 1;
-        await this.postRepo.save(foundPost);
+        foundComment.isDeleted = true;
+        foundComment.post = null;
+        await this.commentRepo.save(foundComment);
 
         const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
 
         if (foundLikes.length) {
-            foundLikes.forEach(async (like) => await this.likeCommentRepo.delete(like));
+            await Promise.all(foundLikes.map(async (like) => await this.likeCommentRepo.delete(like)));
         }
 
-        foundComment.isDeleted = true;
-        await this.commentRepo.save(foundComment);
-
         return { msg: `Comment successfully deleted!`};
+    }
+
+    private dateTransform(comment: Comment): Comment {
+        comment.dateCreated = moment(comment.dateCreated).startOf('minute').fromNow();
+        comment.dateLastUpdated = moment(comment.dateLastUpdated).startOf('minute').fromNow();
+        return comment;
     }
 }

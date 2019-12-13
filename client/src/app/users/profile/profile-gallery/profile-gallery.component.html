@@ -2,7 +2,7 @@
 
   <div class="posts-list">
   <ng-container *ngFor="let post of this.profilePosts" >
- <app-single-post-in-list *ngIf="!this.post.isPrivate || this.profileInfo.isFollowed"
+ <app-single-post-in-list *ngIf="!this.post.isPrivate || (this.profileInfo.isFollowed  || this.profileInfo.isOwner)"
  [post]="post" class="one-post"
  (deletePost)="this.deletePost($event)"
  (toUpdatePost)="this.updatePost($event)"

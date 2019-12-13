@@ -18,7 +18,7 @@ export class UsersService {
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users?take=${take}&skip=${skip}`);
   }
 
-  public getSingleUser(userId: string): Observable<any> {
+  public getSingleUser(userId: string): Observable<ShowUserProfileDTO> {
     return this.http.get<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
@@ -30,12 +30,16 @@ export class UsersService {
     return this.http.get<UserFollowDTO[]>(`${CONFIG.DOMAIN_NAME}/users/following/${userId}?take=${take}&skip=${skip}`);
   }
 
-  public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<any> {
-    return this.http.patch(`${CONFIG.DOMAIN_NAME}/users/follow/${username}`, actionBody);
+  public followUnfollow(username: string, actionBody: {action: FollowActionType}): Observable<ShowUserProfileDTO> {
+    return this.http.patch<any>(`${CONFIG.DOMAIN_NAME}/users/follow/${username}`, actionBody);
   }
 
-  public updateProfile(updateProfileInfo: UpdateUserDTO, profileId: string): Observable<any> {
+  public updateProfile(updateProfileInfo: UpdateUserDTO, profileId: string): Observable<ShowUserProfileDTO> {
     return this.http.put<ShowUserProfileDTO>(`${CONFIG.DOMAIN_NAME}/users/${profileId}`, updateProfileInfo);
+  }
+
+  public deleteUser(userId: string): Observable<any> {
+    return this.http.delete<any>(`${CONFIG.DOMAIN_NAME}/users/${userId}`);
   }
 
 }

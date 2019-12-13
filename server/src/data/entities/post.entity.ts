@@ -22,10 +22,10 @@ export class Post {
     public hasPermission: boolean;
 
     @CreateDateColumn()
-    public dateCreated: Date;
+    public dateCreated: string;
 
     @UpdateDateColumn()
-    public dateLastUpdated: Date;
+    public dateLastUpdated: string;
 
     @Column({type: 'bool', nullable: false})
     public isPrivate: boolean;
@@ -36,7 +36,7 @@ export class Post {
     @OneToMany(type => Comment, comment => comment.post)
     public comments: Promise<Comment[]>;
 
-    @Column({type: 'int', default: 0})
+    @RelationCount((post: Post) => post.comments)
     public commentsCount: number;
 
     @OneToMany(type => LikePost, like => like.post, {eager: true})

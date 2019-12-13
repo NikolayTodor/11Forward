@@ -2,27 +2,21 @@
   <div class="single-post-in-list-container" post="post.title">
     <mat-card>
 
-        <mat-card-header [routerLink]="['/users', this.postToShow.authorId]" >
+        <mat-card-header [routerLink]="['/users', this.postToShow.author.id]" >
             <img mat-card-avatar
-            [src]="this.postToShow.authorUrl"
+            [src]="this.postToShow.author.avatarURL"
             style="cursor: pointer;"
             class='profile-avatar'>
-            <mat-card-title>{{this.postToShow.author}}</mat-card-title>
+            <mat-card-title>{{this.postToShow.author.username}}</mat-card-title>
             <mat-card-subtitle>{{this.postToShow.title}}</mat-card-subtitle>
           </mat-card-header>
 
       <img class='post-image' src="{{this.postToShow.imageURL}}" (click)="this.openSinglePost()" style="cursor: pointer;">
       <div class="post-item">
-      
+
       </div>
       <mat-card-actions>
-          <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
-        <i class="material-icons">
-          build
-        </i>
-      </button>
-      <button mat-icon-button (click)="this.onDeletePost()"
+      <button mat-icon-button (click)="this.confirmDelete()"
       *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
         <i class="material-icons">
           remove_circle
@@ -32,13 +26,9 @@
         <i class="material-icons">
           thumb_up
         </i>
-      </button> {{ this.postToShow.likes }}
+      </button> {{ this.postToShow.likesCount }}
       </mat-card-actions>
 
-    </mat-card>
-    <mat-card>
-      <app-update-post *ngIf="this.isPostForUpdate===true"
-      (toUpdatePost)="this.updatePost($event)" [postToUpdate]="this.postToShow"></app-update-post>
     </mat-card>
   </div>
 </div>
