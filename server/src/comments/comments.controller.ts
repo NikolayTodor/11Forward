@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus, Param, Post,
-    UseGuards, Body, Put, Delete, ValidationPipe, UsePipes, Query } from '@nestjs/common';
+    UseGuards, Body, Put, Delete, ValidationPipe, UsePipes, Query, UseInterceptors } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
@@ -7,6 +7,7 @@ import { userDecorator } from '../common/decorators/user.decorator';
 import { ShowUserDTO } from '../models/users/show-user.dto';
 import { CreateCommentDTO } from '../models/comments/create-comment.dto';
 import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
+import { TransformInterceptor } from '../transformer/interceptors/transform.interceptor';
 
 @Controller('comments')
 export class CommentsController {
@@ -14,6 +15,7 @@ export class CommentsController {
     constructor(private readonly commentsService: CommentsService) {}
 
     @Get(':postId')
+    @UseInterceptors(new TransformInterceptor(ShowCommentDTO))
     @HttpCode(HttpStatus.OK)
     public async getCommentsOfPost(
       @Param('postId') postId: string,
@@ -36,6 +38,7 @@ export class CommentsController {
 
     @Post('/likes/:commentId')
     @UseGuards(AuthGuardWithBlacklisting)
+    @UseInterceptors(new TransformInterceptor(ShowCommentDTO))
     @HttpCode(HttpStatus.CREATED)
     public async likeComment(
       @Param('commentId') commentId: string,
