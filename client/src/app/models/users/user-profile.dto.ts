@@ -4,9 +4,9 @@ export class ShowUserProfileDTO {
 
   public username: string;
 
-  public email: string;
+  public avatarURL: string;
 
-  public avatarUrl: string;
+  public email: string;
 
   public followersCount: number;
 

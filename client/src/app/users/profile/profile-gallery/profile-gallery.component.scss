@@ -1,5 +1,26 @@
-.container {
+
+
+
+
+@media only screen and (max-width: 375px) {
+  .posts-list {
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 376px) and (max-width: 600px) {
+  .posts-list {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+.posts-list {
+  width:100%;
+  padding: 5px;
   display: grid;
-  gap: 5px;
-  grid-auto-rows: 75px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
 }

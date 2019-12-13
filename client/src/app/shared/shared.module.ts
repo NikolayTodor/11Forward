@@ -21,11 +21,18 @@ import { SinglePostInListComponent } from './components/single-post-in-list/sing
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { RouterModule } from '@angular/router';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 
 @NgModule({
-  declarations: [SinglePostInListComponent, UpdatePostComponent, CreatePostComponent],
+  declarations: [
+    SinglePostInListComponent,
+    UpdatePostComponent,
+    CreatePostComponent,
+    ConfirmationDialogComponent
+  ],
   imports: [
     ImageCropperModule,
     CommonModule,
@@ -37,12 +44,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatRadioModule,
     MatListModule,
     MatMenuModule,
+    MatButtonModule,
     FormsModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     MatDialogModule,
+    ConfirmationDialogComponent,
     SinglePostInListComponent,
     MatButtonModule,
     UpdatePostComponent,

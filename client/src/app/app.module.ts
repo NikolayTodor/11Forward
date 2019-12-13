@@ -14,6 +14,11 @@ import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
+import { ProfileEditComponent } from './users/profile/profile-edit/profile-edit.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { ConfirmationDialogComponent } from './shared/components/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -21,6 +26,8 @@ import { CommentsModule } from './comments/comments.module';
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    NotFoundComponent,
+    ServerErrorComponent
   ],
   imports: [
     CoreModule,
@@ -34,13 +41,18 @@ import { CommentsModule } from './comments/comments.module';
     PostsModule,
     CommentsModule
   ],
-  entryComponents: [CreatePostComponent],
+  entryComponents: [CreatePostComponent, ProfileEditComponent, ConfirmationDialogComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -1,41 +1,60 @@
 <div *ngIf="(this.commentToShow)" class="comment-info-container">
   <div class="single-comment-in-list-container" comment="comment.content">
     <mat-card>
+      <mat-card-header>
+          <img mat-card-avatar
+          [src]="this.commentToShow.author.avatarURL"
+          (click)="this.navigate()">
+          <mat-card-title class="author-name">{{this.commentToShow.author.username}}</mat-card-title>
+      </mat-card-header>
       <div class="comment-item">
-        Content: {{ this.commentToShow.content }} <br />
-        Posted on: {{ this.commentToShow.dateCreated }}<br />
-        By: {{ this.commentToShow.author }}<br />
+        {{ this.commentToShow.content }}
       </div>
+
+      <div class="comment-time">
+         {{ this.commentToShow.dateCreated }}
+        </div>
       <button mat-icon-button (click)="this.turnOnOffUpdateCommentForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           build
         </i>
       </button>
       <button mat-icon-button (click)="this.onDeleteComment()"
-        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           remove_circle
         </i>
       </button>
-      <button mat-icon-button (click)="this.onLikeComment()">
-        <i class="material-icons">
-          thumb_up
-        </i>
-      </button> {{ this.commentToShow.likes }}
+      <span class='like-button'>
+
+          <button  mat-icon-button (click)="this.onLikeComment()">
+              <i class="material-icons">
+                thumb_up
+              </i>
+            </button> {{ this.commentToShow.likesCount }}
+
+      </span>
+
     </mat-card>
     <mat-card *ngIf="this.isCommentForUpdate === true">
       <form [formGroup]="this.updateCommentForm" (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">
         <mat-form-field>
-          <input matInput placeholder="Write new comment here" required formControlName="content">
+          <input matInput placeholder="Write new comment here" required [value]="this.commentToShow.content" formControlName="content">
           <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.required">
-            Some content is required!
+            Some changed content is required!
+          </mat-error>
+          <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.minlength">
+            The comment must be at least 5 symbols long!
+          </mat-error>
+          <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.maxlength">
+            The comment must be shorter that 500 symbols!
           </mat-error>
         </mat-form-field>
-    
+
         <button mat-icon-button class="update-comment-button" type="submit" [disabled]="this.updateCommentForm.invalid">
           <i class="material-icons">
-            book
+            assignment_turned_in
           </i>
         </button>
       </form>

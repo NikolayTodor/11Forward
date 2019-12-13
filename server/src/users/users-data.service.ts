@@ -1,3 +1,4 @@
+
 import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
@@ -9,34 +10,37 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
-import { ShowUserProfileDTO } from 'src/models/users/show-user-profile.dto';
-import  axios from 'axios';
-
+import axios from 'axios';
+import { LikePost } from '../data/entities/like-post.entity';
+import { Post } from '../data/entities/post.entity';
+import { Comment } from '../data/entities/comment.entity';
+import { LikeComment } from '../data/entities/like-comment.entity';
 
 @Injectable()
 export class UsersDataService {
 
   constructor(
-    @InjectRepository(User) private readonly userRepo: Repository<User>) {}
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Post) private readonly postRepo: Repository<Post>,
+    @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
+    @InjectRepository(LikeComment) private readonly likeCommentRepo: Repository<LikeComment>,
+    @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
+    ) {}
 
-  public async getAllUsers(): Promise<ShowUserProfileDTO[]> {
+  public async getAllUsers(take: number, skip: number) {
     const foundUsers = await this.userRepo.find({
       where: {
         isDeleted: false
-      }
+      },
+      order: { username: 'ASC' },
+      take,
+      skip: take * skip
     });
 
-    return foundUsers.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return foundUsers;
   }
 
-  public async getOneUser(loggedUserId: string, userId: string): Promise<ShowUserProfileDTO> {
+  public async getOneUser(loggedUserId: string, userId: string) {
 
     const foundUser = await this.userRepo.findOne({
       where: {
@@ -49,41 +53,26 @@ export class UsersDataService {
       throw new ApiSystemError('No such user found!', 404);
     }
 
-      const checkIfFollowed = await foundUser.followers.
-      then(data => data.some(follower => follower.id === loggedUserId));
+  const checkIfFollowed = await this.checkIfFollowed(foundUser, loggedUserId);
+  const checkIfOwner = foundUser.id === loggedUserId;
 
-      const checkIfOwner = foundUser.id === loggedUserId;
-
-    return {
-      id: foundUser.id,
-      username: foundUser.username,
-      email: foundUser.email,
-      avatarUrl: foundUser.avatarURL,
-      followersCount: foundUser.followersCount,
-      followingCount: foundUser.followingCount,
-      isFollowed: checkIfFollowed,
-      isOwner: checkIfOwner
-    };
+    return {...foundUser, isFollowed: checkIfFollowed, isOwner: checkIfOwner };
   }
 
-  public async getFollowers(userId: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowers(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
-      where: { id: userId },
+      where: { id: userId }
     });
 
     const userFollowers = await foundUser.followers;
+    userFollowers.sort((a, b) => (a.username > b.username) ? 1 : -1 );
+    userFollowers.splice(0, take * skip);
+    userFollowers.splice(take, userFollowers.length);
 
-    return userFollowers.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowers;
   }
 
-  public async getFollowing(userId: string): Promise<ShowUserProfileDTO[]> {
+  public async getFollowing(userId: string, take: number, skip: number) {
     const foundUser = await this.userRepo.findOne({
       where: { id: userId }
     });
@@ -93,15 +82,11 @@ export class UsersDataService {
     }
 
     const userFollowing = await foundUser.following;
+    userFollowing.sort((a, b) => (a.username > b.username) ? 1 : -1 );
+    userFollowing.splice(0, take * skip);
+    userFollowing.splice(take, userFollowing.length);
 
-    return userFollowing.map((user: User) => ({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      avatarUrl: user.avatarURL,
-      followersCount: user.followersCount,
-      followingCount: user.followingCount
-    }));
+    return userFollowing;
   }
 
   public async findUserByCredential(credential: string): Promise<ShowUserDTO> {
@@ -150,7 +135,7 @@ export class UsersDataService {
     });
 
     if (foundUser) {
-      throw new Error('User with such username/email already exists!');
+      throw new ApiSystemError('User with such username/email already exists!', 404);
     }
 
     const newUser: User = this.userRepo.create(userToCreate);
@@ -194,12 +179,7 @@ export class UsersDataService {
     await this.userRepo.save(userToFollow);
 
     return {
-      id: userToFollow.id,
-      username: userToFollow.username,
-      email: userToFollow.email,
-      avatarUrl: userToFollow.avatarURL,
-      followersCount: userToFollow.followersCount,
-      followingCount: userToFollow.followingCount,
+     ...userToFollow,
       isFollowed: true,
     };
   }
@@ -219,8 +199,12 @@ export class UsersDataService {
       },
     });
 
-    if(!userToUnFollow) {
+    if (!userToUnFollow) {
       throw new ApiSystemError('No such user found!', 400);
+    }
+
+    if (!this.checkIfFollowed(userToUnFollow, userFollower.id)) {
+      throw new ApiSystemError('You can not unfollow user you dont follow!', 400)
     }
 
     const followedUsers: User[] = [...await userFollower.following]
@@ -232,18 +216,13 @@ export class UsersDataService {
     this.userRepo.save(userToUnFollow);
 
     return {
-      id: userToUnFollow.id,
-      username: userToUnFollow.username,
-      email: userToUnFollow.email,
-      avatarUrl: userToUnFollow.avatarURL,
-      followersCount: userToUnFollow.followersCount,
-      followingCount: userToUnFollow.followingCount,
+      ...userToUnFollow,
       isFollowed: false,
-    }
+    };
 
   }
 
-  async updateUser (updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
+  public async updateUser(updateInfo: UpdateUserDTO, loggedUserId: string, usertoUpdateId: string) {
 
     if (loggedUserId !== usertoUpdateId) {
       throw new ApiSystemError('You can not update other members profile!', 401);
@@ -252,29 +231,30 @@ export class UsersDataService {
     const foundUser: User = await this.userRepo.findOne({id: usertoUpdateId});
 
     if (updateInfo.base) {
-      const newURL = await this.uploadPhoto(updateInfo.base);
-      updateInfo.avatarURL = newURL;
-      updateInfo.base = '';
+      const correctBase = updateInfo.base.slice(22);
+      const newURL = await this.uploadPhoto(correctBase);
+      foundUser.avatarURL = newURL;
     }
 
     if (updateInfo.password) {
       updateInfo.password = await bcrypt.hash(updateInfo.password, 10);
     }
 
-    Object.keys(updateInfo).forEach((key) => {
-      foundUser[key] = updateInfo[key];
-    });
+    Object.keys(updateInfo).forEach((prop: string) => {
+      if ((updateInfo as any)[prop] !== undefined && (updateInfo as any)[prop] !== '') {
+          (foundUser as any)[prop] = (updateInfo as any)[prop];
+      }
+  });
 
-    return await this.userRepo.save(foundUser);
+    await this.userRepo.save(foundUser);
+
+    return {...foundUser, isFollowed: false, isOwner: true,
+    };
   }
 
-  async uploadPhoto(base: string): Promise<string> {
-    // if (!(/\.(gif|jpg|jpeg|png)$/i).test(extname(photo.originalname))) {
-    //   throw new ApiSystemError('Image failed test', 500);
-    // }
-    
+  public async uploadPhoto(base: string): Promise<string> {
 
- try {
+  try {
     const data = await axios(`https://api.imgur.com/3/upload`, {
         method: 'POST',
         headers: {
@@ -283,16 +263,59 @@ export class UsersDataService {
         data: {image: base},
       });
       return data.data.data.link;
- }
- catch(error) {
-     console.log(error);
- }
+  }
+  catch(error) {
+     console.log('error');
+  }
   }
 
-  /*
-    Comment: The function upload photo must be helper function imported from outside and nota part 
-    of the user-data service 
+  public async deleteUser(requesterId: string, userId: string) {
+    if (userId !== requesterId) {
+      throw new ApiSystemError(`You don't have permission to delete other people's profiles!`, 403);
+    }
 
-  */
+    const userToDelete: User = await this.userRepo.findOne({id: userId});
+    if (!userToDelete || userToDelete.isDeleted === true) {
+      throw new ApiSystemError(`No such user exists!`, 404);
+    }
+
+    userToDelete.isDeleted = true;
+
+    await this.userRepo.save(userToDelete);
+
+    const foundPostLikes = await this.likePostRepo.find({where: {user: userId}});
+      if (foundPostLikes.length) {
+        foundPostLikes.forEach(async (like: LikePost) => await this.likePostRepo.delete(like));
+      }
+
+    const foundCommentLikes = await this.likeCommentRepo.find({where: {user: userId}});
+      if (foundCommentLikes.length) {
+        foundCommentLikes.forEach(async (like: LikeComment) => await this.likeCommentRepo.delete(like));
+      }
+
+    const foundPosts = await this.postRepo.find({where: {author: userId}});
+      if (foundPosts.length) {
+        foundPosts.forEach(async (post: Post) => {
+          post.isDeleted = true;
+          await this.postRepo.save(post);
+        });
+      }
+
+    const foundComments = await this.commentRepo.find({where: {author: userId}});
+      if (foundComments.length) {
+        foundComments.forEach(async (comment: Comment) => {
+          comment.isDeleted = true;
+          await this.commentRepo.save(comment);
+        });
+      }
+
+      return {msg: 'User successfully deleted!'};
+  }
+
+  private async checkIfFollowed(foundUser: User, loggedUserId: string): Promise<boolean> {
+    return await foundUser.followers.
+      then((data: User[]) => data.some((follower: User) => follower.id === loggedUserId));
+  }
+
 
 }

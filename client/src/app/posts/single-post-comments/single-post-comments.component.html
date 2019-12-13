@@ -1,23 +1,18 @@
 <div *ngIf="(this.post)" class="post-info-container">
-  <div class="single-post-in-list-container" post="post.title">
+  <div class="single-post-container" post="post.title">
     <mat-card>
-      <img src="{{this.post.imageURL}}">
+      <img src="{{this.post.imageURL}}" class="post-image">
       <div class="post-item">
-        Title: {{ this.post.title }} <br />
-        Content: {{ this.post.content }} <br />
-        Posted on: {{ this.post.dateCreated }}<br />
-        By: {{ this.post.author }}<br />
-        Private? {{ this.post.isPrivate }}<br />
-        Comments: {{ this.post.commentsCount }}<br />
+
       </div>
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author.username">
         <i class="material-icons">
           build
         </i>
       </button>
-      <button mat-icon-button (click)="this.onDeletePost()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author">
+      <button mat-icon-button (click)="this.confirmDelete()"
+      *ngIf="this.loggedUser && this.loggedUser.username === this.post.author.username">
         <i class="material-icons">
           remove_circle
         </i>
@@ -26,18 +21,20 @@
         <i class="material-icons">
           thumb_up
         </i>
-      </button> {{ this.post.likes }}
+      </button> {{ this.post.likesCount }}
     </mat-card>
   </div>
-  <mat-card>
-    <app-update-post *ngIf="this.isPostForUpdate===true"
-    (toUpdatePost)="this.updatePost($event)" [val]="this.post.id"></app-update-post>
+
+  <mat-card [style.display]="this.isPostForUpdate === true ? 'inherit' : 'none' ">
+    <app-update-post
+    (toUpdatePost)="this.updatePost($event)" [postToUpdate]="this.post"></app-update-post>
   </mat-card>
-  <mat-card class="mat-card">
+
+
     <app-all-comments
     (hasCreatedComment)="this.hasNewComment($event)"
     (hasDeletedComment)="this.hasOneLessComment($event)"
     ></app-all-comments>
-  </mat-card>
+
 </div>
 

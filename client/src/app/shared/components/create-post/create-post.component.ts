@@ -21,13 +21,21 @@ export class CreatePostComponent implements OnInit {
 
   @ViewChild(ImageCropperComponent, {static: true}) imageCropper: ImageCropperComponent;
 
-  public constructor(private readonly formBuilder: FormBuilder,
-                     public dialogRef: MatDialogRef<CreatePostComponent>) { }
+  public constructor(
+    private readonly formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<CreatePostComponent>
+    ) { }
 
   ngOnInit() {
     this.createPostForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required],
+      title: [
+        '',
+      [Validators.minLength(2), Validators.maxLength(60), Validators.required]
+    ],
+      content: [
+        '',
+        [Validators.minLength(5), Validators.maxLength(1000), Validators.required]
+    ],
       isPrivate: ['', Validators.required]
     });
   }
@@ -73,14 +81,13 @@ toggleContainWithinAspectRatio(){
     this.newPost = {
       ...post,
       isPrivate: post.isPrivate === 'Private' ? true : false,
-      imageURL: this.croppedImage
+      base: this.croppedImage
     };
     this.closeDialog(this.newPost);
   }
 
   closeDialog(defData: any = null){
     this.dialogRef.close({event: 'close', data: defData});
-    console.log(defData);
   }
 }
 

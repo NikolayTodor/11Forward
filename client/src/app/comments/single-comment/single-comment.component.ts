@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UpdateCommentDTO } from 'src/app/models/comments/update-comment.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-comment',
@@ -33,7 +34,8 @@ export class SingleCommentComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder,
-    private readonly notificationService: NotificationService) {}
+    private readonly notificationService: NotificationService,
+    private readonly router: Router) {}
 
   ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
@@ -43,7 +45,10 @@ export class SingleCommentComponent implements OnInit {
     );
 
     this.updateCommentForm = this.formBuilder.group({
-      content: ['', Validators.required]
+      content: [
+        '',
+        [Validators.minLength(5), Validators.maxLength(500), Validators.required]
+    ],
     });
 
     this.isCommentForUpdate = false;
@@ -72,6 +77,10 @@ export class SingleCommentComponent implements OnInit {
 
   public onDeleteComment(): void {
     this.deleteComment.emit(this.commentToShow.id);
+  }
+
+  navigate() {
+    this.router.navigate([`users/${this.commentToShow.author.id}`]);
   }
 
 }

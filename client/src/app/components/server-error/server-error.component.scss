@@ -1,0 +1,27 @@
+.server-error-container {
+    height: 80vh;
+}
+
+.image-container {
+    width: 40%;
+    position: relative;
+    top: 11%;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    transition: transform .2s;
+    margin: auto;
+}
+  
+  .image-container:hover {
+    transform: scale(1.2);
+}
+
+.image {
+    width: 100%;
+}
+
+.text {
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+}

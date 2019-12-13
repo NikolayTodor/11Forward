@@ -1,12 +1,13 @@
 <div class='card-holder'>
 
-    <mat-card (click)="navigate()">
+    <mat-card (click)="navigate()" style="cursor: pointer;">
         <mat-card-header>
             <img mat-card-avatar
 
-            [src]="this.profileInfo.avatarUrl">
+            [src]="this.profileInfo.avatarURL">
             <mat-card-title >{{this.profileInfo.username}}</mat-card-title>
-            <mat-card-subtitle>{{this.profileInfo.email}}</mat-card-subtitle>
+            <mat-card-subtitle>Followers: {{this.profileInfo.followersCount}} &nbsp;
+              &nbsp; Following: {{this.profileInfo.followingCount}}</mat-card-subtitle>
           </mat-card-header>
         <mat-card-content >
             <p>

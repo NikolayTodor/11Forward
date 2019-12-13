@@ -3,6 +3,6 @@ export class ShowCommentDTO {
     public content: string;
     public dateCreated: string;
     public dateLastUpdated: string;
-    public author: string;
-    public likes: number;
+    public author: any;
+    public likesCount: number;
 }

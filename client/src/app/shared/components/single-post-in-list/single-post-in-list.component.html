@@ -1,23 +1,22 @@
 <div *ngIf="(this.postToShow)" class="post-info-container">
   <div class="single-post-in-list-container" post="post.title">
     <mat-card>
-      <img src="{{this.postToShow.imageURL}}">
+
+        <mat-card-header [routerLink]="['/users', this.postToShow.author.id]" >
+            <img mat-card-avatar
+            [src]="this.postToShow.author.avatarURL"
+            style="cursor: pointer;"
+            class='profile-avatar'>
+            <mat-card-title>{{this.postToShow.author.username}}</mat-card-title>
+            <mat-card-subtitle>{{this.postToShow.title}}</mat-card-subtitle>
+          </mat-card-header>
+
+      <img class='post-image' src="{{this.postToShow.imageURL}}" (click)="this.openSinglePost()" style="cursor: pointer;">
       <div class="post-item">
-        Title: {{ this.postToShow.title }} <br />
-        Content: {{ this.postToShow.content }} <br />
-        Posted on: {{ this.postToShow.dateCreated }}<br />
-        By: {{ this.postToShow.author }}<br />
-        Private? {{ this.postToShow.isPrivate }}<br />
-        Comments: {{ this.postToShow.commentsCount }}<br />
-        <button (click)="this.openSinglePost()">Open me</button>
+
       </div>
-      <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
-        <i class="material-icons">
-          build
-        </i>
-      </button>
-      <button mat-icon-button (click)="this.onDeletePost()"
+      <mat-card-actions>
+      <button mat-icon-button (click)="this.confirmDelete()"
       *ngIf="this.loggedUser && this.loggedUser.username === this.postToShow.author">
         <i class="material-icons">
           remove_circle
@@ -27,11 +26,9 @@
         <i class="material-icons">
           thumb_up
         </i>
-      </button> {{ this.postToShow.likes }}
-    </mat-card>
-    <mat-card>
-      <app-update-post *ngIf="this.isPostForUpdate===true"
-      (toUpdatePost)="this.updatePost($event)" [val]="this.postToShow.id"></app-update-post>
+      </button> {{ this.postToShow.likesCount }}
+      </mat-card-actions>
+
     </mat-card>
   </div>
 </div>

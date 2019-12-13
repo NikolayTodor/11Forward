@@ -1,5 +1,4 @@
-import { User } from './../../data/entities/user.entity';
-import { SingleUserDTO } from './single-user.dto';
+
 import { Publish } from './../../transformer/decorators/publish';
 
 export class UserFollowInfoDTO {
@@ -10,9 +9,15 @@ export class UserFollowInfoDTO {
     @Publish()
     public username: string;
 
-    @Publish(SingleUserDTO)
-    public followers: User[];
+    @Publish()
+    public email: string;
 
-    @Publish(SingleUserDTO)
-    public following: User[];
+    @Publish()
+    public avatarURL: string;
+
+    @Publish()
+    public  followersCount: number;
+
+    @Publish()
+    public  followingCount: number;
 }
