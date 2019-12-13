@@ -15,13 +15,13 @@
          {{ this.commentToShow.dateCreated }}
         </div>
       <button mat-icon-button (click)="this.turnOnOffUpdateCommentForm()"
-      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+      *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           build
         </i>
       </button>
       <button mat-icon-button (click)="this.onDeleteComment()"
-        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author">
+        *ngIf="this.loggedUser && this.loggedUser.username === this.commentToShow.author.username">
         <i class="material-icons">
           remove_circle
         </i>
