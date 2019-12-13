@@ -51,7 +51,6 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         .getPublicPosts(this.take, this.skip)
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
-    
         });
     }
 
@@ -63,10 +62,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CreatePostComponent, {
-
-    });
-
+    const dialogRef = this.dialog.open(CreatePostComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.createPost(result.data);
@@ -111,28 +107,11 @@ export class AllPostsComponent implements OnInit, OnDestroy {
       () => this.notificationService.error(`Oops! Something went wrong!`));
   }
 
-  public updatePost(post: UpdatePostDTO): void {
-    this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
-      this.notificationService.success(`The post has been updated!`);
-      const index: number = this.posts.findIndex(item => item.id === post.id);
-      this.posts.splice(index, 1, data);
-    });
-  }
-
   public likePost(postId: string): void {
     this.postsService.likePost(postId).subscribe((likedPost: ShowPostDTO) => {
       const index: number = this.posts.findIndex((viewedPost) => viewedPost.id === likedPost.id);
       this.posts[index] = likedPost;
     });
-  }
-
-  public deletePost(postId: string): void {
-    this.postsService.deletePost(postId).subscribe(() => {
-      this.notificationService.success(`Post successfully deleted!`);
-    });
-
-    const index: number = this.posts.findIndex(post => post.id === postId);
-    this.posts.splice(index, 1);
   }
 
 }
