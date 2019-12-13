@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { MatDialogRef } from '@angular/material';
@@ -15,9 +15,9 @@ export class CreatePostComponent implements OnInit {
   public newPost: CreatePostDTO;
   public createPostForm: FormGroup;
   public imageChangedEvent: any = '';
-  public  croppedImage: any = '';
-  public  showCropper = false;
-  public  containWithinAspectRatio = false;
+  public croppedImage: any = '';
+  public showCropper = false;
+  public containWithinAspectRatio = false;
 
   @ViewChild(ImageCropperComponent, {static: true}) imageCropper: ImageCropperComponent;
 
@@ -47,7 +47,6 @@ export class CreatePostComponent implements OnInit {
       console.log('File type/size invalid!');
       return;
     }
-
 
     this.imageChangedEvent = event;
 }
