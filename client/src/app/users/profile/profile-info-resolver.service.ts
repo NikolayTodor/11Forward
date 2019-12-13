@@ -1,9 +1,9 @@
-import { NotificationService } from './../core/services/notification.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { UsersService } from '../core/services/user.service';
-import { ShowUserProfileDTO } from '../models/users/user-profile.dto';
+import { UsersService } from '../../core/services/user.service';
+import { ShowUserProfileDTO } from '../../models/users/user-profile.dto';
 import { Observable } from 'rxjs';
 
 @Injectable()
