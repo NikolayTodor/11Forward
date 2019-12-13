@@ -40,8 +40,8 @@ export class PostsController {
 
     @Get('profile/:userId')
     @UseGuards(AuthGuardWithBlacklisting)
-    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getUserPosts(
         @Param('userId') userId: string,
         @userDecorator() user: ShowUserDTO,
@@ -65,6 +65,7 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.CREATED)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
         @Body() newPost: CreatePostDTO) {
