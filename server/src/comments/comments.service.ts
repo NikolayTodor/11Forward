@@ -105,26 +105,16 @@ export class CommentsService {
         foundComment.content = body.content;
 
         await this.commentRepo.save(foundComment);
+        const returnComment = this.dateTransform(foundComment);
 
-        return {
-            id: foundComment.id,
-            content: foundComment.content,
-            dateCreated: moment(foundComment.dateCreated).startOf('minute').fromNow(),
-            dateLastUpdated: moment(foundComment.dateLastUpdated).startOf('minute').fromNow(),
-            author: foundComment.author.username,
-            authorAvatar: foundComment.author.avatarURL,
-            authorId: foundComment.author.id,
-            likes: foundComment.likesCount
-        };
+        return returnComment;
     }
 
     public async deleteComment(userId: string, commentId: string) {
 
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
-        if (foundComment.author.id !== userId
-            //  && foundUser.role.name !== 'Admin'
-        ) {
+        if (foundComment.author.id !== userId) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
