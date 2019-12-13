@@ -1,3 +1,4 @@
+
 import { UpdateUserDTO } from './../../models/users/update-profile.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProfileInfoService } from '../../core/services/profile-info.service';
@@ -43,8 +44,10 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  followUnfollow(change: boolean) {
-    const actionType = change ? FollowActionType.Follow : FollowActionType.Unfollow;
+  followUnfollow(followOrUnfollow: boolean) {
+
+    // The action type depends on if we follow or do not follow the user
+    const actionType = followOrUnfollow ? FollowActionType.Follow : FollowActionType.Unfollow;
     const actionBody = {action: actionType};
     this.usersService.followUnfollow(this.profileInfo.username, actionBody).subscribe(
       (data) => {
@@ -55,16 +58,27 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile(updateProfileInfo: UpdateUserDTO) {
-    console.log(updateProfileInfo);
+
     this.usersService.updateProfile(updateProfileInfo, this.loggedUser.id)
-    .subscribe((data) => {
+    .subscribe((data: ShowUserProfileDTO) => {
 
       this.notificationService.success(`Profile successfully updated!`);
+
+      // Updating the new profile
       this.profileInfo = data;
+
+
+      // Emitting the new profile
       this.profileService.passNewProfile(this.profileInfo);
-      const currUsername: string = data.username;
+
+      const currUsername: string = this.profileInfo.username;
+
+      // Check if password has been updated
+
       const currPassword: string = updateProfileInfo.password !== '' ?
       updateProfileInfo.password : updateProfileInfo.oldPassword;
+
+      // Setting the new token
       this.authService.logout();
       this.authService.login({credential: currUsername, password: currPassword}).subscribe((data)=>{
       });
