@@ -74,6 +74,7 @@ export class PostsController {
     @Post('/likes/:postId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async likePost(
       @Param('postId') postId: string,
       @userDecorator() user: ShowUserDTO,
@@ -85,6 +86,7 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async updatePost(
       @Param('postId') postId: string,
       @Body() body: UpdatePostDTO,
