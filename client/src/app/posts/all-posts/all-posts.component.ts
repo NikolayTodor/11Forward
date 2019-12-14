@@ -10,7 +10,6 @@ import {MatDialog} from '@angular/material';
 import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 import { ShowPostDTO } from '../../models/posts/show-post.dto';
 
-
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
@@ -21,7 +20,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   public posts: ShowPostDTO[] = [];
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
-  public take = 5;
+  public take = 9;
   public skip = 0;
   public showMore = true;
 
@@ -33,8 +32,6 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-
     this.subscription = this.authService.loggedUserData$.subscribe(
       (loggedUser: LoggedUserDTO) => {
         this.loggedUser = loggedUser;
@@ -51,21 +48,16 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         .getPublicPosts(this.take, this.skip)
         .subscribe((data: ShowPostDTO[]) => {
           this.posts = data;
-    
         });
     }
-
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CreatePostComponent, {
-
-    });
+    const dialogRef = this.dialog.open(CreatePostComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -101,7 +93,6 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   }
 
   public createPost(post: CreatePostDTO): void {
-
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);

@@ -19,7 +19,7 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
   public subscription: Subscription;
   public profilePosts: ShowPostDTO[];
   public profileInfo: ShowUserProfileDTO;
-  public take = 5;
+  public take = 9;
   public skip = 0;
   public showMore = true;
 
