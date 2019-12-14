@@ -52,7 +52,6 @@ export class AuthService {
       this.storage.removeItem('token');
       this.loggedInSubject$.next(null);
       this.isLoggedInSubject$.next(false);
-      
   }
 
   public getLoggedUserData(): LoggedUserDTO {
