@@ -32,14 +32,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
+
     this.subscription = this.authService.loggedUserData$.subscribe(
       (data: LoggedUserDTO) => {
         this.loggedUser = data;
       });
 
     this.route.data.subscribe(({ user }) => {
-      this.profileInfo = user;
-    });
+        this.profileInfo = user;
+      });
+
+
     this.profileService.passNewProfile(this.profileInfo);
 
   }
