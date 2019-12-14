@@ -9,7 +9,7 @@ import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
 import axios from 'axios';
-
+import { Comment } from '../data/entities/comment.entity';
 
 @Injectable()
 export class PostsService {
@@ -17,7 +17,8 @@ export class PostsService {
     public constructor(
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
-        @InjectRepository(User) private readonly userRepo: Repository<User>) {}
+        @InjectRepository(User) private readonly userRepo: Repository<User>,
+        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>) {}
 
     public async allPublicPosts(take: number, skip: number) {
         const allPosts: Post[] = await this.postRepo.find({
@@ -207,18 +208,22 @@ export class PostsService {
     }
 
     public async deletePost(userId: string, postId: string) {
-
         const foundPost = await this.postRepo.findOne({where: {id: postId}});
 
         if (foundPost.author.id !== userId) {
             throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
         }
 
-        const foundLikes = await this.likePostRepo.find({where: {comment: postId}});
-
+        const foundLikes = await this.likePostRepo.find({where: {post: postId}});
         if (foundLikes.length) {
             foundLikes.forEach(async (like) => await this.likePostRepo.delete(like));
         }
+
+        const commentsToPost: Comment[] = await this.commentRepo.find({where: {post: postId}});
+        if (commentsToPost.length) {
+            commentsToPost.forEach(comment => comment.isDeleted = true);
+        }
+        await this.commentRepo.save(commentsToPost);
 
         foundPost.isDeleted = true;
         await this.postRepo.save(foundPost);
@@ -226,7 +231,7 @@ export class PostsService {
         return { msg: `Post successfully deleted!`};
     }
 
-    async uploadPhoto (base: string): Promise<string> {
+    public async uploadPhoto(base: string): Promise<string> {
 
         try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
