@@ -2,7 +2,7 @@ import { UsersService } from './../../core/services/user.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProfileComponent } from './profile.component';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ActivatedRoute, Routes } from '@angular/router';
 import { NotificationService } from './../../core/services/notification.service';
 import { ProfileInfoService } from './../../core/services/profile-info.service';
@@ -21,6 +21,7 @@ import { UsersModule } from '../users.module';
 import { PostsModule } from '../../posts/posts.module';
 import { CommentsModule } from '../../comments/comments.module';
 import { CoreModule } from '../../core/core.module';
+import { ShowUserProfileDTO } from '../../models/users/user-profile.dto';
 
 
 describe('ProfileComponent', () => {
@@ -37,7 +38,9 @@ describe('ProfileComponent', () => {
     jest.clearAllMocks();
 
     authService = {
-      get loggedUserData$() { return of(); }
+      get loggedUserData$() { return of(); },
+      logout() {},
+      login() {return of()}
     };
 
     route = {
@@ -45,8 +48,8 @@ describe('ProfileComponent', () => {
     };
 
     usersService = {
-      followUnfollow() {return of()},
-      updateProfile() {return of()}
+      followUnfollow() {return of();},
+      updateProfile() {return of();}
     };
 
     notificationService = {
@@ -189,11 +192,11 @@ describe('ProfileComponent', () => {
     expect(profileService.passNewProfile).toHaveBeenCalledTimes(1);
     expect(profileService.passNewProfile).toHaveBeenCalledWith(user);
 
-  })
+  });
 
   describe('followUnfollow should', () => {
 
-    it('should call the usersService.followUnfollow() with {action: "follow"} and profileInfo.username if called with "true" ', ()=> {
+    it('should call the usersService.followUnfollow() with {action: "follow"} and profileInfo.username if called with "true" ', () => {
 
 
       const mockfollowOrUnfollow = true;
@@ -202,25 +205,7 @@ describe('ProfileComponent', () => {
         .spyOn(usersService, 'followUnfollow');
 
       component.profileInfo.username = 'MockName';
-      const actionBody = {action: "follow"};
-
-      component.followUnfollow(mockfollowOrUnfollow);
-
-      expect(usersService.followUnfollow).toHaveBeenCalledTimes(1);
-      expect(usersService.followUnfollow).toHaveBeenCalledWith('MockName', actionBody);
-
-    })
-
-    it('should call the usersService.followUnfollow() with {action: "unFollow"} and profileInfo.username if called with "true" ', ()=> {
-
-
-      const mockfollowOrUnfollow = false;
-
-      const spy = jest
-        .spyOn(usersService, 'followUnfollow');
-
-      component.profileInfo.username = 'MockName';
-      const actionBody = {action: "unFollow"};
+      const actionBody = {action: 'follow'};
 
       component.followUnfollow(mockfollowOrUnfollow);
 
@@ -229,7 +214,25 @@ describe('ProfileComponent', () => {
 
     });
 
-    it('should subscribe to the usersService.followUnfollow() observable and update profileInfo', ()=> {
+    it('should call the usersService.followUnfollow() with {action: "unFollow"} and profileInfo.username if called with "true" ', () => {
+
+
+      const mockfollowOrUnfollow = false;
+
+      const spy = jest
+        .spyOn(usersService, 'followUnfollow');
+
+      component.profileInfo.username = 'MockName';
+      const actionBody = {action: 'unFollow'};
+
+      component.followUnfollow(mockfollowOrUnfollow);
+
+      expect(usersService.followUnfollow).toHaveBeenCalledTimes(1);
+      expect(usersService.followUnfollow).toHaveBeenCalledWith('MockName', actionBody);
+
+    });
+
+    it('should subscribe to the usersService.followUnfollow() observable and update profileInfo', () => {
 
       const mockedFollowedProfile = 'mockedFollowedProfile';
       const mockfollowOrUnfollow = 'mockFolloUnfollow';
@@ -244,7 +247,7 @@ describe('ProfileComponent', () => {
 
     });
 
-    it('should pass the profile info profileService.passNewProfile ', ()=> {
+    it('should pass the profile info profileService.passNewProfile ', () => {
 
       const mockedFollowedProfile = 'mockedFollowedProfile';
       const mockfollowOrUnfollow = 'mockFolloUnfollow';
@@ -262,7 +265,7 @@ describe('ProfileComponent', () => {
   });
 
   describe('updateProfile should', () => {
-    it('should call the usersService.updateProfile() with the correct param',  ()=>{
+    it('should call the usersService.updateProfile() with the correct param',  () => {
       const mockUpdate = 'Mock update info';
       component.loggedUser = new LoggedUserDTO();
       component.loggedUser.id = 'MockId';
@@ -274,8 +277,107 @@ describe('ProfileComponent', () => {
 
       expect(usersService.updateProfile).toBeCalledTimes(1);
       expect(usersService.updateProfile).toBeCalledWith(mockUpdate, 'MockId');
+    });
+
+    it('it should notify on successful update and change profileInfo with the updated data', () => {
+      const mockUpdate = 'Mock update info';
+      component.loggedUser = new LoggedUserDTO();
+      const successMsg = 'Profile successfully updated!';
+
+      const returnUpdatedInfo = 'Mock return update';
+
+      const spy = jest
+        .spyOn(usersService, 'updateProfile')
+        .mockReturnValue(of(returnUpdatedInfo));
+
+      const spy2 = jest
+        .spyOn(notificationService, 'success');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(notificationService.success).toBeCalledWith(successMsg);
+      expect(component.profileInfo).toBe(returnUpdatedInfo);
+
+
+    });
+
+    it('should pass the updated profileInfo with profileService.passNewProfile', ()=>{
+
+      const mockUpdate = 'Mock update info';
+      component.loggedUser = new LoggedUserDTO();
+      const returnUpdatedInfo = 'Mock return updated info';
+
+      const spy = jest
+      .spyOn(usersService, 'updateProfile')
+      .mockReturnValue(of(returnUpdatedInfo));
+
+      const spy2 = jest
+      .spyOn(profileService, 'passNewProfile');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(profileService.passNewProfile).toHaveBeenCalledTimes(1);
+      expect(profileService.passNewProfile).toHaveBeenCalledWith(returnUpdatedInfo);
+
+
     })
-  })
+
+    it('should call authService.logout()', ()=> {
+
+      const mockUpdate = 'Mock update info';
+      component.loggedUser = new LoggedUserDTO();
+      component.loggedUser.id = 'MockId';
+      const returnUpdatedInfo = 'Return update info';
+
+      const spy = jest
+      .spyOn(usersService, 'updateProfile')
+      .mockReturnValue(of(returnUpdatedInfo));
+
+      const spy2 = jest
+        .spyOn(authService, 'logout');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(authService.logout).toHaveBeenCalledTimes(1);
+    })
+
+    it('should call authService.login with the correct params', ()=> {
+      const mockUpdate = {username: 'testName', password: 'testPass'}
+      component.loggedUser = new LoggedUserDTO();
+      component.loggedUser.id = 'MockId';
+      const returnUpdatedInfo = {username: 'testName', password: 'testPass'};
+
+      const spy = jest
+      .spyOn(usersService, 'updateProfile')
+      .mockReturnValue(of(returnUpdatedInfo));
+
+      const spy2 = jest
+        .spyOn(authService, 'login');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(authService.login).toHaveBeenCalledTimes(1);
+      expect(authService.login).toHaveBeenCalledWith({credential: 'testName', password: 'testPass'})
+    })
+
+    it('should call notificationService.error() if userService.updateProfile() throws an error', ()=> {
+      const mockUpdate = 'MockUpdate';
+      component.loggedUser = new LoggedUserDTO();
+      component.loggedUser.id = 'MockId';
+      const errorMsg = 'Unsuccessful profile update!';
+
+      const spy = jest
+      .spyOn(usersService, 'updateProfile')
+      .mockReturnValue(throwError('Error!'));
+
+      const spy2 = jest.spyOn(notificationService, 'error');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(notificationService.error).toHaveBeenCalledTimes(1);
+      expect(notificationService.error).toHaveBeenCalledWith(errorMsg);
+    });
+  });
 
 });
 

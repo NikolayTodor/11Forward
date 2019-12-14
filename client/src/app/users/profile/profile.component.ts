@@ -56,14 +56,16 @@ export class ProfileComponent implements OnInit {
       (data) => {
         this.profileInfo = data;
         this.profileService.passNewProfile(this.profileInfo);
-      }
+      },
+      ()=> {this.notificationService.error('Unsucessful follow / unfollow action')}
     )
   }
 
   updateProfile(updateProfileInfo: UpdateUserDTO) {
 
     this.usersService.updateProfile(updateProfileInfo, this.loggedUser.id)
-    .subscribe((data: ShowUserProfileDTO) => {
+    .subscribe(
+      (data: ShowUserProfileDTO) => {
 
       this.notificationService.success(`Profile successfully updated!`);
 
@@ -87,6 +89,6 @@ export class ProfileComponent implements OnInit {
       });
 
     },
-    ()=>this.notificationService.error(`Unsuccessful profile update!`));
+    () => this.notificationService.error(`Unsuccessful profile update!`));
   }
 }
