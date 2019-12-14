@@ -1,6 +1,6 @@
 
 
-<input type="file" (change)="fileChangeEvent($event)" />
+<input type="file" (change)="fileChangeEvent($event)" class="upload-btn"/>
 
 
     <image-cropper
@@ -26,7 +26,7 @@
 
 
 <div class="create-post-container">
-  <form [formGroup]="this.createPostForm" (ngSubmit)="this.createPost(this.createPostForm.value)">
+  <form [formGroup]="this.createPostForm" (ngSubmit)="this.createPost(this.createPostForm.value)" class="form">
     <mat-form-field>
       <input matInput placeholder="Add title" required formControlName="title">
       <mat-error *ngIf="!!this.createPostForm.controls.title.errors?.required">
@@ -39,7 +39,7 @@
         The title must be shorter that 60 symbols!
       </mat-error>
     </mat-form-field>
-
+    <!-- <br /> -->
     <mat-form-field>
       <input matInput placeholder="Add content" required formControlName="content">
       <mat-error *ngIf="!!this.createPostForm.controls.content.errors?.required">
@@ -52,10 +52,9 @@
         The content of the post must be shorter that 1000 symbols!
       </mat-error>
     </mat-form-field>
-
-    <label>The post's privacy settings: </label>
+    <br />
     <mat-radio-group formControlName="isPrivate" required>
-        <mat-radio-button value="Private">Private</mat-radio-button>
+        <mat-radio-button value="Private">Private</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-radio-button value="Public">Public</mat-radio-button>
     </mat-radio-group>
 
