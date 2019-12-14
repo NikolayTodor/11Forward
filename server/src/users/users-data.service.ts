@@ -1,11 +1,10 @@
-
 import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
 import { ShowUserDTO } from './../models/users/show-user.dto';
 import { User } from './../data/entities/user.entity';
 import { CreateUserDTO } from './../models/users/create-user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -15,6 +14,8 @@ import { LikePost } from '../data/entities/like-post.entity';
 import { Post } from '../data/entities/post.entity';
 import { Comment } from '../data/entities/comment.entity';
 import { LikeComment } from '../data/entities/like-comment.entity';
+import { PostsService } from '../posts/posts.service';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class UsersDataService {
@@ -25,6 +26,8 @@ export class UsersDataService {
     @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
     @InjectRepository(LikeComment) private readonly likeCommentRepo: Repository<LikeComment>,
     @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
+    @Inject(CommentsService) private readonly commentsService,
+    @Inject(PostsService) private readonly postsService
     ) {}
 
   public async getAllUsers(take: number, skip: number) {
@@ -285,28 +288,26 @@ export class UsersDataService {
 
     const foundPostLikes = await this.likePostRepo.find({where: {user: userId}});
       if (foundPostLikes.length) {
-        foundPostLikes.forEach(async (like: LikePost) => await this.likePostRepo.delete(like));
+        await Promise.all(foundPostLikes.map(async (like: LikePost) => await this.likePostRepo.delete(like)));
       }
 
     const foundCommentLikes = await this.likeCommentRepo.find({where: {user: userId}});
       if (foundCommentLikes.length) {
-        foundCommentLikes.forEach(async (like: LikeComment) => await this.likeCommentRepo.delete(like));
+        await Promise.all(foundCommentLikes.map(async (like: LikeComment) => await this.likeCommentRepo.delete(like)));
       }
 
     const foundPosts = await this.postRepo.find({where: {author: userId}});
       if (foundPosts.length) {
-        foundPosts.forEach(async (post: Post) => {
-          post.isDeleted = true;
-          await this.postRepo.save(post);
-        });
+        await Promise.all(foundPosts.map(async (post: Post) => {
+          await this.postsService.deletePost(userId, post.id);
+        }));
       }
 
     const foundComments = await this.commentRepo.find({where: {author: userId}});
       if (foundComments.length) {
-        foundComments.forEach(async (comment: Comment) => {
-          comment.isDeleted = true;
-          await this.commentRepo.save(comment);
-        });
+        await Promise.all(foundComments.map(async (comment: Comment) => {
+          await this.commentsService.deleteComment(userId, comment.id);
+        }));
       }
 
       return {msg: 'User successfully deleted!'};
