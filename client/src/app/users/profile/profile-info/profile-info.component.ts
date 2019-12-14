@@ -1,9 +1,8 @@
-
 import { UsersService } from './../../../core/services/user.service';
 import { GalleryRefreshService } from './../profile-gallery/gallery-refresh.service';
 import { NotificationService } from './../../../core/services/notification.service';
 import { MatDialog } from '@angular/material';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { PostsService } from '../../../core/services/posts.service';
 import { CreatePostComponent } from '../../../shared/components/create-post/create-post.component';
 import { ShowPostDTO } from '../../../models/posts/show-post.dto';
@@ -22,7 +21,7 @@ import { ConfirmationDialogComponent } from '../../../shared/components/confirma
   templateUrl: './profile-info.component.html',
   styleUrls: ['./profile-info.component.scss']
 })
-export class ProfileInfoComponent implements OnInit {
+export class ProfileInfoComponent implements OnInit, OnDestroy {
 
   public subscription: Subscription;
   public loggedUser: LoggedUserDTO;
@@ -48,6 +47,11 @@ export class ProfileInfoComponent implements OnInit {
         this.loggedUser = loggedUser;
       }
     );
+  }
+
+  ngOnDestroy() {
+
+    this.subscription.unsubscribe();
   }
 
   openDialogEditProfile(): void {

@@ -8,8 +8,7 @@
     <div class="posts-list">
       <ng-container *ngFor="let post of this.posts">
       <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
-        (toUpdatePost)="this.updatePost($event)" (toLikePost)="this.likePost($event)"
-        (deletePost)="this.deletePost($event)">
+         (toLikePost)="this.likePost($event)">
       </app-single-post-in-list>
     </ng-container>
     </div>

@@ -31,7 +31,8 @@ export class SinglePostCommentsComponent implements OnInit {
     private readonly postsService: PostsService,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
-    private readonly dialog: MatDialog) { }
+    private readonly dialog: MatDialog
+    ) { }
 
   ngOnInit() {
     this.subscription = this.authService.loggedUserData$.subscribe(
@@ -60,8 +61,8 @@ export class SinglePostCommentsComponent implements OnInit {
   }
 
   public updatePost(post: UpdatePostDTO): void {
-    console.log(post);
-    this.postsService.updatePost(post).subscribe((data: ShowPostDTO) => {
+    this.postsService.updatePost(post)
+    .subscribe((data: ShowPostDTO) => {
       this.notificationService.success(`The post has been updated!`);
       this.post = data;
     });
@@ -84,7 +85,7 @@ export class SinglePostCommentsComponent implements OnInit {
   confirmDelete(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '70%',
-      data: `Are you sure you want to delete your post? This  will also delete the post's comments and likes!`
+      data: `Are you sure you want to delete your post? This will also delete the post's comments and likes!`
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

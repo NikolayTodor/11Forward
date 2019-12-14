@@ -4,10 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from 'src/app/models/users/logged-user.dto';
-import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-single-post-in-list',
@@ -22,9 +19,9 @@ export class SinglePostInListComponent implements OnInit {
   public postToShow: ShowPostDTO;
   public isPostForUpdate: boolean;
 
-  @Output() public readonly toUpdatePost: EventEmitter<UpdatePostDTO> = new EventEmitter();
+
   @Output() public readonly toLikePost: EventEmitter<string> = new EventEmitter();
-  @Output() public deletePost: EventEmitter<string> = new EventEmitter();
+
 
   @Input() public set post(value: ShowPostDTO) {
     this.postToShow = { ...value };
@@ -34,7 +31,6 @@ export class SinglePostInListComponent implements OnInit {
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly notificationService: NotificationService,
-    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -51,37 +47,12 @@ export class SinglePostInListComponent implements OnInit {
     this.router.navigate(['posts', this.postToShow.id]);
   }
 
-  public turnOnOffUpdatePostForm(): void {
-    if (this.isPostForUpdate === false) {
-    this.isPostForUpdate = true;
-    } else {
-      this.isPostForUpdate = false;
-    }
-  }
-
-
   public onLikePost(): void {
     if (this.loggedUser) {
     this.toLikePost.emit(this.postToShow.id);
     } else {
       this.notificationService.error(`Please log in to like posts and comments!`);
     }
-  }
-
-  confirmDelete(): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '70%',
-      data: `Are you sure you want to delete your post? This  will also delete the post's comments and likes!`
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.onDeletePost();
-      }
-    });
-  }
-
-  public onDeletePost(): void {
-    this.deletePost.emit(this.postToShow.id);
   }
 
 }
