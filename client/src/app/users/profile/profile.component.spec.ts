@@ -27,7 +27,7 @@ describe('ProfileComponent', () => {
   let authService;
   let usersService;
   let notificationService;
-  let profileInfoService;
+  let profileService;
   let route;
 
   let fixture: ComponentFixture<ProfileComponent>;
@@ -45,14 +45,16 @@ describe('ProfileComponent', () => {
     };
 
     usersService = {
-      followUnfollow() {}
+      followUnfollow() {return of()},
+      updateProfile() {return of()}
     };
 
     notificationService = {
+      success() {},
       error() {}
     };
 
-    profileInfoService = {
+    profileService = {
       passNewProfile() {}
     };
 
@@ -84,7 +86,7 @@ describe('ProfileComponent', () => {
       .overrideProvider(UsersService, { useValue: usersService })
       .overrideProvider(ActivatedRoute, {useValue: route})
       .overrideProvider(NotificationService, {useValue: notificationService})
-      .overrideProvider(ProfileInfoService, {useValue: profileInfoService})
+      .overrideProvider(ProfileInfoService, {useValue: profileService})
       .compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);
@@ -117,7 +119,6 @@ describe('ProfileComponent', () => {
 
       // Assert
       expect(component.loggedUser).toEqual(mockedUserData);
-      spy.mockClear();
 
   });
 
@@ -141,14 +142,14 @@ describe('ProfileComponent', () => {
 
     // Assert
       expect(spy).toHaveBeenCalledTimes(1);
-      spy.mockClear();
+
   });
 
   it('should initialize correctly with the data passed from the resolver', () => {
 
     const user = {
-       id: '1',
-       username: 'Niki',
+      id: '1',
+      username: 'Niki',
       avatarURL: 'mockUrl',
       email: 'mockMail',
       followersCount: 1,
@@ -162,9 +163,119 @@ describe('ProfileComponent', () => {
 
     component.ngOnInit();
 
+
     expect(component.profileInfo).toEqual(user);
 
   });
+
+  it('should call the profileService.passNewProfile and pass the profile info once', () => {
+    const user = {
+      id: '1',
+      username: 'Niki',
+      avatarURL: 'mockUrl',
+      email: 'mockMail',
+      followersCount: 1,
+      followingCount: 1,
+      isFollowed: false,
+      isOwner: true
+    };
+
+    const spy = jest.spyOn(profileService, 'passNewProfile');
+    route.data = of({ user });
+
+    component.ngOnInit();
+
+
+    expect(profileService.passNewProfile).toHaveBeenCalledTimes(1);
+    expect(profileService.passNewProfile).toHaveBeenCalledWith(user);
+
+  })
+
+  describe('followUnfollow should', () => {
+
+    it('should call the usersService.followUnfollow() with {action: "follow"} and profileInfo.username if called with "true" ', ()=> {
+
+
+      const mockfollowOrUnfollow = true;
+
+      const spy = jest
+        .spyOn(usersService, 'followUnfollow');
+
+      component.profileInfo.username = 'MockName';
+      const actionBody = {action: "follow"};
+
+      component.followUnfollow(mockfollowOrUnfollow);
+
+      expect(usersService.followUnfollow).toHaveBeenCalledTimes(1);
+      expect(usersService.followUnfollow).toHaveBeenCalledWith('MockName', actionBody);
+
+    })
+
+    it('should call the usersService.followUnfollow() with {action: "unFollow"} and profileInfo.username if called with "true" ', ()=> {
+
+
+      const mockfollowOrUnfollow = false;
+
+      const spy = jest
+        .spyOn(usersService, 'followUnfollow');
+
+      component.profileInfo.username = 'MockName';
+      const actionBody = {action: "unFollow"};
+
+      component.followUnfollow(mockfollowOrUnfollow);
+
+      expect(usersService.followUnfollow).toHaveBeenCalledTimes(1);
+      expect(usersService.followUnfollow).toHaveBeenCalledWith('MockName', actionBody);
+
+    });
+
+    it('should subscribe to the usersService.followUnfollow() observable and update profileInfo', ()=> {
+
+      const mockedFollowedProfile = 'mockedFollowedProfile';
+      const mockfollowOrUnfollow = 'mockFolloUnfollow';
+
+      const spy = jest
+        .spyOn(usersService, 'followUnfollow')
+        .mockReturnValue(of(mockedFollowedProfile));
+
+      component.followUnfollow((mockfollowOrUnfollow as any));
+
+      expect(component.profileInfo).toBe('mockedFollowedProfile');
+
+    });
+
+    it('should pass the profile info profileService.passNewProfile ', ()=> {
+
+      const mockedFollowedProfile = 'mockedFollowedProfile';
+      const mockfollowOrUnfollow = 'mockFolloUnfollow';
+
+      const spy = jest
+        .spyOn(usersService, 'followUnfollow')
+        .mockReturnValue(of(mockedFollowedProfile));
+
+      component.followUnfollow((mockfollowOrUnfollow as any));
+
+      expect(component.profileInfo).toBe('mockedFollowedProfile');
+
+    });
+
+  });
+
+  describe('updateProfile should', () => {
+    it('should call the usersService.updateProfile() with the correct param',  ()=>{
+      const mockUpdate = 'Mock update info';
+      component.loggedUser = new LoggedUserDTO();
+      component.loggedUser.id = 'MockId';
+
+      const spy = jest
+        .spyOn(usersService, 'updateProfile');
+
+      component.updateProfile((mockUpdate as any));
+
+      expect(usersService.updateProfile).toBeCalledTimes(1);
+      expect(usersService.updateProfile).toBeCalledWith(mockUpdate, 'MockId');
+    })
+  })
 
 });
 
