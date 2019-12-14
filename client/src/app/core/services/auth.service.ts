@@ -34,6 +34,7 @@ export class AuthService {
   public get loggedUserData$(): Observable<LoggedUserDTO> {
     return this.loggedInSubject$.asObservable();
   }
+
   public register(user: UserRegisterDTO): Observable<any> {
     return this.http.post<any>(`${CONFIG.DOMAIN_NAME}/users`, user);
   }
@@ -48,10 +49,13 @@ export class AuthService {
     }));
   }
 
-  public logout(): void {
+  public logout(): Observable<any> {
+    return this.http.delete(`${CONFIG.DOMAIN_NAME}/session`)
+    .pipe(tap(() => {
       this.storage.removeItem('token');
       this.loggedInSubject$.next(null);
       this.isLoggedInSubject$.next(false);
+    }));
   }
 
   public getLoggedUserData(): LoggedUserDTO {
