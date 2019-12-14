@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as moment from 'moment';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { CreateCommentDTO } from '../models/comments/create-comment.dto';
 import { ShowCommentDTO } from '../models/comments/show-comment.dto';
 import { UpdateCommentDTO } from '../models/comments/update-comment.dto';
 import { LikeComment } from '../data/entities/like-comment.entity';
+import { ApiSystemError } from '../common/exceptions/api-system.error';
 
 @Injectable()
 export class CommentsService {
@@ -60,9 +61,6 @@ export class CommentsService {
         newComment.post = Promise.resolve(foundPost);
         await this.commentRepo.save(newComment);
 
-        foundPost.commentsCount += 1;
-        this.postRepo.save(foundPost);
-
         const returnComment = this.dateTransform(newComment);
 
         return returnComment;
@@ -99,8 +97,11 @@ export class CommentsService {
       }
 
     public async updateComment(userId: string, commentId: string, body: UpdateCommentDTO) {
-
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
+
+        if (foundComment.author.id !== userId) {
+            throw new ApiSystemError(`You are not the author of this post!`, 404);
+        }
 
         foundComment.content = body.content;
 
@@ -111,25 +112,21 @@ export class CommentsService {
     }
 
     public async deleteComment(userId: string, commentId: string) {
-
         const foundComment = await this.commentRepo.findOne({where: {id: commentId}});
 
         if (foundComment.author.id !== userId) {
-            throw new BadRequestException(`You are neither the author of this post, nor an admin!`);
+            throw new ApiSystemError(`You are neither the author of this post, nor an admin!`, 404);
         }
 
-        const foundPost = await foundComment.post;
-        foundPost.commentsCount -= 1;
-        await this.postRepo.save(foundPost);
+        foundComment.isDeleted = true;
+        foundComment.post = null;
+        await this.commentRepo.save(foundComment);
 
         const foundLikes = await this.likeCommentRepo.find({where: {comment: commentId}});
 
         if (foundLikes.length) {
-            foundLikes.forEach(async (like) => await this.likeCommentRepo.delete(like));
+            await Promise.all(foundLikes.map(async (like) => await this.likeCommentRepo.delete(like)));
         }
-
-        foundComment.isDeleted = true;
-        await this.commentRepo.save(foundComment);
 
         return { msg: `Comment successfully deleted!`};
     }
