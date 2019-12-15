@@ -88,55 +88,6 @@ describe('SinglePostCommentsComponent', () => {
       expect(component).toBeDefined();
     });
 
-    // describe('ngOnInit()', () => {
-    //   it('should subscribe to the loggedUserData$ observable and save the emitted value', () => {
-    //     // Arrange
-    //     const mockedUserData: LoggedUserDTO = {
-    //       id: '1',
-    //       username: 'pesho',
-    //       isDeleted: false,
-    //     };
-
-    //     const spy = jest
-    //       .spyOn(authService, 'loggedUserData$', 'get')
-    //       .mockReturnValue(of(mockedUserData));
-
-    //     activatedRoute.snapshot = {
-    //       paramMap: {
-    //         get: () => '1',
-    //       }
-    //     };
-
-    //     // Act
-    //     component.ngOnInit();
-
-    //     // Assert
-    //     expect(component.loggedUser).toEqual(mockedUserData);
-    //   });
-
-      // it('should call loggedUserData$ once', () => {
-      //   // Arrange
-      //   const mockedUserData: LoggedUserDTO = {
-      //     id: '1',
-      //     username: 'pesho',
-      //     isDeleted: false,
-      //   };
-
-      //   const spy = jest
-      //     .spyOn(authService, 'loggedUserData$', 'get')
-      //     .mockReturnValue(of(mockedUserData));
-
-      //   // Act
-      //   component.ngOnInit();
-
-      //   // Assert
-      //   expect(spy).toHaveBeenCalledTimes(1);
-      // });
-    // });
-
-    // Testvai ngOnInit dali se subscribe-va pravilno
-    // Testvai ngOnInit dali vika postsService pravilno, dali poluchava pravilen rezultat, dali dobre go obrabotva
-
     describe('turnOnOffUpdatePostForm()', () => {
       it('should turn this.isPostForUpdateForm ON if it is OFF', () => {
         // Arrange
