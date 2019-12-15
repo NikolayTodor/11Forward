@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
 import {MatDialog} from '@angular/material';
-import { UpdatePostDTO } from 'src/app/models/posts/update-post.dto';
 import { ShowPostDTO } from '../../models/posts/show-post.dto';
 
 @Component({
