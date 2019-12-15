@@ -5,11 +5,11 @@ export class AuthUserDTO {
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({example: 'niki'})
+    @ApiModelProperty({example: 'TestUser'})
     public credential: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({example: 'predator666'})
+    @ApiModelProperty({example: 'testPassword'})
     public password: string;
 }
