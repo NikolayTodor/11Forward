@@ -60,7 +60,7 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        this.updateProfile(result.data)
+        this.updateProfile(result.data);
       }
     });
   }
