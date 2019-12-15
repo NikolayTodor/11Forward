@@ -3,18 +3,18 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class CreateUserDTO {
 
-    @ApiModelProperty()
+    @ApiModelProperty({example: 'newUser'})
     @IsString()
     @IsNotEmpty()
     @Length(4, 20)
     public username: string;
 
-    @ApiModelProperty()
+    @ApiModelProperty({example: 'newUser@abv.bg'})
     @IsEmail()
     @IsNotEmpty()
     public email: string;
 
-    @ApiModelProperty()
+    @ApiModelProperty({example: 'newpassword'})
     @IsNotEmpty()
     @IsString()
     @Length(6, 20)

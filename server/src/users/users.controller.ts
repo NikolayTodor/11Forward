@@ -6,19 +6,20 @@ import { userDecorator } from './../common/decorators/user.decorator';
 import { CreateUserDTO } from './../models/users/create-user.dto';
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put, Delete } from '@nestjs/common';
 import { UsersDataService } from './users-data.service';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { UpdateUserDTO } from '../models/users/update-user.dto';
-import { ShowUsersProfilesDTO } from '../models/users/show-users-profiles.dto';
 import { UserFollowInfoDTO } from '../models/users/user-follow-info.dto';
 
+
 @Controller('users')
-@ApiUseTags('Users Controller')
+@ApiUseTags('users')
 export class UsersController {
     constructor(private readonly usersService: UsersDataService) {}
 
     @Get()
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async getAllUsers(
@@ -30,6 +31,7 @@ export class UsersController {
 
     @Get(':id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async showsingleUser(
@@ -41,6 +43,7 @@ export class UsersController {
 
     @Get('/followers/:id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowers(
@@ -53,6 +56,7 @@ export class UsersController {
 
     @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowing(
@@ -74,6 +78,7 @@ export class UsersController {
     @Put(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true})) ** Comment: the pipe rejects DTO
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async updateUser(
