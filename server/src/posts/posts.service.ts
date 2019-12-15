@@ -9,7 +9,6 @@ import { User } from '../data/entities/user.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
-import axios from 'axios';
 import { Comment } from '../data/entities/comment.entity';
 
 @Injectable()
@@ -65,7 +64,7 @@ export class PostsService {
         });
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
-        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1)).map((post: Post) => this.dateTransform(post))
+        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1)).map((post: Post) => this.dateTransform(post));
 
         return postsToReturn;
     }
@@ -153,11 +152,10 @@ export class PostsService {
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
           foundPost.likesCount -= 1;
+          // tslint:disable-next-line: no-shadowed-variable
           const returnPost = this.dateTransform(foundPost);
           return returnPost;
         }
-
-
 
         const newLike: LikePost = this.likePostRepo.create({});
         newLike.post = Promise.resolve(foundPost);
