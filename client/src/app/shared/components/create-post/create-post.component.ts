@@ -1,3 +1,4 @@
+import { NotificationService } from './../../../core/services/notification.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
@@ -24,7 +25,7 @@ export class CreatePostComponent implements OnInit {
   public constructor(
     private readonly formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CreatePostComponent>,
-
+    private readonly notificationService: NotificationService
     ) { }
 
   ngOnInit() {
@@ -45,7 +46,7 @@ export class CreatePostComponent implements OnInit {
 
     const file = event.srcElement.files[0];
     if (!file || !(/image\/(gif|jpg|jpeg|png)$/i).test(file.type) || file.size > 2000000 ) {
-      console.log('File type/size invalid!');
+      this.notificationService.error('File type/size invalid!');
       return;
     }
 
@@ -58,22 +59,20 @@ export class CreatePostComponent implements OnInit {
 
 imageLoaded() {
     this.showCropper = true;
-    console.log('Image loaded');
 }
 
 cropperReady() {
-    console.log('Cropper ready');
 }
 
 loadImageFailed() {
-    console.log('Load failed');
+    this.notificationService.error('Image load failed!');
 }
 
 resetImage() {
     this.imageCropper.resetImage();
 }
 
-toggleContainWithinAspectRatio(){
+toggleContainWithinAspectRatio() {
     this.containWithinAspectRatio = !this.containWithinAspectRatio;
 }
 
@@ -86,7 +85,7 @@ toggleContainWithinAspectRatio(){
     this.closeDialog(this.newPost);
   }
 
-  closeDialog(defData: any = null){
+  closeDialog(defData: any = null) {
     this.dialogRef.close({event: 'close', data: defData});
   }
 }
