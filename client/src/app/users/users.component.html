@@ -1,0 +1,11 @@
+<div class="main" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+  <div class="text">Who resides in our quantum universe:</div>
+  <div class="all-users-container">
+    <div class="users-list">
+      <ng-container *ngFor="let user of this.users">
+        <app-profile-card [profileInfo]="user" class="one-user">
+        </app-profile-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

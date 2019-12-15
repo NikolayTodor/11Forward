@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+
+#toast-container > .toast-success {
+    font-size: 14px;
+    font-family: 'Arial';
+    opacity: 1;
+}
+
+img.source-image {
+  max-height: 70vh !important;
+}
+
+@media only screen and (max-width: 380px) {
+  img.source-image {
+    max-height: 40vh !important;
+    max-width: 80vw !important;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .mat-dialog-container {
+    min-height: 100vh !important;
+    min-width: 100vw !important;
+  }
+}
+
+.mat-dialog-container {
+  margin: 0 auto;
+  height: fit-content !important;
+  max-height: 90vh;
+  max-width: 70%;
+}
+
+
+

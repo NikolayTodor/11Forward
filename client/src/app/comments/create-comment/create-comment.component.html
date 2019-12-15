@@ -1,0 +1,22 @@
+<div class="create-post-container">
+  <form [formGroup]="this.createCommentForm" (ngSubmit)="this.createComment(this.createCommentForm.value)">
+    <mat-form-field>
+      <input matInput placeholder="Add comment" required formControlName="content">
+      <mat-error *ngIf="!!this.createCommentForm.controls.content.errors?.required">
+        Some content is required!
+      </mat-error>
+      <mat-error *ngIf="!!this.createCommentForm.controls.content.errors?.minlength">
+        The comment must be at least 5 symbols long!
+      </mat-error>
+      <mat-error *ngIf="!!this.createCommentForm.controls.content.errors?.maxlength">
+        The comment must be shorter that 500 symbols!
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-icon-button class="create-comment-button" type="submit" [disabled]="this.createCommentForm.invalid">
+      <i class="material-icons">
+        assignment_turned_in
+      </i>
+    </button>
+  </form>
+</div>

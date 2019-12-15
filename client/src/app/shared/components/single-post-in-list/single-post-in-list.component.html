@@ -1,0 +1,33 @@
+<div *ngIf="(this.postToShow)" class="post-info-container">
+  <div class="single-post-in-list-container" post="post.title">
+    <mat-card>
+
+        <mat-card-header style="cursor: pointer;" [routerLink]="['/users', this.postToShow.author.id]" >
+            <img mat-card-avatar
+            [src]="this.postToShow.author.avatarURL"
+            style="cursor: pointer;"
+            class='profile-avatar'>
+            <mat-card-title>{{this.postToShow.author.username}}</mat-card-title>
+            <mat-card-subtitle>{{this.postToShow.title}}</mat-card-subtitle>
+          </mat-card-header>
+
+      <img class='post-image' src="{{this.postToShow.imageURL}}" (click)="this.openSinglePost()" style="cursor: pointer;">
+      <div class="post-item">
+
+      </div>
+      <mat-card-actions>
+      <button mat-icon-button (click)="this.onLikePost()">
+        <i class="material-icons">
+          thumb_up
+        </i> {{ this.postToShow.likesCount }}
+      </button> 
+      <button mat-icon-button (click)="this.openSinglePost()" class="comment-btn">
+      <i class="material-icons">
+        question_answer
+        </i> {{ this.postToShow.commentsCount }}
+      </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
+</div>
