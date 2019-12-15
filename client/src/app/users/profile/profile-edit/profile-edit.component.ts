@@ -46,7 +46,7 @@ export class ProfileEditComponent implements OnInit {
 
     const file = event.srcElement.files[0];
     if (!file || !(/image\/(gif|jpg|jpeg|png)$/i).test(file.type) || file.size > 2000000 ) {
-      this.notification.error('File type/size invalid!')
+      this.notification.error('File type/size invalid!');
       return;
     }
 
@@ -55,33 +55,30 @@ export class ProfileEditComponent implements OnInit {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    console.log(this.croppedImage);
 }
 
 imageLoaded() {
     this.showCropper = true;
-    console.log('Image loaded');
 }
 
 cropperReady() {
-    console.log('Cropper ready');
 }
 
 loadImageFailed() {
-    console.log('Load failed');
+
 }
 
 public onClikcUpdateProfile(update): void {
     this.updateProfile = {
       ...update
     };
-    if(this.croppedImage) {
+    if (this.croppedImage) {
       this.updateProfile.base = this.croppedImage;
     }
     this.closeDialog(this.updateProfile);
   }
 
-  closeDialog(defData: any = null){
+  closeDialog(defData: any = null) {
     this.dialogRef.close({event: 'close', data: defData});
   }
 
