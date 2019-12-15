@@ -8,6 +8,8 @@ export class PhotoUploadService {
 
     public async uploadPhoto(base: string): Promise<string> {
 
+        base = base.slice(22);
+
         try {
         const data = await axios(`https://api.imgur.com/3/upload`, {
             method: 'POST',
