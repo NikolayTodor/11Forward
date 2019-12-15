@@ -96,10 +96,12 @@ export class UsersDataService {
     const foundUser: User = await this.userRepo.findOne({
 
       where: [{
-          username: credential
+          username: credential,
+          isDeleted: false
         },
         {
-          email: credential
+          email: credential,
+          isDeleted: false
         }
       ]
 
