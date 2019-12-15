@@ -15,7 +15,7 @@ export class User {
     @Column({type: 'nvarchar', nullable: false, unique: true, length: 15})
     public username: string;
 
-    @Column({ type: 'nvarchar', nullable: false, length: 20 })
+    @Column({ type: 'nvarchar', nullable: false })
     public password: string;
 
     @Column({default: STATIC.DEFAULT_AVATAR })
