@@ -236,7 +236,9 @@ export class UsersDataService {
     if (updateInfo.base) {
       const correctBase = updateInfo.base.slice(22);
       const newURL = await this.uploadPhoto(correctBase);
-      foundUser.avatarURL = newURL;
+      if (newURL !== undefined) {
+        foundUser.avatarURL = newURL;
+      }
     }
 
     if (updateInfo.password) {
@@ -268,7 +270,7 @@ export class UsersDataService {
       return data.data.data.link;
   }
   catch(error) {
-     console.log('error');
+     return;
   }
   }
 
