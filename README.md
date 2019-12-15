@@ -123,9 +123,11 @@ ng test
 - You can use 11forward on your phone, tablet or PC. The design is responsive.
 
 ### Technologies used:
-- [NestJS](https://nestjs.com/) framework used for the backed
-- [Angular](https://angular.io/) famework used for the frontend
+- [NestJS](https://nestjs.com/) framework used for the backend
+- [Angular](https://angular.io/) framework used for the frontend
 - [TypeORM](https://typeorm.io) TypeScript based ORM for database manipulation
 
 ### License:
 The project was licensed under MIT license
+
+16.12.2019
