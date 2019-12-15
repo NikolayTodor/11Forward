@@ -22,6 +22,7 @@
         <span class="spacer"></span>
         <img class="logo" style="cursor:pointer;" src="./../../../assets/logo-draft.png" [routerLink]="['home']">
         <span class="spacer"></span>
+        <span class="spacer"></span>
         <span *ngIf="!(isHandset | async)!.matches">
         <a mat-list-item [routerLink]="['users/login']" *ngIf="!this.loggedUser">Login</a>
         <a mat-list-item [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
