@@ -1,4 +1,4 @@
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
@@ -49,14 +49,11 @@ export class AuthService {
     }));
   }
 
-  public logout(): Observable<any> {
-    return this.http.delete(`${CONFIG.DOMAIN_NAME}/session`)
-    .pipe(tap(() => {
-      this.storage.removeItem('token');
-      this.loggedInSubject$.next(null);
-      this.isLoggedInSubject$.next(false);
-    }));
-  }
+  public logout(): void {
+    this.storage.removeItem('token');
+    this.loggedInSubject$.next(null);
+    this.isLoggedInSubject$.next(false);
+}
 
   public getLoggedUserData(): LoggedUserDTO {
     const token: string = this.storage.getItem('token');

@@ -50,7 +50,6 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
     this.subscription.unsubscribe();
   }
 
@@ -82,7 +81,6 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   }
 
   public createPost(post: CreatePostDTO): void {
-
     this.postsService.createPost(post).subscribe(
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
@@ -110,10 +108,9 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
 
   public deleteProfile() {
     this.usersService.deleteUser(this.loggedUser.id).subscribe(() => {
-      this.authService.logout().subscribe(() => {
-        this.notificationService.success(`User successfully deleted!`);
-        this.route.navigate(['/home']);
-      });
+      this.authService.logout();
+      this.notificationService.success(`User successfully deleted!`);
+      this.route.navigate(['/home']);
     });
   }
 
