@@ -5,7 +5,6 @@ import { Comment } from './comment.entity';
 import { LikeComment } from './like-comment.entity';
 import { LikePost } from './like-post.entity';
 
-
 @Entity('users')
 export class User {
 

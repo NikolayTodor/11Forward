@@ -10,7 +10,6 @@ import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
 import { CoreModule } from './common/core.module';
 
-
 @Module({
   imports: [DatabaseModule, UsersModule, AuthModule, CoreModule, PostsModule, CommentsModule],
   controllers: [AppController],

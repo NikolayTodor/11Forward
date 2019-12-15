@@ -9,7 +9,6 @@ import { User } from '../data/entities/user.entity';
 import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import * as moment from 'moment';
 import { LikePost } from '../data/entities/like-post.entity';
-import axios from 'axios';
 import { Comment } from '../data/entities/comment.entity';
 
 @Injectable()
@@ -65,7 +64,7 @@ export class PostsService {
         });
 
         const filteredPosts = allPosts.filter(post => post.hasPermission === true);
-        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1)).map((post: Post) => this.dateTransform(post))
+        const postsToReturn = filteredPosts.slice(take * skip, take * (skip + 1)).map((post: Post) => this.dateTransform(post));
 
         return postsToReturn;
     }
@@ -77,22 +76,16 @@ export class PostsService {
             relations: ['posts', 'followers']
         });
 
-        // Check if user is the author of the posts
         const checkIfOwner: boolean = loggedUserId === userWithPostsId;
-
-        // Check if user is following the posts author
         const checkIfFollower: boolean = await foundUser.followers
             .then(data => data.some(follower => follower.id === loggedUserId));
 
-        // Get me all the posts of the user
         let userPosts: Post[] = await foundUser.posts;
 
-        // Transform date with moment ()
         userPosts = userPosts.map(post => this.dateTransform(post))
                     .filter((post) => post.isDeleted === false)
                     .sort((a, b) => (a.dateLastUpdated < b.dateLastUpdated) ? 1 : -1 );
 
-        // If user is not the author or does not follow author he receives public only
         if (!checkIfFollower && !checkIfOwner) {
             userPosts = userPosts.filter(post => !post.isPrivate);
         }
@@ -126,22 +119,13 @@ export class PostsService {
             throw new NotFoundException('No such user found');
         }
 
-        // Slicing the base64 string in order to pass it to IMGUR
-        const base = postToCreate.base.slice(22);
-
-        // Imgur returns a valid URL
+        const base = postToCreate.base;
         const urlFromImgur: string = await this.photoService.uploadPhoto(base);
 
-        // Attach Imgur URL to CreatePostDTO
         postToCreate.imageURL = urlFromImgur;
-
-        // Create the new post
         const newPost: Post = this.postRepo.create(postToCreate);
-
-        // We assign the author
         newPost.author = foundUser;
 
-        // If the post is private the 'has permission' is by default false
         if (postToCreate.isPrivate === true) {
             newPost.hasPermission = false;
         }
@@ -164,16 +148,14 @@ export class PostsService {
           throw new ApiSystemError('No such user found!', 404);
         }
 
-        // If user has already liked the post he will unlike it
         const foundLike: LikePost = await this.likePostRepo.findOne({ where: { user: userId, post: postId }});
         if (foundLike) {
           await this.likePostRepo.delete(foundLike);
           foundPost.likesCount -= 1;
+          // tslint:disable-next-line: no-shadowed-variable
           const returnPost = this.dateTransform(foundPost);
           return returnPost;
         }
-
-        // New lile added, like-count incremented
 
         const newLike: LikePost = this.likePostRepo.create({});
         newLike.post = Promise.resolve(foundPost);
@@ -232,8 +214,6 @@ export class PostsService {
 
         return { msg: `Post successfully deleted!`};
     }
-
-  
 
     private dateTransform(post: Post): Post {
         post.dateCreated = moment(post.dateCreated).startOf('minute').fromNow();

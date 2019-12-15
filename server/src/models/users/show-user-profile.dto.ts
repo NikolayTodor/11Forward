@@ -26,5 +26,4 @@ export class ShowUserProfileDTO {
     @Publish()
     public isOwner: boolean;
 
-
 }
