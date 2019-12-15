@@ -30,6 +30,7 @@ export class ConfigService {
       DB_DATABASE_NAME: Joi.string().required(),
       JWT_SECRET: Joi.string().required(),
       JWT_EXPIRE_TIME: Joi.number().default(3600),
+      IMGUR_ID: Joi.string().required()
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(
@@ -77,5 +78,9 @@ export class ConfigService {
 
   public get jwtExpireTime(): number {
     return +this.envConfig.JWT_EXPIRE_TIME;
+  }
+
+  public get imgurClientId(): string {
+    return this.envConfig.IMGUR_ID;
   }
 }
