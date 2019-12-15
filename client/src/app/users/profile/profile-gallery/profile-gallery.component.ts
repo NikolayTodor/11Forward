@@ -33,7 +33,7 @@ export class ProfileGalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.subscription = this.profileInfoService.profileInfo$.subscribe((data)=> {
+    this.subscription = this.profileInfoService.profileInfo$.subscribe((data) => {
       this.profileInfo = data;
       })
       .add(
