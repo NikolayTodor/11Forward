@@ -81,9 +81,8 @@ export class CommentsService {
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
           foundComment.likesCount -= 1;
-          // tslint:disable-next-line: no-shadowed-variable
-          const returnComment = this.dateTransform(foundComment);
-          return returnComment;
+          const returnlikedComment = this.dateTransform(foundComment);
+          return returnlikedComment;
         }
 
         const newLike: LikeComment = this.likeCommentRepo.create({});
