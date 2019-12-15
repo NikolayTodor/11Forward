@@ -7,7 +7,7 @@ import { userDecorator } from './../common/decorators/user.decorator';
 import { CreateUserDTO } from './../models/users/create-user.dto';
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put, Delete } from '@nestjs/common';
 import { UsersDataService } from './users-data.service';
-import { ApiUseTags, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { UpdateUserDTO } from '../models/users/update-user.dto';
 import { UserFollowInfoDTO } from '../models/users/user-follow-info.dto';
@@ -109,6 +109,8 @@ export class UsersController {
     @Delete(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Delete account', description: 'User can delete his profile account'})
     public async deleteUser(
         @userDecorator('user') loggedUser: ShowUserDTO,
         @Param('id') userId: string
