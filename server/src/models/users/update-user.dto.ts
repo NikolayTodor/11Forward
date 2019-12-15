@@ -2,7 +2,6 @@ import { IMAGE_BASE } from './../../common/misc/images/test.image';
 import { IsString, IsEmail, IsUrl, IsOptional, Length } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-
 export class UpdateUserDTO {
 
     @ApiModelProperty({example: 'updateUserName'})

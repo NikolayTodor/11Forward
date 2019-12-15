@@ -2,7 +2,6 @@ import { Publish } from '../../transformer/decorators/publish';
 import { User } from '../../data/entities/user.entity';
 import { ShowAuthorDTO } from '../users/show-author-dto';
 
-
 export class ShowPostDTO {
 
     @Publish()
