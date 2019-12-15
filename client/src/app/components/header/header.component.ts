@@ -11,7 +11,7 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/l
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   public loggedUser: LoggedUserDTO;
   public subscription: Subscription;
