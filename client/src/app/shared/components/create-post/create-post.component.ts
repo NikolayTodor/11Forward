@@ -23,7 +23,8 @@ export class CreatePostComponent implements OnInit {
 
   public constructor(
     private readonly formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<CreatePostComponent>
+    public dialogRef: MatDialogRef<CreatePostComponent>,
+
     ) { }
 
   ngOnInit() {
