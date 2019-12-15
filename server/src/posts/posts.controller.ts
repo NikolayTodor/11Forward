@@ -1,6 +1,6 @@
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe,
     Body, UseGuards, Get, Param, Put, Delete, Query, UseInterceptors } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { CreatePostDTO } from '../models/posts/create-post.dto';
 import { ShowUserDTO } from '../models/users/show-user.dto';
@@ -11,13 +11,14 @@ import { UpdatePostDTO } from '../models/posts/update-post.dto';
 import { TransformInterceptor } from '../transformer/interceptors/transform.interceptor';
 
 @Controller('posts')
-@ApiUseTags('Posts Controller')
+@ApiUseTags('posts')
 export class PostsController {
 
     constructor(private readonly postsService: PostsService) {}
 
     @Get()
     @HttpCode(HttpStatus.OK)
+    @ApiOperation({title: 'Get all public posts'})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getPublicPosts(
         @Query('take') take: string,
@@ -29,6 +30,7 @@ export class PostsController {
     @Get('/private')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiOperation({title: 'Get all private posts'})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getHomePagePostsPrivate(
         @userDecorator() user: ShowUserDTO,
@@ -41,6 +43,8 @@ export class PostsController {
     @Get('profile/:userId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Get posts of a user'})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getUserPosts(
         @Param('userId') userId: string,
@@ -53,6 +57,7 @@ export class PostsController {
 
     @Get(':postId')
     @HttpCode(HttpStatus.OK)
+    @ApiOperation({title: 'Get single post by id'})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async getOnePost(
         @Param('postId') postId: string,
@@ -64,6 +69,8 @@ export class PostsController {
     @UseGuards(AuthGuardWithBlacklisting)
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.CREATED)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Create post'})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async addNewPost(
         @userDecorator() user: ShowUserDTO,
@@ -74,6 +81,8 @@ export class PostsController {
     @Post('/likes/:postId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.CREATED)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Like/unlike post', description: 'Increment/decrement the post likes '})
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
     public async likePost(
       @Param('postId') postId: string,
@@ -84,6 +93,8 @@ export class PostsController {
 
     @Put(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Update post', description: 'User can update post title,content,privacy'})
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowPostDTO))
@@ -92,13 +103,15 @@ export class PostsController {
       @Body() body: UpdatePostDTO,
       @userDecorator() user: ShowUserDTO,
       ) {
-    
         return await this.postsService.updatePost(user.id, postId, body);
     }
 
     @Delete(':postId')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Delete post', description: 'User can delete their post'})
+    @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async deletePost(
       @Param('postId') postId: string,
       @userDecorator() user: ShowUserDTO
