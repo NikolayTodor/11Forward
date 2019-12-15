@@ -1,3 +1,4 @@
+import { FollowUserDTO } from './../models/users/follow-user.dto';
 import { ShowUserProfileDTO } from './../models/users/show-user-profile.dto';
 import { TransformInterceptor } from './../transformer/interceptors/transform.interceptor';
 import { ShowUserDTO } from './../models/users/show-user.dto';
@@ -91,11 +92,12 @@ export class UsersController {
     @Patch('/follow/:name')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
-        @Body() body: { action: FollowActionType },
+        @Body() body: FollowUserDTO,
         @Param('name') followUserName: string) {
             if ( body.action === FollowActionType.Follow ) {
                 return await this.usersService.followUser(user.username, followUserName);
