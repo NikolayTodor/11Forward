@@ -1,3 +1,4 @@
+import { ConfigService } from './../config/config.service';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Post } from '../data/entities/post.entity';
@@ -18,7 +19,8 @@ export class PostsService {
         @InjectRepository(Post) private readonly postRepo: Repository<Post>,
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
         @InjectRepository(User) private readonly userRepo: Repository<User>,
-        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>) {}
+        @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
+        private readonly configService: ConfigService) {}
 
     public async allPublicPosts(take: number, skip: number) {
         const allPosts: Post[] = await this.postRepo.find({
@@ -237,7 +239,7 @@ export class PostsService {
         const data = await axios(`https://api.imgur.com/3/upload`, {
             method: 'POST',
             headers: {
-               Authorization: `Client-ID 7084d3c72f8fab9`,
+               Authorization: this.configService.imgurClientId
             },
             data: {image: base},
           });
