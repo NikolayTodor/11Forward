@@ -81,6 +81,7 @@ export class CommentsService {
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
           foundComment.likesCount -= 1;
+          // tslint:disable-next-line: no-shadowed-variable
           const returnComment = this.dateTransform(foundComment);
           return returnComment;
         }
@@ -91,7 +92,7 @@ export class CommentsService {
         await this.likeCommentRepo.save(newLike);
 
         foundComment.likesCount += 1;
-        const returnComment = this.dateTransform(foundComment)
+        const returnComment = this.dateTransform(foundComment);
 
         return returnComment;
       }

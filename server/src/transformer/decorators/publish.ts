@@ -1,8 +1,9 @@
 // tslint:disable: only-arrow-functions
 import 'reflect-metadata';
 
+// tslint:disable-next-line: variable-name
 export const Publish = <T>(dto?: T) =>
-  function (target: any, propertyKey: string) {
+  function(target: any, propertyKey: string) {
     const exposed = Reflect.getMetadata('dto:transformer', target) || [];
     if (dto) {
       exposed.push({
