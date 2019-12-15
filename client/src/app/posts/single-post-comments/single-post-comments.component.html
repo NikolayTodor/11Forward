@@ -1,6 +1,10 @@
 <div *ngIf="(this.post)" class="post-info-container">
   <div class="single-post-container" post="post.title">
     <mat-card>
+
+        <mat-card-title class="post-texts">{{this.post.title}}</mat-card-title>
+        <mat-card-subtitle class="post-texts">{{this.post.content}}</mat-card-subtitle>
+
       <img src="{{this.post.imageURL}}" class="post-image">
       <div class="post-item">
       </div>
