@@ -2,20 +2,22 @@ import { IsOptional, IsString, IsNotEmpty, Length, IsBoolean } from 'class-valid
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class UpdatePostDTO {
+
+    @ApiModelProperty({example: 'updatePostTitle'})
     @IsOptional()
-    @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
     @Length(2, 60)
     public title: string;
 
+    @ApiModelProperty({example: 'updatePostContent'})
     @IsOptional()
-    @ApiModelProperty()
     @IsString()
     @IsNotEmpty()
     @Length(5, 1000)
     public content: string;
 
+    @ApiModelProperty({example: false})
     @IsOptional()
     @IsBoolean()
     public isPrivate: boolean;
