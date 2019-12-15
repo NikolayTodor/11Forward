@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 
 export const Publish = <T>(dto?: T) =>
-  function (target: any, propertyKey: string) {
+  function(target: any, propertyKey: string) {
     const exposed = Reflect.getMetadata('dto:transformer', target) || [];
     if (dto) {
       exposed.push({

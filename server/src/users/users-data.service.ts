@@ -211,7 +211,7 @@ export class UsersDataService {
     }
 
     if (!this.checkIfFollowed(userToUnFollow, userFollower.id)) {
-      throw new ApiSystemError('You can not unfollow user you dont follow!', 400)
+      throw new ApiSystemError('You can not unfollow user you dont follow!', 400);
     }
 
     const followedUsers: User[] = [...await userFollower.following]

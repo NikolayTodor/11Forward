@@ -81,8 +81,8 @@ export class CommentsService {
         if (foundLike) {
           await this.likeCommentRepo.delete(foundLike);
           foundComment.likesCount -= 1;
-          const returnComment = this.dateTransform(foundComment);
-          return returnComment;
+          const returnlikedComment = this.dateTransform(foundComment);
+          return returnlikedComment;
         }
 
         const newLike: LikeComment = this.likeCommentRepo.create({});
@@ -91,7 +91,7 @@ export class CommentsService {
         await this.likeCommentRepo.save(newLike);
 
         foundComment.likesCount += 1;
-        const returnComment = this.dateTransform(foundComment)
+        const returnComment = this.dateTransform(foundComment);
 
         return returnComment;
       }
