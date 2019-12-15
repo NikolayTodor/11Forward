@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
 
   followUnfollow(followOrUnfollow: boolean) {
 
-    // The action type depends on if we follow or do not follow the user
+
     const actionType = followOrUnfollow ? FollowActionType.Follow : FollowActionType.Unfollow;
     const actionBody = {action: actionType};
     this.usersService.followUnfollow(this.profileInfo.username, actionBody).subscribe(
@@ -57,8 +57,8 @@ export class ProfileComponent implements OnInit {
         this.profileInfo = data;
         this.profileService.passNewProfile(this.profileInfo);
       },
-      ()=> {this.notificationService.error('Unsucessful follow / unfollow action')}
-    )
+      () => {this.notificationService.error('Unsucessful follow / unfollow action'); }
+    );
   }
 
   updateProfile(updateProfileInfo: UpdateUserDTO) {
@@ -69,23 +69,19 @@ export class ProfileComponent implements OnInit {
 
       this.notificationService.success(`Profile successfully updated!`);
 
-      // Updating the new profile
       this.profileInfo = data;
 
 
-      // Emitting the new profile
       this.profileService.passNewProfile(this.profileInfo);
 
       const currUsername: string = this.profileInfo.username;
 
-      // Check if password has been updated
 
       const currPassword: string = updateProfileInfo.password !== '' ?
       updateProfileInfo.password : updateProfileInfo.oldPassword;
 
-      // Setting the new token
       this.authService.logout();
-      this.authService.login({credential: currUsername, password: currPassword}).subscribe((data)=>{
+      this.authService.login({credential: currUsername, password: currPassword}).subscribe(() => {
       });
 
     },
