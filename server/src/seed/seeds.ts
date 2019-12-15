@@ -4,9 +4,6 @@ import { Post } from './../data/entities/post.entity';
 import { Comment } from './../data/entities/comment.entity';
 import * as bcrypt from 'bcrypt';
 
-// SENSITIVE DATA ALERT! - Normally the seed and the admin credentials are not be present in the public repository!
-// Run: `npm run seed` to seed the database
-
 const seedUsers = async (connection: any) => {
   const usersRepo: Repository<User> = connection.manager.getRepository(User);
 
