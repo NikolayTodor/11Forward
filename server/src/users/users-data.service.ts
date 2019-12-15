@@ -174,7 +174,7 @@ export class UsersDataService {
 
     const followedUsers: User[] = [...await userFollower.following];
     if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {
-      throw new ApiSystemError('Can not follow same user twice!', 500);
+      throw new ApiSystemError('Can not follow same user twice!', 400);
     }
 
     userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
