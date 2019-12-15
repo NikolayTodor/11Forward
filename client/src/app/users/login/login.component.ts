@@ -19,9 +19,7 @@ export class LoginComponent implements OnInit {
     private readonly notification: NotificationService,
     private readonly router: Router ) { }
 
-
-    public ngOnInit() {
-    }
+    public ngOnInit() {}
 
     public login(credential: string, password: string) {
     const user: UserLoginDTO = {credential, password };

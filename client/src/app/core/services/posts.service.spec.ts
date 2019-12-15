@@ -4,8 +4,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CONFIG } from '../../common/config';
 import { of } from 'rxjs';
 import { CreatePostDTO } from '../../models/posts/create-post.dto';
-import { doesNotThrow } from 'assert';
-import { UpdatePostDTO } from '../../models/posts/update-post.dto';
 
 describe('UserService', () => {
   let httpClient;

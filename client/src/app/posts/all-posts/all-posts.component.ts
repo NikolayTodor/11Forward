@@ -6,7 +6,7 @@ import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
 import { Subscription } from 'rxjs';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
 import { AuthService } from '../../core/services/auth.service';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ShowPostDTO } from '../../models/posts/show-post.dto';
 
 @Component({
@@ -95,6 +95,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
       (postCreated: ShowPostDTO) => {
         this.notificationService.success(`Post created!`);
         postCreated.likesCount = 0;
+        postCreated.commentsCount = 0;
         this.posts.unshift(postCreated);
       },
       () => this.notificationService.error(`Oops! Something went wrong!`));

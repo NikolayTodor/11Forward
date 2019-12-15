@@ -22,8 +22,6 @@ import { PostsModule } from '../../posts/posts.module';
 import { CommentsModule } from '../../comments/comments.module';
 import { CoreModule } from '../../core/core.module';
 
-
-
 describe('ProfileComponent', () => {
   let authService;
   let usersService;
@@ -100,8 +98,8 @@ describe('ProfileComponent', () => {
 
   it('should be defined', () => {
     expect(component).toBeDefined();
-});
 
+});
 
   describe('ngOnInit should', () => {
 
@@ -379,4 +377,3 @@ describe('ProfileComponent', () => {
   });
 
 });
-

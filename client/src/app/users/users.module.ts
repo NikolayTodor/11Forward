@@ -18,7 +18,6 @@ import { ProfileFollowingResolverService } from './profile/proile-following/prof
 import { ProfileCardComponent } from './profile/profile-card/profile-card.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 
-
 @NgModule({
   declarations: [
     UsersComponent,
@@ -37,16 +36,16 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
     CommonModule,
     SharedModule
   ],
-
-  providers: [ProfileInfoResolverService,
+  providers: [
+    ProfileInfoResolverService,
     ProfileGalleryResolverService,
     ProfileFollowersResolverService,
     ProfileFollowingResolverService,
-   GalleryRefreshService],
-
+    GalleryRefreshService
+  ],
   exports: [
     UsersComponent,
     RegisterComponent
   ]
 })
-export class UsersModule { }
+export class UsersModule {}

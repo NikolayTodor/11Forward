@@ -1,4 +1,3 @@
-
 import { ShowUserProfileDTO } from './../../models/users/user-profile.dto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -7,7 +6,6 @@ import { UserFollowDTO } from '../../models/users/user-follow.dto';
 import { CONFIG } from '../../common/config';
 import { FollowActionType } from '../../common/follow-action-types';
 import { UpdateUserDTO } from '../../models/users/update-profile.dto';
-
 
 @Injectable()
 export class UsersService {

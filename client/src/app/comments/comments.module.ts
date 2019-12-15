@@ -5,8 +5,6 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { SingleCommentComponent } from './single-comment/single-comment.component';
 
-
-
 @NgModule({
   declarations: [
     AllCommentsComponent,

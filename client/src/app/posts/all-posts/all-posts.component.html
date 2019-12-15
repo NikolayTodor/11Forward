@@ -2,15 +2,15 @@
   <div class="welcome-text">What's new in our quantum universe:</div>
   <div class="all-posts-container">
 
-    <button *ngIf="this.loggedUser" class="create-post-button"
-      mat-stroked-button (click)="this.openDialog()"><strong>Create post</strong></button>
-<br />
+    <button *ngIf="this.loggedUser" class="create-post-button" mat-stroked-button
+      (click)="this.openDialog()"><strong>Create post</strong></button>
+    <br />
     <div class="posts-list">
       <ng-container *ngFor="let post of this.posts">
-      <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
-         (toLikePost)="this.likePost($event)">
-      </app-single-post-in-list>
-    </ng-container>
+        <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
+          (toLikePost)="this.likePost($event)">
+        </app-single-post-in-list>
+      </ng-container>
     </div>
   </div>
 </div>

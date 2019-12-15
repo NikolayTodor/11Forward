@@ -14,8 +14,7 @@ export class ProfileCardComponent implements OnInit {
   @Input()
   public profileInfo: ShowUserProfileDTO;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   navigate() {
     this.router.navigate([`users/${this.profileInfo.id}`]);

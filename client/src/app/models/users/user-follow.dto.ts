@@ -4,5 +4,4 @@ export class UserFollowDTO {
   public email: string;
   public followersCount: string;
   public followingCount: string;
-
 }

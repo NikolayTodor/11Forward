@@ -24,8 +24,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RouterModule } from '@angular/router';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
-
-
 @NgModule({
   declarations: [
     SinglePostInListComponent,

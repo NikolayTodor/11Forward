@@ -44,7 +44,6 @@ export class UpdatePostComponent implements OnInit {
       post.isPrivate === 'Private' ?
       updatedPost.isPrivate = true : updatedPost.isPrivate = false;
     }
-    console.log(post);
     this.toUpdatePost.emit(updatedPost);
   }
 

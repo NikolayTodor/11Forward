@@ -20,7 +20,6 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { ConfirmationDialogComponent } from './shared/components/confirmation-dialog/confirmation-dialog.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +40,11 @@ import { ConfirmationDialogComponent } from './shared/components/confirmation-di
     PostsModule,
     CommentsModule
   ],
-  entryComponents: [CreatePostComponent, ProfileEditComponent, ConfirmationDialogComponent],
+  entryComponents: [
+    CreatePostComponent,
+    ProfileEditComponent,
+    ConfirmationDialogComponent
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

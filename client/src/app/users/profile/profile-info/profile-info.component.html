@@ -1,23 +1,23 @@
 <mat-card class='profile-card'>
-      <mat-card-header>
-        <div mat-card-avatar ></div>
-        <mat-card-title>{{profile.username}}</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image class="example-header-image" [src]="this.profile.avatarURL">
-      <mat-card-actions *ngIf="this.profile.isOwner">
-          <button mat-button (click)="this.openDialogEditProfile()">Edit profile</button>
-          <button mat-button (click)="this.confirmDelete()">Delete profile</button>
-      </mat-card-actions>
+  <mat-card-header>
+    <div mat-card-avatar></div>
+    <mat-card-title>{{profile.username}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image class="example-header-image" [src]="this.profile.avatarURL">
+  <mat-card-actions *ngIf="this.profile.isOwner">
+    <button mat-button (click)="this.openDialogEditProfile()">Edit profile</button>
+    <button mat-button (click)="this.confirmDelete()">Delete profile</button>
+  </mat-card-actions>
 
-      <mat-card-actions *ngIf="!this.profile.isOwner">
-          <button mat-button *ngIf="!this.profile.isFollowed" (click)="this.onClickFollowUnfollow(true)">Follow</button>
-          <button mat-button *ngIf="this.profile.isFollowed" (click)="this.onClickFollowUnfollow(false)">Unfollow</button>
-      </mat-card-actions>
-  </mat-card>
+  <mat-card-actions *ngIf="!this.profile.isOwner">
+    <button mat-button *ngIf="!this.profile.isFollowed" (click)="this.onClickFollowUnfollow(true)">Follow</button>
+    <button mat-button *ngIf="this.profile.isFollowed" (click)="this.onClickFollowUnfollow(false)">Unfollow</button>
+  </mat-card-actions>
+</mat-card>
 
-  <mat-toolbar class='profile-navbar'>
-      <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialogPost()">Add Pic</button>
-      <button mat-raised-button [routerLink]="['posts']">Pics</button>
-      <button mat-raised-button [routerLink]="['followers']">Followers</button>
-      <button mat-raised-button [routerLink]="['following']">Following</button>
-  </mat-toolbar>
+<mat-toolbar class='profile-navbar'>
+  <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialogPost()">Add Pic</button>
+  <button mat-raised-button [routerLink]="['posts']">Pics</button>
+  <button mat-raised-button [routerLink]="['followers']">Followers</button>
+  <button mat-raised-button [routerLink]="['following']">Following</button>
+</mat-toolbar>

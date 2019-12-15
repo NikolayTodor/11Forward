@@ -5,8 +5,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ImageCroppedEvent, ImageCropperComponent  } from 'ngx-image-cropper';
 
-
-
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.component.html',
@@ -18,18 +16,18 @@ export class ProfileEditComponent implements OnInit {
   public updateProfile: UpdateUserDTO;
   public createPostForm: FormGroup;
   public imageChangedEvent: any = '';
-  public  croppedImage: any = '';
-  public  showCropper = false;
-  public  containWithinAspectRatio = false;
+  public croppedImage: any = '';
+  public showCropper = false;
+  public containWithinAspectRatio = false;
 
   @ViewChild(ImageCropperComponent, {static: true}) imageCropper: ImageCropperComponent;
 
-  public constructor(private readonly formBuilder: FormBuilder,
-                     private readonly dialogRef: MatDialogRef<ProfileEditComponent>,
-                     private readonly notification: NotificationService) { }
+  public constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly dialogRef: MatDialogRef<ProfileEditComponent>,
+    private readonly notification: NotificationService) { }
 
   ngOnInit() {
-
     this.updateProfileForm = this.formBuilder.group({
       username: ['', [Validators.minLength(4), Validators.maxLength(20)]
       ],
@@ -39,11 +37,9 @@ export class ProfileEditComponent implements OnInit {
 
       oldPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]]
     });
-
   }
 
   fileChangeEvent(event: any): void {
-
     const file = event.srcElement.files[0];
     if (!file || !(/image\/(gif|jpg|jpeg|png)$/i).test(file.type) || file.size > 2000000 ) {
       this.notification.error('File type/size invalid!');
@@ -61,12 +57,9 @@ imageLoaded() {
     this.showCropper = true;
 }
 
-cropperReady() {
-}
+cropperReady() {}
 
-loadImageFailed() {
-
-}
+loadImageFailed() {}
 
 public onClikcUpdateProfile(update): void {
     this.updateProfile = {

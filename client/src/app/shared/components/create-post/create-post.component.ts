@@ -5,12 +5,12 @@ import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { MatDialogRef } from '@angular/material';
 import { CreatePostDTO } from '../../../models/posts/create-post.dto';
 
-
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
+
 export class CreatePostComponent implements OnInit {
 
   public newPost: CreatePostDTO;
@@ -51,30 +51,29 @@ export class CreatePostComponent implements OnInit {
     }
 
     this.imageChangedEvent = event;
-}
+  }
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-}
+  }
 
-imageLoaded() {
+  imageLoaded() {
     this.showCropper = true;
-}
+  }
 
-cropperReady() {
-}
+  cropperReady() {}
 
-loadImageFailed() {
+  loadImageFailed() {
     this.notificationService.error('Image load failed!');
-}
+  }
 
-resetImage() {
+  resetImage() {
     this.imageCropper.resetImage();
-}
+  }
 
-toggleContainWithinAspectRatio() {
+  toggleContainWithinAspectRatio() {
     this.containWithinAspectRatio = !this.containWithinAspectRatio;
-}
+  }
 
   public createPost(post): void {
     this.newPost = {
@@ -89,4 +88,3 @@ toggleContainWithinAspectRatio() {
     this.dialogRef.close({event: 'close', data: defData});
   }
 }
-

@@ -19,16 +19,16 @@ export class ProfileFollowingResolverService implements Resolve<any> {
     const id = route.parent.url[0].path;
 
     return this.usersService.getUserFollowing(id, 8, 0)
-        .pipe(
-          map(followers => {
-            if (followers) {
-              return followers;
-            } else {
-              this.router.navigate(['/home']);
-              this.notificator.error('Unable to load following users!');
-              return;
-            }
-          })
-        );
+      .pipe(
+        map(followers => {
+          if (followers) {
+            return followers;
+          } else {
+            this.router.navigate(['/home']);
+            this.notificator.error('Unable to load following users!');
+            return;
+          }
+        })
+      );
   }
 }

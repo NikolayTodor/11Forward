@@ -1,4 +1,3 @@
-
 import { UsersService } from './services/user.service';
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
@@ -16,6 +15,7 @@ import { ProfileInfoService } from './services/profile-info.service';
       PostsService,
       ProfileInfoService]
 })
+
 export class CoreModule {
   public constructor(@Optional() @SkipSelf() parent: CoreModule) {
     if (parent) {

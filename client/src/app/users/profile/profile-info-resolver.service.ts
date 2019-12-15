@@ -16,18 +16,18 @@ export class ProfileInfoResolverService implements Resolve<ShowUserProfileDTO> {
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable <ShowUserProfileDTO> {
-      const id = route.paramMap.get('id');
-      return this.usersService.getSingleUser(id)
-        .pipe(
-          map(user => {
-            if (user) {
-              return user;
-            } else {
-              this.router.navigate(['/home']);
-              this.notificator.error('Unable to load user profile.');
-              return;
-            }
-          })
-        );
+    const id = route.paramMap.get('id');
+    return this.usersService.getSingleUser(id)
+      .pipe(
+        map(user => {
+          if (user) {
+            return user;
+          } else {
+            this.router.navigate(['/home']);
+            this.notificator.error('Unable to load user profile.');
+            return;
+          }
+        })
+      );
   }
 }

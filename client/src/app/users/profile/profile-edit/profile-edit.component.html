@@ -26,7 +26,7 @@
 <div class="update-profile-container">
   <form [formGroup]="this.updateProfileForm" (ngSubmit)="this.onClikcUpdateProfile(this.updateProfileForm.value)">
     <mat-form-field>
-      <input matInput placeholder="Username" formControlName="username" >
+      <input matInput placeholder="Username" formControlName="username">
       <mat-error *ngIf="!!this.updateProfileForm.controls.username.errors?.minlength">
         The username must be longert than 4 symbols!
       </mat-error>
@@ -62,9 +62,7 @@
       </mat-error>
     </mat-form-field>
     <div>
-      <button mat-icon-button class="update-post-button"
-      type="submit"
-      [disabled]="!this.updateProfileForm.valid" >
+      <button mat-icon-button class="update-post-button" type="submit" [disabled]="!this.updateProfileForm.valid">
         Update profile
         <i class="material-icons">
           book
@@ -73,4 +71,3 @@
     </div>
   </form>
 </div>
-

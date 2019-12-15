@@ -4,7 +4,6 @@ import { ShowPostDTO } from '../../../models/posts/show-post.dto';
 
 @Injectable()
 export class GalleryRefreshService {
-
   private newPost = new Subject<ShowPostDTO>();
 
   addPost$ = this.newPost.asObservable();

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserFollowDTO } from 'src/app/models/users/user-follow.dto';
 import { UsersService } from '../../../core/services/user.service';
-import { ShowUserProfileDTO } from '../../../models/users/user-profile.dto';
 
 @Component({
   selector: 'app-proile-followers',
@@ -40,5 +39,4 @@ export class ProileFollowersComponent implements OnInit {
       });
     }
   }
-
 }

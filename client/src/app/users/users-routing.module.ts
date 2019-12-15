@@ -41,7 +41,6 @@ const userRoutes: Routes = [
       component: ProileFollowingComponent,
       resolve: { following: ProfileFollowingResolverService }
     }
-
   ],
   canActivate: [AuthGuard]}
 ];

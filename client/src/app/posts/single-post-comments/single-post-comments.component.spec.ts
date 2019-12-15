@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CommentsModule } from '../../comments/comments.module';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PostsService } from '../../core/services/posts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';

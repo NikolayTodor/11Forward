@@ -1,7 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CreateCommentDTO } from 'src/app/models/comments/create-comment.dto';
-import { CreatePostDTO } from 'src/app/models/posts/create-post.dto';
 
 @Component({
   selector: 'app-create-comment',
