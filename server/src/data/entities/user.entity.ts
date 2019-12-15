@@ -12,7 +12,7 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
-    @Column({type: 'nvarchar', nullable: false, unique: true})
+    @Column({type: 'nvarchar', nullable: false, unique: true, length: 15})
     public username: string;
 
     @Column({ type: 'nvarchar', nullable: false })

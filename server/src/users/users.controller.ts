@@ -1,3 +1,4 @@
+import { FollowUserDTO } from './../models/users/follow-user.dto';
 import { ShowUserProfileDTO } from './../models/users/show-user-profile.dto';
 import { TransformInterceptor } from './../transformer/interceptors/transform.interceptor';
 import { ShowUserDTO } from './../models/users/show-user.dto';
@@ -6,19 +7,21 @@ import { userDecorator } from './../common/decorators/user.decorator';
 import { CreateUserDTO } from './../models/users/create-user.dto';
 import { Controller, Post, HttpCode, HttpStatus, UsePipes, ValidationPipe, Body, Patch, UseGuards, Param, ParseIntPipe, Get, UseInterceptors, Query, Put, Delete } from '@nestjs/common';
 import { UsersDataService } from './users-data.service';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard';
 import { UpdateUserDTO } from '../models/users/update-user.dto';
-import { ShowUsersProfilesDTO } from '../models/users/show-users-profiles.dto';
 import { UserFollowInfoDTO } from '../models/users/user-follow-info.dto';
 
+
 @Controller('users')
-@ApiUseTags('Users Controller')
+@ApiUseTags('users')
 export class UsersController {
     constructor(private readonly usersService: UsersDataService) {}
 
     @Get()
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Get all users', description: 'See list of all available users'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async getAllUsers(
@@ -30,6 +33,8 @@ export class UsersController {
 
     @Get(':id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Get user profile', description: 'Show information about given user'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async showsingleUser(
@@ -41,6 +46,8 @@ export class UsersController {
 
     @Get('/followers/:id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Get user followers', description: 'Check the users follows given user'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowers(
@@ -53,6 +60,8 @@ export class UsersController {
 
     @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Get user following', description: 'Check the users that a given user follows'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowing(
@@ -67,6 +76,7 @@ export class UsersController {
     @HttpCode(HttpStatus.CREATED)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    @ApiOperation({title: 'Create profile', description: 'User can register and create new profile'})
     public async addNewUser(@Body() newUser: CreateUserDTO) {
         return await this.usersService.createUser(newUser);
     }
@@ -74,6 +84,8 @@ export class UsersController {
     @Put(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Update profile', description: 'User can update their username,password,email and profile photo'})
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true})) ** Comment: the pipe rejects DTO
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async updateUser(
@@ -86,11 +98,13 @@ export class UsersController {
     @Patch('/follow/:name')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Follow/unfollow account', description: 'User can follow or unfollow another user'})
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
         @userDecorator('user') user: ShowUserDTO,
-        @Body() body: { action: FollowActionType },
+        @Body() body: FollowUserDTO,
         @Param('name') followUserName: string) {
             if ( body.action === FollowActionType.Follow ) {
                 return await this.usersService.followUser(user.username, followUserName);
@@ -102,6 +116,8 @@ export class UsersController {
     @Delete(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
+    @ApiBearerAuth()
+    @ApiOperation({title: 'Delete account', description: 'User can delete his profile account'})
     public async deleteUser(
         @userDecorator('user') loggedUser: ShowUserDTO,
         @Param('id') userId: string

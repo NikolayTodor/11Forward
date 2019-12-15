@@ -31,9 +31,9 @@ export class ProfileEditComponent implements OnInit {
   ngOnInit() {
 
     this.updateProfileForm = this.formBuilder.group({
-      username: ['', [Validators.minLength(4), Validators.maxLength(15)]
+      username: ['', [Validators.minLength(4), Validators.maxLength(20)]
       ],
-      password: ['', [Validators.minLength(6), Validators.maxLength(15)]
+      password: ['', [Validators.minLength(6), Validators.maxLength(20)]
       ],
       email: ['', [Validators.email]],
 
@@ -55,6 +55,7 @@ export class ProfileEditComponent implements OnInit {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+    console.log(this.croppedImage);
 }
 
 imageLoaded() {

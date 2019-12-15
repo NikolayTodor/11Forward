@@ -3,7 +3,7 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class UpdateCommentDTO {
     @IsOptional()
-    @ApiModelProperty()
+    @ApiModelProperty({example: 'My updated comment'})
     @IsString()
     @IsNotEmpty()
     @Length(5, 1000)

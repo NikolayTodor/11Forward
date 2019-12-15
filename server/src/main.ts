@@ -13,6 +13,7 @@ async function bootstrap() {
    .setTitle('Social network project')
    .setDescription('Forward11 social network API description')
    .setVersion('1.0')
+   .addTag('Forward 11 social network API')
    .addBearerAuth('Authorization', 'header')
    .build();
  const document = SwaggerModule.createDocument(app, options);

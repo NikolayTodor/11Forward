@@ -152,8 +152,8 @@ export class PostsService {
     }
 
     public async likePost(postId: string, userId: string) {
-        const foundPost = await this.postRepo.findOne({where: {id: postId}});
-        const foundUser = await this.userRepo.findOne({where: {id: userId}});
+        const foundPost: Post = await this.postRepo.findOne({where: {id: postId}});
+        const foundUser: User = await this.userRepo.findOne({where: {id: userId}});
 
         if (foundPost === undefined || foundPost.isDeleted) {
           throw new ApiSystemError('No such post found!', 404);

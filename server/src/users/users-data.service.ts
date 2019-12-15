@@ -174,7 +174,7 @@ export class UsersDataService {
 
     const followedUsers: User[] = [...await userFollower.following];
     if (followedUsers.find((_user: User) => _user.username.toLowerCase() === followUserName.toLowerCase())) {
-      throw new ApiSystemError('Can not follow same user twice!', 500);
+      throw new ApiSystemError('Can not follow same user twice!', 400);
     }
 
     userFollower.following = Promise.resolve([...await userFollower.following, userToFollow]);
@@ -236,7 +236,9 @@ export class UsersDataService {
     if (updateInfo.base) {
       const correctBase = updateInfo.base.slice(22);
       const newURL = await this.uploadPhoto(correctBase);
-      foundUser.avatarURL = newURL;
+      if (newURL !== undefined) {
+        foundUser.avatarURL = newURL;
+      }
     }
 
     if (updateInfo.password) {
@@ -268,7 +270,7 @@ export class UsersDataService {
       return data.data.data.link;
   }
   catch(error) {
-     console.log('error');
+     return;
   }
   }
 
