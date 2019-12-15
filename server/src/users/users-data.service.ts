@@ -238,10 +238,12 @@ export class UsersDataService {
     const foundUser: User = await this.userRepo.findOne({id: usertoUpdateId});
 
     if (updateInfo.base) {
-      const correctBase = updateInfo.base.slice(22);
+      const correctBase = updateInfo.base;
       const newURL = await this.photoService.uploadPhoto(correctBase);
       if (newURL !== undefined) {
         foundUser.avatarURL = newURL;
+      } else {
+        throw new ApiSystemError('New avatar image failed to upload', 400);
       }
     }
 
@@ -260,7 +262,6 @@ export class UsersDataService {
     return {...foundUser, isFollowed: false, isOwner: true,
     };
   }
-
 
   public async deleteUser(requesterId: string, userId: string) {
     if (userId !== requesterId) {
