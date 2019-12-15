@@ -21,7 +21,7 @@ import { UsersModule } from '../users.module';
 import { PostsModule } from '../../posts/posts.module';
 import { CommentsModule } from '../../comments/comments.module';
 import { CoreModule } from '../../core/core.module';
-import { ShowUserProfileDTO } from '../../models/users/user-profile.dto';
+
 
 
 describe('ProfileComponent', () => {
@@ -40,7 +40,7 @@ describe('ProfileComponent', () => {
     authService = {
       get loggedUserData$() { return of(); },
       logout() {},
-      login() {return of()}
+      login() {return of(); }
     };
 
     route = {
@@ -48,8 +48,8 @@ describe('ProfileComponent', () => {
     };
 
     usersService = {
-      followUnfollow() {return of();},
-      updateProfile() {return of();}
+      followUnfollow() {return of(); },
+      updateProfile() {return of(); }
     };
 
     notificationService = {
@@ -161,7 +161,6 @@ describe('ProfileComponent', () => {
       isOwner: true
     };
 
-    // change the activated route's data per test
     route.data = of({ user });
 
     component.ngOnInit();
@@ -301,7 +300,7 @@ describe('ProfileComponent', () => {
 
     });
 
-    it('should pass the updated profileInfo with profileService.passNewProfile', ()=>{
+    it('should pass the updated profileInfo with profileService.passNewProfile', () => {
 
       const mockUpdate = 'Mock update info';
       component.loggedUser = new LoggedUserDTO();
@@ -320,9 +319,9 @@ describe('ProfileComponent', () => {
       expect(profileService.passNewProfile).toHaveBeenCalledWith(returnUpdatedInfo);
 
 
-    })
+    });
 
-    it('should call authService.logout()', ()=> {
+    it('should call authService.logout()', () => {
 
       const mockUpdate = 'Mock update info';
       component.loggedUser = new LoggedUserDTO();
@@ -339,10 +338,10 @@ describe('ProfileComponent', () => {
       component.updateProfile((mockUpdate as any));
 
       expect(authService.logout).toHaveBeenCalledTimes(1);
-    })
+    });
 
-    it('should call authService.login with the correct params', ()=> {
-      const mockUpdate = {username: 'testName', password: 'testPass'}
+    it('should call authService.login with the correct params', () => {
+      const mockUpdate = {username: 'testName', password: 'testPass'};
       component.loggedUser = new LoggedUserDTO();
       component.loggedUser.id = 'MockId';
       const returnUpdatedInfo = {username: 'testName', password: 'testPass'};
@@ -357,10 +356,10 @@ describe('ProfileComponent', () => {
       component.updateProfile((mockUpdate as any));
 
       expect(authService.login).toHaveBeenCalledTimes(1);
-      expect(authService.login).toHaveBeenCalledWith({credential: 'testName', password: 'testPass'})
-    })
+      expect(authService.login).toHaveBeenCalledWith({credential: 'testName', password: 'testPass'});
+    });
 
-    it('should call notificationService.error() if userService.updateProfile() throws an error', ()=> {
+    it('should call notificationService.error() if userService.updateProfile() throws an error', () => {
       const mockUpdate = 'MockUpdate';
       component.loggedUser = new LoggedUserDTO();
       component.loggedUser.id = 'MockId';
