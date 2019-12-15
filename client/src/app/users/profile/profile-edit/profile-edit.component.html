@@ -26,7 +26,7 @@
 <div class="update-profile-container">
   <form [formGroup]="this.updateProfileForm" (ngSubmit)="this.onClikcUpdateProfile(this.updateProfileForm.value)">
     <mat-form-field>
-      <input matInput placeholder="Username" formControlName="username">
+      <input matInput placeholder="Username" formControlName="username" >
       <mat-error *ngIf="!!this.updateProfileForm.controls.username.errors?.minlength">
         The username must be longert than 4 symbols!
       </mat-error>
@@ -36,7 +36,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Password" formControlName="password">
+      <input matInput placeholder="Password" formControlName="password" type="password">
       <mat-error *ngIf="!!this.updateProfileForm.controls.password.errors?.minlength">
         The password must be longert than 6 symbols!
       </mat-error>
@@ -53,7 +53,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Current password" formControlName="oldPassword" required>
+      <input matInput placeholder="Current password" formControlName="oldPassword" required type="password">
       <mat-error *ngIf="!!this.updateProfileForm.controls.oldPassword.errors?.minlength">
         The password must be longert than 6 symbols!
       </mat-error>
