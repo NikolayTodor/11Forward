@@ -12,7 +12,6 @@ import { AuthGuardWithBlacklisting } from '../common/guards/auth-blacklist.guard
 import { UpdateUserDTO } from '../models/users/update-user.dto';
 import { UserFollowInfoDTO } from '../models/users/user-follow-info.dto';
 
-
 @Controller('users')
 @ApiUseTags('users')
 export class UsersController {
