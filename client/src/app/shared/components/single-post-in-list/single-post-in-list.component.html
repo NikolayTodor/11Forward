@@ -19,8 +19,13 @@
       <button mat-icon-button (click)="this.onLikePost()">
         <i class="material-icons">
           thumb_up
-        </i>
-      </button> {{ this.postToShow.likesCount }}
+        </i> {{ this.postToShow.likesCount }}
+      </button> 
+      <button mat-icon-button (click)="this.openSinglePost()" class="comment-btn">
+      <i class="material-icons">
+        question_answer
+        </i> {{ this.postToShow.commentsCount }}
+      </button>
       </mat-card-actions>
 
     </mat-card>
