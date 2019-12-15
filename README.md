@@ -71,7 +71,7 @@ npm install
 - Run the client:
 
 ```sh
-ng serve -0
+ng serve -o
 ```
 ##### Optional
 
