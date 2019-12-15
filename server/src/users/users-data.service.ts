@@ -1,3 +1,4 @@
+
 import { UpdateUserDTO } from './../models/users/update-user.dto';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { AuthUserDTO } from './../models/users/auth-user.dto';
@@ -9,13 +10,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
-import axios from 'axios';
 import { LikePost } from '../data/entities/like-post.entity';
 import { Post } from '../data/entities/post.entity';
 import { Comment } from '../data/entities/comment.entity';
 import { LikeComment } from '../data/entities/like-comment.entity';
 import { PostsService } from '../posts/posts.service';
 import { CommentsService } from '../comments/comments.service';
+import { PhotoUploadService } from '../common/services/photo-upload.service';
 
 @Injectable()
 export class UsersDataService {
@@ -26,8 +27,9 @@ export class UsersDataService {
     @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
     @InjectRepository(LikeComment) private readonly likeCommentRepo: Repository<LikeComment>,
     @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
-    @Inject(CommentsService) private readonly commentsService,
-    @Inject(PostsService) private readonly postsService
+     private readonly commentsService: CommentsService,
+     private readonly postsService: PostsService,
+     private readonly photoService: PhotoUploadService,
     ) {}
 
   public async getAllUsers(take: number, skip: number) {
@@ -237,7 +239,7 @@ export class UsersDataService {
 
     if (updateInfo.base) {
       const correctBase = updateInfo.base.slice(22);
-      const newURL = await this.uploadPhoto(correctBase);
+      const newURL = await this.photoService.uploadPhoto(correctBase);
       if (newURL !== undefined) {
         foundUser.avatarURL = newURL;
       }
@@ -259,22 +261,6 @@ export class UsersDataService {
     };
   }
 
-  public async uploadPhoto(base: string): Promise<string> {
-
-  try {
-    const data = await axios(`https://api.imgur.com/3/upload`, {
-        method: 'POST',
-        headers: {
-           'Authorization': `Client-ID 7084d3c72f8fab9`,
-        },
-        data: {image: base},
-      });
-      return data.data.data.link;
-  }
-  catch(error) {
-     return;
-  }
-  }
 
   public async deleteUser(requesterId: string, userId: string) {
     if (userId !== requesterId) {
@@ -321,6 +307,4 @@ export class UsersDataService {
     return await foundUser.followers.
       then((data: User[]) => data.some((follower: User) => follower.id === loggedUserId));
   }
-
-
 }

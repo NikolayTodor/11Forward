@@ -1,4 +1,4 @@
-import { ConfigService } from './../config/config.service';
+import { PhotoUploadService } from '../common/services/photo-upload.service';
 import { ApiSystemError } from './../common/exceptions/api-system.error';
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Post } from '../data/entities/post.entity';
@@ -20,7 +20,7 @@ export class PostsService {
         @InjectRepository(LikePost) private readonly likePostRepo: Repository<LikePost>,
         @InjectRepository(User) private readonly userRepo: Repository<User>,
         @InjectRepository(Comment) private readonly commentRepo: Repository<Comment>,
-        private readonly configService: ConfigService) {}
+        private readonly photoService: PhotoUploadService) {}
 
     public async allPublicPosts(take: number, skip: number) {
         const allPosts: Post[] = await this.postRepo.find({
@@ -130,7 +130,7 @@ export class PostsService {
         const base = postToCreate.base.slice(22);
 
         // Imgur returns a valid URL
-        const urlFromImgur: string = await this.uploadPhoto(base);
+        const urlFromImgur: string = await this.photoService.uploadPhoto(base);
 
         // Attach Imgur URL to CreatePostDTO
         postToCreate.imageURL = urlFromImgur;
@@ -233,21 +233,7 @@ export class PostsService {
         return { msg: `Post successfully deleted!`};
     }
 
-    public async uploadPhoto(base: string): Promise<string> {
-
-        try {
-        const data = await axios(`https://api.imgur.com/3/upload`, {
-            method: 'POST',
-            headers: {
-               Authorization: this.configService.imgurClientId
-            },
-            data: {image: base},
-          });
-          return data.data.data.link;
-        } catch (error) {
-         console.log(error);
-        }
-    }
+  
 
     private dateTransform(post: Post): Post {
         post.dateCreated = moment(post.dateCreated).startOf('minute').fromNow();
