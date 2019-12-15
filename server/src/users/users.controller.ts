@@ -21,6 +21,7 @@ export class UsersController {
     @Get()
     @UseGuards(AuthGuardWithBlacklisting)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Get all users', description: 'See list of all available users'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async getAllUsers(
@@ -33,6 +34,7 @@ export class UsersController {
     @Get(':id')
     @UseGuards(AuthGuardWithBlacklisting)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Get user profile', description: 'Show information about given user'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async showsingleUser(
@@ -45,6 +47,7 @@ export class UsersController {
     @Get('/followers/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Get user followers', description: 'Check the users follows given user'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowers(
@@ -58,6 +61,7 @@ export class UsersController {
     @Get('/following/:id')
     @UseGuards(AuthGuardWithBlacklisting)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Get user following', description: 'Check the users that a given user follows'})
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(new TransformInterceptor(UserFollowInfoDTO))
     public async getFollowing(
@@ -72,6 +76,7 @@ export class UsersController {
     @HttpCode(HttpStatus.CREATED)
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
+    @ApiOperation({title: 'Create profile', description: 'User can register and create new profile'})
     public async addNewUser(@Body() newUser: CreateUserDTO) {
         return await this.usersService.createUser(newUser);
     }
@@ -80,6 +85,7 @@ export class UsersController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Update profile', description: 'User can update their username,password,email and profile photo'})
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true})) ** Comment: the pipe rejects DTO
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     public async updateUser(
@@ -93,6 +99,7 @@ export class UsersController {
     @UseGuards(AuthGuardWithBlacklisting)
     @HttpCode(HttpStatus.OK)
     @ApiBearerAuth()
+    @ApiOperation({title: 'Follow/unfollow account', description: 'User can follow or unfollow another user'})
     @UseInterceptors(new TransformInterceptor(ShowUserProfileDTO))
     // @UsePipes(new ValidationPipe({whitelist: true, transform: true}))
     public async followUnfollow(
