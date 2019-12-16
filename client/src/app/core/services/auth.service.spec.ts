@@ -313,7 +313,7 @@ describe('AuthService', () => {
 
   describe('logout()', () => {
 
-    it('should call the storage.removeItem() method once with correct parameter when the response is successful', done => {
+    it('should call the storage.removeItem() method once with correct parameter', done => {
       // Arrange
       const mockedLogoutReturnValue = 'Logged out successfully!';
 
