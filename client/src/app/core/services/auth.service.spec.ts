@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { StorageService } from './storage.service';
-import { of } from 'rxjs';
+import { of, combineLatest } from 'rxjs';
 import { UserRegisterDTO } from '../../models/users/user-register.dto';
 import { UserLoginDTO } from '../../models/users/user-login.dto';
 import { LoggedUserDTO } from '../../models/users/logged-user.dto';
@@ -312,34 +312,9 @@ describe('AuthService', () => {
   });
 
   describe('logout()', () => {
-    it('should call the http.delete() method once with correct parameters', done => {
-      // Arrange
-      const url = `${CONFIG.DOMAIN_NAME}/session`;
-      const mockedLogoutReturnValue = 'Logged out successfully!';
-
-      // Mock this in order to initialize the loggedUserDataSubject$
-      const getItemSpy = jest
-        .spyOn(storageService, 'getItem')
-        .mockReturnValue(undefined);
-
-      const deleteSpy = jest
-        .spyOn(httpClient, 'delete')
-        .mockReturnValue( of (mockedLogoutReturnValue));
-
-      const removeItemSpy = jest.spyOn(storageService, 'removeItem');
-
-      // Act & Assert
-      service.logout().subscribe(() => {
-        expect(deleteSpy).toBeCalledTimes(1);
-        expect(deleteSpy).toBeCalledWith(url);
-
-        done();
-      });
-    });
 
     it('should call the storage.removeItem() method once with correct parameter when the response is successful', done => {
       // Arrange
-      const url = `${CONFIG.DOMAIN_NAME}/session`;
       const mockedLogoutReturnValue = 'Logged out successfully!';
 
       // Mock this in order to initialize the loggedUserDataSubject$
@@ -354,37 +329,15 @@ describe('AuthService', () => {
       const removeItemSpy = jest.spyOn(storageService, 'removeItem');
 
       // Act & Assert
-      service.logout().subscribe(() => {
-        expect(removeItemSpy).toBeCalledTimes(1);
-        expect(removeItemSpy).toBeCalledWith('token');
+      service.logout();
 
-        done();
-      });
+      expect(removeItemSpy).toBeCalledTimes(1);
+      expect(removeItemSpy).toBeCalledWith('token');
+
+      done();
+
     });
 
-    it('should return the http.delete() method return value', done => {
-      // Arrange
-      const url = `${CONFIG.DOMAIN_NAME}/session`;
-      const mockedLogoutReturnValue = 'Logged out successfully!';
-
-      // Mock this in order to initialize the loggedUserDataSubject$
-      const getItemSpy = jest
-        .spyOn(storageService, 'getItem')
-        .mockReturnValue(undefined);
-
-      const deleteSpy = jest
-        .spyOn(httpClient, 'delete')
-        .mockReturnValue( of (mockedLogoutReturnValue));
-
-      const removeItemSpy = jest.spyOn(storageService, 'removeItem');
-
-      // Act & Assert
-      service.logout().subscribe((returnValue: any) => {
-        expect(returnValue).toEqual(mockedLogoutReturnValue);
-
-        done();
-      });
-    });
   });
 
   describe('getLoggedUserData()', () => {
