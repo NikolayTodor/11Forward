@@ -1,5 +1,9 @@
 .post-info-container {
   text-align: center;
+  background-color: #fffde2;
+  margin-top: -8px;
+  padding-top: 10px;
+  height: 100vh;
 }
 
 .single-post-container{
@@ -21,5 +25,5 @@
 }
 
 .post-image {
-  max-width: -webkit-fill-available;
+  max-width: 100%;
 }
