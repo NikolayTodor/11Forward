@@ -8,16 +8,14 @@
   text-align: right;
 }
 
+.comment-form {
+  height: 100%;
+}
+
 @media only screen and (min-width: 600px) {
   .single-comment-in-list-container {
     width: 50%;
     margin: 0 auto 10px auto;
-  }
-}
-
-@media only screen and (max-width: 380px) {
-  .comment-time{
-    display: none;
   }
 }
 

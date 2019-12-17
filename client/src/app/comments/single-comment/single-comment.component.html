@@ -33,14 +33,15 @@
                 thumb_up
               </i>
             </button> {{ this.commentToShow.likesCount }}
-
       </span>
 
     </mat-card>
     <mat-card *ngIf="this.isCommentForUpdate === true">
-      <form [formGroup]="this.updateCommentForm" (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">
-        <mat-form-field>
-          <input matInput placeholder="Write new comment here" required [value]="this.commentToShow.content" formControlName="content">
+      <form [formGroup]="this.updateCommentForm"
+      (ngSubmit)="this.onUpdateComment(this.updateCommentForm.value)">
+        <mat-form-field appearance="outline">
+          <textarea matInput placeholder="Write new comment here" required
+          [value]="this.commentToShow.content" formControlName="content" class="comment-form"></textarea>
           <mat-error *ngIf="!!this.updateCommentForm.controls.content.errors?.required">
             Some changed content is required!
           </mat-error>
