@@ -1,7 +1,11 @@
 .single-comment-in-list-container{
   text-align: left;
-  word-break: break-all;
+  word-break: break-word;
   margin: 0 auto 10px auto;
+}
+
+.comment-time{
+  text-align: right;
 }
 
 @media only screen and (min-width: 600px) {

@@ -1,16 +1,16 @@
 <div *ngIf="(this.commentToShow)" class="comment-info-container">
   <div class="single-comment-in-list-container" comment="comment.content">
     <mat-card>
-      <mat-card-header>
+      <mat-card-header style="cursor: pointer;" (click)="this.navigate()">
           <img mat-card-avatar
           [src]="this.commentToShow.author.avatarURL"
-          (click)="this.navigate()">
+          >
           <mat-card-title class="author-name">{{this.commentToShow.author.username}}</mat-card-title>
       </mat-card-header>
+      <br />
       <div class="comment-item">
         {{ this.commentToShow.content }}
       </div>
-
       <div class="comment-time">
          {{ this.commentToShow.dateCreated }}
         </div>
