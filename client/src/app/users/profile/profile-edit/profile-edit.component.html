@@ -1,4 +1,4 @@
-<input type="file" (change)="fileChangeEvent($event)" />
+<input type="file" (change)="fileChangeEvent($event)" class="upload-btn" />
 
 <div>
     <image-cropper
@@ -22,7 +22,6 @@
     ></image-cropper>
 </div>
 
-
 <div class="update-profile-container">
   <form [formGroup]="this.updateProfileForm" (ngSubmit)="this.onClikcUpdateProfile(this.updateProfileForm.value)">
     <mat-form-field>
@@ -44,28 +43,27 @@
         The password must be shorter that 15 symbols!
       </mat-error>
     </mat-form-field>
-
+    <br />
     <mat-form-field>
       <input matInput placeholder="Email" formControlName="email">
       <mat-error *ngIf="!!this.updateProfileForm.controls.email.errors?.email">
         The input should be valid email!
       </mat-error>
     </mat-form-field>
-
+    <br />
     <mat-form-field>
       <input matInput placeholder="Current password" formControlName="oldPassword" required type="password">
       <mat-error *ngIf="!!this.updateProfileForm.controls.oldPassword.errors?.minlength">
-        The password must be longert than 6 symbols!
+        The password must be longer than 6 symbols!
       </mat-error>
       <mat-error *ngIf="!!this.updateProfileForm.controls.oldPassword.errors?.maxlength">
         The password must be shorter that 15 symbols!
       </mat-error>
     </mat-form-field>
     <div>
-      <button mat-icon-button class="update-post-button" type="submit" [disabled]="!this.updateProfileForm.valid">
-        Update profile
+      <button mat-icon-button class="upload-profile-button" type="submit" [disabled]="!this.updateProfileForm.valid">
         <i class="material-icons">
-          book
+          assignment_turned_in
         </i>
       </button>
     </div>
