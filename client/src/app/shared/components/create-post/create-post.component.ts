@@ -18,7 +18,7 @@ export class CreatePostComponent implements OnInit {
   public imageChangedEvent: any = '';
   public croppedImage: any = '';
   public showCropper = false;
-  public containWithinAspectRatio = false;
+  public containWithinAspectRatio = true;
 
   @ViewChild(ImageCropperComponent, {static: true}) imageCropper: ImageCropperComponent;
 

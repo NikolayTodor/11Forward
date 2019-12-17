@@ -1,3 +1,12 @@
+.main {
+  background-color: #fffde2;
+}
+
+.one-post{
+  width: 80% ;
+  margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 400px) {
   .posts-list {
     width:100% !important;
@@ -16,6 +25,11 @@
     grid-template-columns: 1fr !important;
     grid-gap: 10px;
   }
+
+  .one-post{
+    width: 100% !important;
+    margin-bottom: 2px !important;
+  }
 }
 
 @media only screen and (min-width: 651px) and (max-width: 1000px) {
@@ -25,9 +39,12 @@
 }
 
 .posts-list {
+
   width:70%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
 }
+
+

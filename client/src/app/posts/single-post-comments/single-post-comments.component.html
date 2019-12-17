@@ -5,7 +5,10 @@
         <mat-card-title class="post-texts">{{this.post.title}}</mat-card-title>
         <mat-card-subtitle class="post-texts">{{this.post.content}}</mat-card-subtitle>
 
-      <img src="{{this.post.imageURL}}" class="post-image">
+
+        <img class="post-image" src="{{this.post.imageURL}}" >
+
+
       <div class="post-item">
       </div>
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
@@ -34,7 +37,7 @@
   </mat-card>
 
 
-    <app-all-comments
+    <app-all-comments class='comment-section'
     (hasCreatedComment)="this.hasNewComment($event)"
     (hasDeletedComment)="this.hasOneLessComment($event)"
     ></app-all-comments>

@@ -1,6 +1,10 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
+body {
+  margin: 0;
+}
+
 #toast-container > .toast-success {
     font-size: 14px;
     font-family: 'Arial';
