@@ -1,7 +1,4 @@
-
-
 <input type="file" (change)="fileChangeEvent($event)" class="upload-btn"/>
-
 
     <image-cropper
         [imageChangedEvent]="imageChangedEvent"
@@ -23,8 +20,6 @@
         [alignImage]="'left'"
     ></image-cropper>
 
-
-
 <div class="create-post-container">
   <form [formGroup]="this.createPostForm" (ngSubmit)="this.createPost(this.createPostForm.value)" class="form">
     <mat-form-field>
@@ -39,7 +34,7 @@
         The title must be shorter that 60 symbols!
       </mat-error>
     </mat-form-field>
-    <!-- <br /> -->
+
     <mat-form-field>
       <input matInput placeholder="Add content" required formControlName="content">
       <mat-error *ngIf="!!this.createPostForm.controls.content.errors?.required">
@@ -57,7 +52,7 @@
         <mat-radio-button value="Private">Private</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-radio-button value="Public">Public</mat-radio-button>
     </mat-radio-group>
-
+    <br /><br />
     <button mat-icon-button class="create-post-button" type="submit" [disabled]="!this.createPostForm.valid || !this.croppedImage" >
       <i class="material-icons">
         assignment_turned_in
