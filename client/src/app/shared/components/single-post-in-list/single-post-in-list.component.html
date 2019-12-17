@@ -2,7 +2,7 @@
   <div class="single-post-in-list-container" post="post.title">
     <mat-card>
 
-        <mat-card-header style="cursor: pointer;" [routerLink]="['/users', this.postToShow.author.id]" >
+        <mat-card-header class="text-above" style="cursor: pointer;" [routerLink]="['/users', this.postToShow.author.id]" >
             <img mat-card-avatar
             [src]="this.postToShow.author.avatarURL"
             style="cursor: pointer;"
