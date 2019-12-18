@@ -1,4 +1,5 @@
 <div class="login-container">
+
   <mat-card class="login-card">
     <mat-card-header class="login-header">
       <mat-card-title>Log in</mat-card-title>
@@ -11,7 +12,8 @@
       <input #password matInput type="password" required placeholder="Password">
     </mat-form-field>
     <br />
-    <button mat-icon-button class="create-user-button" (click)="this.login(credential.value, password.value)">
+    <br />
+    <button mat-button class="login-user-button" (click)="this.login(credential.value, password.value)">
       Login
     </button>
   </mat-card>
