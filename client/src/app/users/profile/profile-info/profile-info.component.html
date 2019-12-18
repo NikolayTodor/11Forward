@@ -7,16 +7,16 @@
     <img mat-card-image class="example-header-image" [src]="this.profile.avatarURL">
     <mat-card-actions *ngIf="this.profile.isOwner">
       <div class="left">
-      <button mat-button class="button" (click)="this.openDialogEditProfile()">Edit profile</button>
+      <button mat-raised-button class="button" (click)="this.openDialogEditProfile()">Edit profile</button>
       </div>
       <div class="right">
-      <button mat-button class="button" (click)="this.confirmDelete()">Delete profile</button>
+      <button mat-raised-button class="button" (click)="this.confirmDelete()">Delete profile</button>
       </div>
     </mat-card-actions>
 
     <mat-card-actions *ngIf="!this.profile.isOwner" class="follow-unfollow">
-      <button mat-button class="button" *ngIf="!this.profile.isFollowed" (click)="this.onClickFollowUnfollow(true)">Follow</button>
-      <button mat-button class="button" *ngIf="this.profile.isFollowed" (click)="this.onClickFollowUnfollow(false)">Unfollow</button>
+      <button mat-raised-button class="button" *ngIf="!this.profile.isFollowed" (click)="this.onClickFollowUnfollow(true)">Follow</button>
+      <button mat-raised-button class="button" *ngIf="this.profile.isFollowed" (click)="this.onClickFollowUnfollow(false)">Unfollow</button>
     </mat-card-actions>
   </mat-card>
 
