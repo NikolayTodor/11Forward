@@ -1,11 +1,19 @@
+@media only screen and (max-width: 800px) {
+    .image-container {
+        top: 30% !important;
+    }
+}
+
 .not-found-container {
     height: 88vh;
+    background-color: #fffde2;
+    margin-top: -10px;
 }
 
 .image-container {
     width: 50%;
     position: relative;
-    top: 20%;
+    top: 8%;
     animation-name: moving;
     animation-duration: 6s;
     animation-iteration-count: infinite;
