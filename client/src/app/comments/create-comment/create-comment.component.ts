@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, NgForm, FormGroupDirective } from '@angular/forms';
 import { CreateCommentDTO } from 'src/app/models/comments/create-comment.dto';
 
 @Component({
@@ -12,6 +12,14 @@ export class CreateCommentComponent implements OnInit {
   public createCommentForm: FormGroup;
   public constructor(private readonly formBuilder: FormBuilder) { }
 
+  public confirmErrorMatcher = {
+    isErrorState: (control: FormControl): boolean => {
+      const controlInvalid = control.touched && control.invalid;
+      const formInvalid = control.touched && this.createCommentForm.get('comment').touched && this.createCommentForm.invalid;
+      return controlInvalid || formInvalid;
+    }
+  };
+
   @Output() public readonly toCreateComment: EventEmitter<CreateCommentDTO> = new EventEmitter();
 
   ngOnInit() {
@@ -23,8 +31,13 @@ export class CreateCommentComponent implements OnInit {
     });
   }
 
-  public createComment(comment: CreateCommentDTO): void {
+  public createComment(comment: CreateCommentDTO, formDirective: FormGroupDirective): void {
     this.toCreateComment.emit(comment);
+    this.createCommentForm.reset();
+    Object.keys(this.createCommentForm.controls).forEach(key => {
+      this.createCommentForm.get(key).setErrors(null) ;
+    });
+    formDirective.resetForm();
   }
 
 }
