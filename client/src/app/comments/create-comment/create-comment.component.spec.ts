@@ -3,7 +3,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateCommentComponent } from './create-comment.component';
 import { CommonModule } from '@angular/common';
 import { CreateCommentDTO } from 'src/app/models/comments/create-comment.dto';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 
 describe('CreateCommentComponent', () => {
     let formBuilder;
@@ -72,23 +72,6 @@ describe('CreateCommentComponent', () => {
         expect(component.createCommentForm).toEqual(mockedCreateCommentForm);
       });
 
-      // Proveri dali formata furlq greshi ako content e invalid.
     });
 
-    describe('createComment()', () => {
-        it('should emit the proper constant', () => {
-        // Arrange
-        const mockComment: CreateCommentDTO = {
-          content: 'a'
-        };
-
-        // Act
-        spyOn(component.toCreateComment, 'emit');
-        component.createComment(mockComment);
-
-        // Assert
-        expect(component.toCreateComment.emit).toHaveBeenCalled();
-        expect(component.toCreateComment.emit).toHaveBeenCalledWith(mockComment);
-        });
-    });
 });
