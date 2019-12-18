@@ -2,8 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateCommentComponent } from './create-comment.component';
 import { CommonModule } from '@angular/common';
-import { CreateCommentDTO } from 'src/app/models/comments/create-comment.dto';
-import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, Validators} from '@angular/forms';
 
 describe('CreateCommentComponent', () => {
     let formBuilder;
