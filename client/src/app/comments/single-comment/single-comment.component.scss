@@ -2,14 +2,26 @@
   text-align: left;
   word-break: break-word;
   margin: 0 auto 10px auto;
+  font-size: 14px;
+}
+
+.author-name {
+  font-size: 18px;
+  margin-top: 12px;
 }
 
 .comment-time{
   text-align: right;
+  font-size: 12px;
 }
 
 .comment-form {
   height: 100%;
+  font-size: 14px;
+}
+
+.form-container {
+  width: 90%;
 }
 
 @media only screen and (min-width: 600px) {
