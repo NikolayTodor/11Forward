@@ -13,48 +13,13 @@ const seedUsers = async (connection: any) => {
     return;
   }
 
-  const newUser: User = usersRepo.create({
-    username: 'Peshko',
-    email: 'mnogo@bachka.com',
-    password: await bcrypt.hash('test1234', 10),
-    followers: Promise.resolve([]),
-    following: Promise.resolve([])
-  });
-  users.push(newUser);
-
-  const defUser: User = usersRepo.create({
-    username: 'Niki',
-    email: 'niki@abv.bg',
-    password: await bcrypt.hash('predator666', 10),
-    followers: Promise.resolve([]),
-    following: Promise.resolve([])
-  });
-  users.push(defUser);
-
-  const defUserTwo: User = usersRepo.create({
-    username: 'Alpha',
-    email: 'alpha@abv.bg',
-    password: await bcrypt.hash('test1234', 10),
-    followers: Promise.resolve([]),
-    following: Promise.resolve([])
-  });
-  users.push(defUserTwo);
-
-  const defUserThree: User = usersRepo.create({
-    username: 'Beta',
-    email: 'beta@abv.bg',
-    password: await bcrypt.hash('test1234', 10),
-    followers: Promise.resolve([]),
-    following: Promise.resolve([])
-  });
-  users.push(defUserThree);
-
   const mulder: User = usersRepo.create({
     username: 'Mulder',
     email: 'foxMulder@fbiXfiles.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/X00bHg6.png'
   });
   users.push(mulder);
 
@@ -63,7 +28,8 @@ const seedUsers = async (connection: any) => {
     email: 'danaScully@fbiXfiles.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/Xh5iMy9.png'
   });
   users.push(scully);
 
@@ -72,7 +38,8 @@ const seedUsers = async (connection: any) => {
     email: 'zev@lexx.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/v5dW6pv.png'
   });
   users.push(zev);
 
@@ -81,7 +48,8 @@ const seedUsers = async (connection: any) => {
     email: 'kai@lexx.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/nx6w4xt.png'
   });
   users.push(kai);
 
@@ -90,7 +58,8 @@ const seedUsers = async (connection: any) => {
     email: 'stanTheMan@lexx.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/fZSwE8g.png'
   });
   users.push(stan);
 
@@ -99,7 +68,8 @@ const seedUsers = async (connection: any) => {
     email: 'picard@federation.gov',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/xKSFx7q.png'
   });
   users.push(picard);
 
@@ -108,7 +78,8 @@ const seedUsers = async (connection: any) => {
     email: 'numberOne@federation.gov',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/Vwmy4lF.png'
   });
   users.push(riker);
 
@@ -117,7 +88,8 @@ const seedUsers = async (connection: any) => {
     email: 'healerRed@federation.gov',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/fbFMmBj.png'
   });
   users.push(crusher);
 
@@ -126,7 +98,8 @@ const seedUsers = async (connection: any) => {
     email: 'BetazoidCounselor@federation.gov',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/vnRD4of.png'
   });
   users.push(deanna);
 
@@ -135,7 +108,8 @@ const seedUsers = async (connection: any) => {
     email: 'spaceExplorer@farscape.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/VYbxr80.png'
   });
   users.push(jc);
 
@@ -144,7 +118,8 @@ const seedUsers = async (connection: any) => {
     email: 'commando@peacekeepers.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/f71qBZM.png'
   });
   users.push(aeryn);
 
@@ -153,7 +128,8 @@ const seedUsers = async (connection: any) => {
     email: 'john.smith@gmail.com',
     password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
-    following: Promise.resolve([])
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/NG2NZXt.png'
   });
   users.push(doctor);
 
@@ -166,6 +142,46 @@ const seedUsers = async (connection: any) => {
     avatarURL: 'https://i.imgur.com/f9VigQU.png'
   });
   users.push(arnold);
+
+  const newUser: User = usersRepo.create({
+    username: 'Peshko',
+    email: 'mnogo@bachka.com',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/bq1WQ6c.png'
+  });
+  users.push(newUser);
+
+  const defUser: User = usersRepo.create({
+    username: 'Niki',
+    email: 'niki@abv.bg',
+    password: await bcrypt.hash('predator666', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/CL9bKUj.png'
+  });
+  users.push(defUser);
+
+  const defUserTwo: User = usersRepo.create({
+    username: 'Alpha',
+    email: 'alpha@abv.bg',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/r4YVwYq.png'
+  });
+  users.push(defUserTwo);
+
+  const defUserThree: User = usersRepo.create({
+    username: 'Beta',
+    email: 'beta@abv.bg',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/qNMNwdV.png'
+  });
+  users.push(defUserThree);
 
   await usersRepo.save(users);
 
@@ -201,6 +217,8 @@ const seedFollowers = async (connection: any) => {
 
   mulder.followers = Promise.resolve([scully, peshko]);
   scully.followers = Promise.resolve([mulder, peshko]);
+
+  picard.followers = Promise.resolve([riker, troi, crusher, peshko]);
 
   await usersRepo.save(niki);
   await usersRepo.save(alpha);
@@ -276,6 +294,69 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(arnoldPost1);
 
+  const john: User = await usersRepo.findOne({where: {username: 'JohnCrighton'}});
+  const johnPost1: Post = postsRepo.create({
+    title: 'Prisoners on the run',
+    content: 'I miss the old team...',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/QpGWWyT.png',
+    author: john
+  });
+  posts2.push(johnPost1);
+
+  const johnPost2: Post = postsRepo.create({
+    title: '#art #fromFansWithLove',
+    content: 'I look super handsome on canvas',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/VeYqm9V.png',
+    author: john
+  });
+  posts2.push(johnPost2);
+
+  const arnoldPost2: Post = postsRepo.create({
+    title: 'Meine muscles!',
+    content: 'These fine Frauen enjoy my big arms!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/Lf9rQ7c.png',
+    author: arnold
+  });
+  posts2.push(arnoldPost2);
+
+  const arnoldPost3: Post = postsRepo.create({
+    title: 'Conan!',
+    content: 'I vill always be a Barbarian at heart!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/9z2K9W3.png',
+    author: arnold
+  });
+  posts2.push(arnoldPost3);
+
+  const zev: User = await usersRepo.findOne({where: {username: 'ZevBellringer'}});
+  const zevPost1: Post = postsRepo.create({
+    title: 'The brave crew of the Lexx!',
+    content: 'The most powerful weapon in the two universes is friendship!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/bHrikiQ.png',
+    author: zev
+  });
+  posts2.push(zevPost1);
+
+  const mulder: User = await usersRepo.findOne({where: {username: 'Mulder'}});
+  const mulderPost1: Post = postsRepo.create({
+    title: 'Best Friends Forever!',
+    content: `I don't even remember how many X-Files we have solved together. So many monsters tried to kill us, aliens kidnapped us... Good times!`,
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/oAyzHuF.png',
+    author: mulder
+  });
+  posts2.push(mulderPost1);
+
   await postsRepo.save(posts2);
 
   console.log(`Posts seeded successfully!`);
@@ -304,25 +385,25 @@ const seedComments = async (connection: any) => {
   newComment.post = Promise.resolve(toPost);
   await commentsRepo.save(newComment);
   const newComment1: Comment = commentsRepo.create({
-    content: 'Well, arent we friends?',
+    content: `Well, aren't we friends?`,
     author: mulder
   });
   newComment1.post = Promise.resolve(toPost);
   await commentsRepo.save(newComment1);
   const newComment2: Comment = commentsRepo.create({
-    content: 'For Gods sake, Mulder, we even have a child together!',
+    content: `For God's sake, Mulder, we had a child together in season 8!`,
     author: scully
   });
   newComment2.post = Promise.resolve(toPost);
   await commentsRepo.save(newComment2);
   const newComment3: Comment = commentsRepo.create({
-    content: 'But thats a secret, we dont announce it on social networks',
+    content: `But that's a secret, we dont announce it on social networks`,
     author: mulder
   });
   newComment3.post = Promise.resolve(toPost);
   await commentsRepo.save(newComment3);
   const newComment4: Comment = commentsRepo.create({
-    content: 'Its not a secret anymore',
+    content: `It's not a secret anymore, season 8 aired 20 years ago!`,
     author: scully
   });
   newComment4.post = Promise.resolve(toPost);
@@ -346,7 +427,7 @@ const seed = async () => {
   await seedUsers(connection);
   await seedFollowers(connection);
   await seedPosts(connection);
-  // await seedComments(connection);
+  await seedComments(connection);
 
   await connection.close();
   console.log('Seed completed!');
