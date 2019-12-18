@@ -1,7 +1,26 @@
-.upload-btn{
-    width: 200px;
-}
-
 .upload-profile-button {
     float: right;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+  
+.btn {
+    border: 0px;
+    outline: none;
+    background-color: rgb(152, 198, 251);
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+  
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }
