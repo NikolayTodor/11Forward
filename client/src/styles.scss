@@ -17,7 +17,7 @@ body {
     bottom: 0;
     position: fixed;
     bottom: 0%;
-    right: 1%;    
+    right: 1%;
 }
 
 #toast-container > .toast-error {
@@ -33,9 +33,11 @@ img.source-image {
   max-height: 70vh !important;
 }
 
+
+
 @media only screen and (max-width: 380px) {
   img.source-image {
-    max-height: 40vh !important;
+    max-height: 200px !important;
     max-width: 80vw !important;
   }
 }
