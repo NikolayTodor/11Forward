@@ -1,8 +1,9 @@
-<div class = 'edint-comp-wrapper'>
+<div>
 
-
-
-<input type="file" (change)="fileChangeEvent($event)" class="upload-btn" />
+<div class="upload-btn-wrapper">
+  <button class="btn">Upload a file</button>
+  <input type="file" name="myfile" (change)="fileChangeEvent($event)"/>
+</div>
 
 <div>
     <image-cropper
