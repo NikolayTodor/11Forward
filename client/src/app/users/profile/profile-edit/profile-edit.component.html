@@ -1,3 +1,7 @@
+<div class = 'edint-comp-wrapper'>
+
+
+
 <input type="file" (change)="fileChangeEvent($event)" class="upload-btn" />
 
 <div>
@@ -33,7 +37,7 @@
         The username must be shorter that 15 symbols!
       </mat-error>
     </mat-form-field>
-
+    <br/>
     <mat-form-field>
       <input matInput placeholder="Password" formControlName="password" type="password">
       <mat-error *ngIf="!!this.updateProfileForm.controls.password.errors?.minlength">
@@ -68,4 +72,5 @@
       </button>
     </div>
   </form>
+</div>
 </div>
