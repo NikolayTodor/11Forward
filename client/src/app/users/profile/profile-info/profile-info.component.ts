@@ -70,7 +70,6 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
 
    openDialogPost(): void {
     const dialogRef = this.dialog.open(CreatePostComponent, {
-      width: '50%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
