@@ -13,6 +13,16 @@ const seedUsers = async (connection: any) => {
     return;
   }
 
+  const luke: User = usersRepo.create({
+    username: 'Skywalker',
+    email: 'originalSkywalker@resistance.universe',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/TjLXP5i.png'
+  });
+  users.push(luke);
+
   const anakin: User = usersRepo.create({
     username: 'Anakin',
     email: 'anakin@abv.bg',
@@ -228,9 +238,11 @@ const seedFollowers = async (connection: any) => {
   const aeryn: User = await usersRepo.findOne({where: {username: 'AerynSun'}});
   const doctor: User = await usersRepo.findOne({where: {username: 'TheDoctor'}});
   const arnold: User = await usersRepo.findOne({where: {username: 'Schwarzenegger'}});
+  const luke: User = await usersRepo.findOne({where: {username: 'Skywalker'}});
+  const anakin: User = await usersRepo.findOne({where: {username: 'Anakin'}});
 
-  peshko.following = Promise.resolve([niki, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold]);
-  niki.followers = Promise.resolve([peshko, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold]);
+  peshko.following = Promise.resolve([niki, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold, luke, anakin]);
+  niki.followers = Promise.resolve([peshko, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold, luke, anakin]);
 
   john.followers = Promise.resolve([aeryn, peshko]);
   aeryn.followers = Promise.resolve([john, peshko]);
@@ -239,6 +251,7 @@ const seedFollowers = async (connection: any) => {
   scully.followers = Promise.resolve([mulder, peshko]);
 
   picard.followers = Promise.resolve([riker, troi, crusher, peshko]);
+  luke.followers = Promise.resolve([anakin, peshko]);
 
   await usersRepo.save(niki);
   await usersRepo.save(alpha);
@@ -256,6 +269,8 @@ const seedFollowers = async (connection: any) => {
   await usersRepo.save(aeryn);
   await usersRepo.save(doctor);
   await usersRepo.save(arnold);
+  await usersRepo.save(anakin);
+  await usersRepo.save(luke);
 
   console.log(`Users follow each other successfully!`);
 };
@@ -293,16 +308,6 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(doctorPost2);
 
-  const doctorPost3: Post = postsRepo.create({
-    title: '#missYouForever!',
-    content: 'Donna Noble has the sadest story in the whole of time and space. The universe exists thanks to her sacrifice!',
-    isPrivate: false,
-    hasPermission: true,
-    imageURL: 'https://i.imgur.com/5bGxXGr.png',
-    author: doctor
-  });
-  posts2.push(doctorPost3);
-
   const arnold: User = await usersRepo.findOne({where: {username: 'Schwarzenegger'}});
   const arnoldPost1: Post = postsRepo.create({
     title: 'Not my proudest moment!',
@@ -335,6 +340,7 @@ const seedPosts = async (connection: any) => {
     author: theCook
   });
   posts2.push(theCook2);
+
   const john: User = await usersRepo.findOne({where: {username: 'JohnCrighton'}});
   const johnPost1: Post = postsRepo.create({
     title: 'Prisoners on the run',
@@ -387,6 +393,26 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(zevPost1);
 
+  const theCook3: Post = postsRepo.create({
+    title: 'Kazan power',
+    content: 'Podgotvih skromen obiad za sto choveka!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/J7lU2gs.png',
+    author: theCook
+  });
+  posts2.push(theCook3);
+
+  const doctorPost3: Post = postsRepo.create({
+    title: '#missYouForever!',
+    content: 'Donna Noble has the sadest story in the whole of time and space. The universe exists thanks to her sacrifice!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/5bGxXGr.png',
+    author: doctor
+  });
+  posts2.push(doctorPost3);
+
   const mulder: User = await usersRepo.findOne({where: {username: 'Mulder'}});
   const mulderPost1: Post = postsRepo.create({
     title: 'Best Friends Forever!',
@@ -398,17 +424,36 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(mulderPost1);
 
-  await postsRepo.save(posts2);
-
-  const theCook3: Post = postsRepo.create({
-    title: 'Kazan power',
-    content: 'Podgotvih skromen obiad za sto choveka!',
-    isPrivate: false,
-    hasPermission: true,
-    imageURL: 'https://i.imgur.com/J7lU2gs.png',
-    author: theCook
+  const luke: User = await usersRepo.findOne({where: {username: 'Skywalker'}});
+  const lukePost1: Post = postsRepo.create({
+    title: 'Me through an old-age filter',
+    content: 'Apparently this app on facebook thinks that this is how I will look 40 years from now. Do not believe those scams!',
+    isPrivate: true,
+    hasPermission: false,
+    imageURL: 'https://i.imgur.com/SNjsFzJ.png',
+    author: luke
   });
-  posts2.push(theCook3);
+  posts2.push(lukePost1);
+
+  const lukePost2: Post = postsRepo.create({
+    title: 'The force is with my friends',
+    content: 'I will never forget how we defeated the empire!',
+    isPrivate: true,
+    hasPermission: false,
+    imageURL: 'https://i.imgur.com/JkK5Xiy.png',
+    author: luke
+  });
+  posts2.push(lukePost2);
+
+  const lukePost3: Post = postsRepo.create({
+    title: 'Fly fly fly!',
+    content: 'In my starfighter!',
+    isPrivate: true,
+    hasPermission: false,
+    imageURL: 'https://i.imgur.com/NQTGuw7.png',
+    author: luke
+  });
+  posts2.push(lukePost3);
 
   await postsRepo.save(posts2);
   console.log(`Posts seeded successfully!`);
