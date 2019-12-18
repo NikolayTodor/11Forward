@@ -20,34 +20,34 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(newUser);
+  users.push(newUser);
 
   const defUser: User = usersRepo.create({
     username: 'Niki',
     email: 'niki@abv.bg',
-    password: await bcrypt.hash('123456', 10),
+    password: await bcrypt.hash('predator666', 10),
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(defUser);
+  users.push(defUser);
 
   const defUserTwo: User = usersRepo.create({
     username: 'Alpha',
     email: 'alpha@abv.bg',
-    password: await bcrypt.hash('123456', 10),
+    password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(defUserTwo);
+  users.push(defUserTwo);
 
   const defUserThree: User = usersRepo.create({
     username: 'Beta',
     email: 'beta@abv.bg',
-    password: await bcrypt.hash('123456', 10),
+    password: await bcrypt.hash('test1234', 10),
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(defUserThree);
+  users.push(defUserThree);
 
   const mulder: User = usersRepo.create({
     username: 'Mulder',
@@ -56,7 +56,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(mulder);
+  users.push(mulder);
 
   const scully: User = usersRepo.create({
     username: 'Scully',
@@ -65,7 +65,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(scully);
+  users.push(scully);
 
   const zev: User = usersRepo.create({
     username: 'ZevBellringer',
@@ -74,7 +74,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(zev);
+  users.push(zev);
 
   const kai: User = usersRepo.create({
     username: 'KaiOfBrunnis',
@@ -83,7 +83,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(kai);
+  users.push(kai);
 
   const stan: User = usersRepo.create({
     username: 'StanleyTweedle',
@@ -92,7 +92,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(stan);
+  users.push(stan);
 
   const picard: User = usersRepo.create({
     username: 'JeanLucPicard',
@@ -101,7 +101,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(picard);
+  users.push(picard);
 
   const riker: User = usersRepo.create({
     username: 'WilliamRiker',
@@ -110,7 +110,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(riker);
+  users.push(riker);
 
   const crusher: User = usersRepo.create({
     username: 'DrBeverley',
@@ -119,7 +119,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(crusher);
+  users.push(crusher);
 
   const deanna: User = usersRepo.create({
     username: 'DeannaTroi',
@@ -128,7 +128,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(deanna);
+  users.push(deanna);
 
   const jc: User = usersRepo.create({
     username: 'JohnCrighton',
@@ -137,7 +137,7 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(jc);
+  users.push(jc);
 
   const aeryn: User = usersRepo.create({
     username: 'AerynSun',
@@ -146,7 +146,28 @@ const seedUsers = async (connection: any) => {
     followers: Promise.resolve([]),
     following: Promise.resolve([])
   });
-  await usersRepo.save(aeryn);
+  users.push(aeryn);
+
+  const doctor: User = usersRepo.create({
+    username: 'TheDoctor',
+    email: 'john.smith@gmail.com',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([])
+  });
+  users.push(doctor);
+
+  const arnold: User = usersRepo.create({
+    username: 'Schwarzenegger',
+    email: 'arnold@california.gov',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/f9VigQU.png'
+  });
+  users.push(arnold);
+
+  await usersRepo.save(users);
 
   console.log(`Users seeded successfully!`);
 };
@@ -169,10 +190,18 @@ const seedFollowers = async (connection: any) => {
   const troi: User = await usersRepo.findOne({where: {username: 'DeannaTroi'}});
   const john: User = await usersRepo.findOne({where: {username: 'JohnCrighton'}});
   const aeryn: User = await usersRepo.findOne({where: {username: 'AerynSun'}});
+  const doctor: User = await usersRepo.findOne({where: {username: 'TheDoctor'}});
+  const arnold: User = await usersRepo.findOne({where: {username: 'Schwarzenegger'}});
 
-  peshko.following = Promise.resolve([niki, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn]);
-  niki.followers = Promise.resolve([peshko, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn]);
-  await usersRepo.save(peshko);
+  peshko.following = Promise.resolve([niki, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold]);
+  niki.followers = Promise.resolve([peshko, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold]);
+
+  john.followers = Promise.resolve([aeryn, peshko]);
+  aeryn.followers = Promise.resolve([john, peshko]);
+
+  mulder.followers = Promise.resolve([scully, peshko]);
+  scully.followers = Promise.resolve([mulder, peshko]);
+
   await usersRepo.save(niki);
   await usersRepo.save(alpha);
   await usersRepo.save(beta);
@@ -187,6 +216,8 @@ const seedFollowers = async (connection: any) => {
   await usersRepo.save(troi);
   await usersRepo.save(john);
   await usersRepo.save(aeryn);
+  await usersRepo.save(doctor);
+  await usersRepo.save(arnold);
 
   console.log(`Users follow each other successfully!`);
 };
@@ -201,126 +232,51 @@ const seedPosts = async (connection: any) => {
     return;
   }
 
-  const peshko: User = await usersRepo.findOne({where: {username: 'Peshko'}});
-  const peshkoPost1: Post = postsRepo.create({
-    title: 'Welcome',
-    content: 'Welcome back to the Jungle! Jumanji: The Next Level is available in your neighborhood cinema!',
+  const posts2: Post[] = [];
+
+  const doctor: User = await usersRepo.findOne({where: {username: 'TheDoctor'}});
+  const doctorPost1: Post = postsRepo.create({
+    title: 'Me and my chavvy love!',
+    content: 'Rose Tyler and I had a big love back in the day, but she got sent to a parallel universe',
     isPrivate: false,
     hasPermission: true,
-    imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjOgTev7B17h20YCdwveHdaSOR8DuKo9y2Sh__JM4Wc0k6d4BU&s',
-    author: peshko
+    imageURL: 'https://i.imgur.com/zDga5Y5.png',
+    author: doctor
   });
-  await postsRepo.save(peshkoPost1);
+  posts2.push(doctorPost1);
 
-  const peshkoPost2: Post = postsRepo.create({
-    title: 'A square',
-    content: 'This amazing square is the pride of the squares!',
+  const doctorPost2: Post = postsRepo.create({
+    title: 'Clara and I on a bike',
+    content: `Clara is the only one who has seen my full history... even parts of it I don't know yet!`,
     isPrivate: false,
     hasPermission: true,
-    imageURL: 'https://icon-library.net/images/square-icon-png/square-icon-png-20.jpg',
-    author: peshko
+    imageURL: 'https://i.imgur.com/FoRnus7.png',
+    author: doctor
   });
-  await postsRepo.save(peshkoPost2);
+  posts2.push(doctorPost2);
 
-  const mulder: User = await usersRepo.findOne({where: {username: 'Mulder'}});
-  const mulderPost1: Post = postsRepo.create({
-    title: 'Best Friends Forever!',
-    content: 'We are back! And we are old, but gold!',
+  const doctorPost3: Post = postsRepo.create({
+    title: '#missYouForever!',
+    content: 'Donna Noble has the sadest story in the whole of time and space. The universe exists thanks to her sacrifice!',
     isPrivate: false,
     hasPermission: true,
-    imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStkp8ih9NjSR_MVGQ2NgeBojf2neQL9_tPTFvOYN72QKbHYJvj3g&s',
-    author: mulder
+    imageURL: 'https://i.imgur.com/5bGxXGr.png',
+    author: doctor
   });
-  await postsRepo.save(mulderPost1);
+  posts2.push(doctorPost3);
 
-  const zev: User = await usersRepo.findOne({where: {username: 'ZevBellringer'}});
-  const zevPost1: Post = postsRepo.create({
-    title: 'Best Crew Forever!',
-    content: 'Friendship is the most powerful weapon in the two universes!',
+  const arnold: User = await usersRepo.findOne({where: {username: 'Schwarzenegger'}});
+  const arnoldPost1: Post = postsRepo.create({
+    title: 'Not my proudest moment!',
+    content: 'Ve vere killing ein predator, but I looked badly that day. However ve killed the motherf***er!',
     isPrivate: false,
     hasPermission: true,
-    imageURL: 'https://p1.hiclipart.com/preview/796/511/792/lexx-series-and-season-folder-icons-lexx-png-icon.jpg',
-    author: zev
+    imageURL: 'https://i.imgur.com/d5cqqSR.png',
+    author: arnold
   });
-  await postsRepo.save(zevPost1);
+  posts2.push(arnoldPost1);
 
-  const kai: User = await usersRepo.findOne({where: {username: 'KaiOfBrunnis'}});
-  const kaiPost1: Post = postsRepo.create({
-    title: 'The dead do not smile.',
-    content: 'In the Light Universe I have been darkness. Perhaps in the Dark Zone... I will be light!',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://p1.hiclipart.com/preview/796/511/792/lexx-series-and-season-folder-icons-lexx-png-icon.jpg',
-    author: kai
-  });
-  await postsRepo.save(kaiPost1);
-
-  const stan: User = await usersRepo.findOne({where: {username: 'StanleyTweedle'}});
-  const stanPost1: Post = postsRepo.create({
-    title: 'Cute guy in red shirt!',
-    content: 'The good-looking captain and his brave crew! #StanTheMan #LexxCaptain #TheBestOfTheBest',
-    isPrivate: false,
-    hasPermission: true,
-    imageURL: 'https://p1.hiclipart.com/preview/796/511/792/lexx-series-and-season-folder-icons-lexx-png-icon.jpg',
-    author: stan
-  });
-  await postsRepo.save(stanPost1);
-
-  const john: User = await usersRepo.findOne({where: {username: 'JohnCrighton'}});
-  const johnPost1: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: false,
-    hasPermission: true,
-    imageURL: 'https://is4-ssl.mzstatic.com/image/thumb/Video114/v4/ae/6d/43/ae6d437a-a884-c948-e956-502bd690f4fa/mzl.gcnoganh.lsr/268x0w.jpg',
-    author: john
-  });
-  await postsRepo.save(johnPost1);
-  const johnPost2: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://is4-ssl.mzstatic.com/image/thumb/Video114/v4/ae/6d/43/ae6d437a-a884-c948-e956-502bd690f4fa/mzl.gcnoganh.lsr/268x0w.jpg',
-    author: john
-  });
-  await postsRepo.save(johnPost2);
-  const johnPost3: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://is4-ssl.mzstatic.com/image/thumb/Video114/v4/ae/6d/43/ae6d437a-a884-c948-e956-502bd690f4fa/mzl.gcnoganh.lsr/268x0w.jpg',
-    author: john
-  });
-  await postsRepo.save(johnPost3);
-  const johnPost4: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://is4-ssl.mzstatic.com/image/thumb/Video114/v4/ae/6d/43/ae6d437a-a884-c948-e956-502bd690f4fa/mzl.gcnoganh.lsr/268x0w.jpg',
-    author: john
-  });
-  await postsRepo.save(johnPost4);
-  const johnPost6: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://i.frg.im/TSNJZj3T/fsts116_600.jpg?v=1545899641.587',
-    author: john
-  });
-  await postsRepo.save(johnPost6);
-  const johnPost7: Post = postsRepo.create({
-    title: 'My name is John Crighton, an astronaut!',
-    content: 'A radiation wave hit and I got shot through a wormhole... Now Im lost in some distant part of the universe on a ship -- a living ship -- full of strange, alien life forms',
-    isPrivate: true,
-    hasPermission: false,
-    imageURL: 'https://i.frg.im/TSNJZj3T/fsts116_600.jpg?v=1545899641.587',
-    author: john
-  });
-  await postsRepo.save(johnPost7);
+  await postsRepo.save(posts2);
 
   console.log(`Posts seeded successfully!`);
 };
@@ -390,7 +346,7 @@ const seed = async () => {
   await seedUsers(connection);
   await seedFollowers(connection);
   await seedPosts(connection);
-  await seedComments(connection);
+  // await seedComments(connection);
 
   await connection.close();
   console.log('Seed completed!');
