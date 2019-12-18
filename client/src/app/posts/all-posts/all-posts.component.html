@@ -2,10 +2,9 @@
   <div class="welcome-text">What's new in our quantum universe:</div>
   <div class="all-posts-container">
 
-    <button *ngIf="this.loggedUser" class="create-post-button" mat-stroked-button
-      (click)="this.openDialog()"><strong>Create post</strong></button>
+    <button *ngIf="this.loggedUser" class="create-post-button" mat-raised-button
+      (click)="this.openDialog()">Create post</button>
     <br />
-
 
     <div class="posts-list">
       <ng-container *ngFor="let post of this.posts">

@@ -25,11 +25,11 @@
         <span class="spacer"></span>
         <span class="spacer"></span>
         <span *ngIf="!(isHandset | async)!.matches">
-        <a mat-button class="button-h" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Login</a>
-        <a mat-button class="button-h" [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
-        <a mat-button class="button-h" *ngIf="this.loggedUser" [routerLink]="['users']">Users</a>
-        <a mat-button class="button-h" *ngIf="this.loggedUser" [routerLink]="['users', loggedUser.id]">Profile</a>
-        <a mat-button class="button-h" *ngIf="this.loggedUser" style="cursor:pointer;" (click)="this.logout()">Logout</a>
+        <a mat-raised-button class="button-h" [routerLink]="['users/login']" *ngIf="!this.loggedUser">Login</a>
+        <a mat-raised-button class="button-h" [routerLink]="['users/register']" *ngIf="!this.loggedUser">Register</a>
+        <a mat-raised-button class="button-h" *ngIf="this.loggedUser" [routerLink]="['users']">Users</a>
+        <a mat-raised-button class="button-h" *ngIf="this.loggedUser" [routerLink]="['users', loggedUser.id]">Profile</a>
+        <a mat-raised-button class="button-h" *ngIf="this.loggedUser" style="cursor:pointer;" (click)="this.logout()">Logout</a>
         </span>
         <span class="spacer"></span>
       </mat-toolbar>
