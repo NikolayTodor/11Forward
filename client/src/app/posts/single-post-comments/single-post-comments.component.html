@@ -1,4 +1,5 @@
 <div *ngIf="(this.post)" class="post-info-container">
+  <div class='post-and-tool-container'>
   <div class="single-post-container" post="post.title">
     <mat-card>
 
@@ -34,11 +35,13 @@
     </mat-card>
   </div>
 
+  <div class='update-tool'>
   <mat-card [style.display]="this.isPostForUpdate === true ? 'inherit' : 'none' ">
     <app-update-post
     (toUpdatePost)="this.updatePost($event)" [postToUpdate]="this.post"></app-update-post>
   </mat-card>
-
+</div>
+</div>
 
     <app-all-comments class='comment-section'
     (hasCreatedComment)="this.hasNewComment($event)"

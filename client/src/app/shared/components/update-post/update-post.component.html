@@ -1,7 +1,7 @@
 <div class="update-post-container">
   <form [formGroup]="this.updatePostForm" (ngSubmit)="this.updatePost(this.updatePostForm.value)">
-    <mat-form-field>
-      <input matInput placeholder="Add title" formControlName="title" [value]="this.postToUpdate.title">
+    <mat-form-field class="title-field">
+      <input matInput formControlName="title" [value]="this.postToUpdate.title">
       <mat-error *ngIf="!!this.updatePostForm.controls.title.errors?.minlength">
         The title must be at least 2 symbols long!
       </mat-error>
@@ -9,9 +9,9 @@
         The title must be shorter that 60 symbols!
       </mat-error>
     </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Add content" formControlName="content" [value]="this.postToUpdate.content">
+    <br />
+    <mat-form-field appearance="outline" class="content-field">
+      <textarea matInput placeholder="Add content" formControlName="content" [value]="this.postToUpdate.content"></textarea>
       <mat-error *ngIf="!!this.updatePostForm.controls.content.errors?.minlength">
         The content of the post must be at least 5 symbols long!
       </mat-error>
@@ -19,12 +19,12 @@
         The content of the post must be shorter that 1000 symbols!
       </mat-error>
     </mat-form-field>
-
+    <br />
     <mat-radio-group formControlName="isPrivate">
-      <mat-radio-button value="Private">Private</mat-radio-button>
+      <mat-radio-button value="Private">Private</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-radio-button value="Public">Public</mat-radio-button>
     </mat-radio-group>
-
+    <br />
     <button mat-icon-button class="create-post-button" type="submit" [disabled]="this.updatePostForm.invalid">
       <i class="material-icons">
         assignment_turned_in

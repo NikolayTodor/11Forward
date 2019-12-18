@@ -21,10 +21,10 @@
   </mat-card>
 
   <mat-toolbar class='profile-navbar'>
-    <button *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialogPost()">Add Pic</button>
-    <button mat-raised-button [routerLink]="['posts']">Pics</button>
-    <button mat-raised-button [routerLink]="['followers']">Followers</button>
-    <button mat-raised-button [routerLink]="['following']">Following</button>
+    <button class='profile-navbar-button' *ngIf="this.profile.isOwner" mat-raised-button (click)="openDialogPost()">Add Pic</button>
+    <button class='profile-navbar-button' mat-raised-button [routerLink]="['posts']">Pics</button>
+    <button class='profile-navbar-button' mat-raised-button [routerLink]="['followers']">Followers</button>
+    <button class='profile-navbar-button' mat-raised-button [routerLink]="['following']">Following</button>
   </mat-toolbar>
 
 </div>
