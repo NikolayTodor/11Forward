@@ -5,6 +5,8 @@
     <button *ngIf="this.loggedUser" class="create-post-button" mat-stroked-button
       (click)="this.openDialog()"><strong>Create post</strong></button>
     <br />
+
+
     <div class="posts-list">
       <ng-container *ngFor="let post of this.posts">
         <app-single-post-in-list *ngIf="this.loggedUser || !post.isPrivate" [post]="post" class="one-post"
@@ -12,5 +14,7 @@
         </app-single-post-in-list>
       </ng-container>
     </div>
+
+    
   </div>
 </div>
