@@ -1,7 +1,11 @@
 @media only screen and (max-width: 600px) {
-    .image {
+    .image-container {
         display: none;
     }
+
+    .dialog-container {
+      grid-template-columns: 1fr !important;
+  }
 }
 
 .dialog-container {
@@ -18,8 +22,28 @@
     text-align: center;
 }
 
-.image {
+.dialog-image {
     height: 80%;
     max-height: 150px;
     padding: 5%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .buttons {
+    margin-top:20px;
+  }
+}
+
+.yes-btn {
+  background-color: rgba(37, 212, 31, 0.931);
+}
+
+.no-btn {
+  background-color: rgb(233, 81, 81);
 }
