@@ -13,6 +13,26 @@ const seedUsers = async (connection: any) => {
     return;
   }
 
+  const anakin: User = usersRepo.create({
+    username: 'Anakin',
+    email: 'anakin@abv.bg',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/rieMsyC.png'
+  });
+  users.push(anakin);
+
+  const theCook: User = usersRepo.create({
+    username: 'TheCook',
+    email: 'uti@abv.bg',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/5IIiU8z.png'
+  });
+  users.push(theCook);
+
   const newUser: User = usersRepo.create({
     username: 'Peshko',
     email: 'mnogo@bachka.com',
@@ -276,9 +296,43 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(arnoldPost1);
 
-  await postsRepo.save(posts2);
+  
 
+  const theCook: User = await usersRepo.findOne({where: {username: 'TheCook'}});
+
+  const theCook1: Post = postsRepo.create({
+    title: 'Skara forever!',
+    content: 'Nai obicham kebapcheta s garnitura kiufteta',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/JsAwHF1.png',
+    author: theCook
+  });
+  posts2.push(theCook1);
+
+  const theCook2: Post = postsRepo.create({
+    title: 'Turshia',
+    content: 'Zimninata e gotova! Koleda idva s kambi',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/9VRsfXm.png',
+    author: theCook
+  });
+  posts2.push(theCook2);
+
+  const theCook3: Post = postsRepo.create({
+    title: 'Kazan power',
+    content: 'Podgotvih skromen obiad za sto choveka!',
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/J7lU2gs.png',
+    author: theCook
+  });
+  posts2.push(theCook3);
+
+  await postsRepo.save(posts2);
   console.log(`Posts seeded successfully!`);
+
 };
 
 const seedComments = async (connection: any) => {
