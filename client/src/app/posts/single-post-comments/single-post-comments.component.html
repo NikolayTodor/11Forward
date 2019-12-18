@@ -3,15 +3,18 @@
   <div class="single-post-container" post="post.title">
     <mat-card>
 
-        <mat-card-title class="post-texts">{{this.post.title}}</mat-card-title>
-        <mat-card-subtitle class="post-texts">{{this.post.content}}</mat-card-subtitle>
-
-
-        <img class="post-image" src="{{this.post.imageURL}}" >
-
+      <mat-card-header class="header" style="cursor: pointer;" (click)="this.navigate()">
+        <img mat-card-avatar [src]="this.post.author.avatarURL">
+        <mat-card-title class="author-name">{{this.post.author.username}}</mat-card-title>
+      </mat-card-header>
 
       <div class="post-item">
+        <img class="post-image" src="{{this.post.imageURL}}" >
+      <br /><br />
+        <mat-card-title class="post-texts">{{this.post.title}}</mat-card-title>
+        <mat-card-subtitle class="post-texts">{{this.post.content}}</mat-card-subtitle>
       </div>
+
       <button mat-icon-button (click)="this.turnOnOffUpdatePostForm()"
       *ngIf="this.loggedUser && this.loggedUser.username === this.post.author.username">
         <i class="material-icons">

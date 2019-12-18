@@ -104,4 +104,8 @@ export class SinglePostCommentsComponent implements OnInit {
     this.post.commentsCount -= 1;
   }
 
+  navigate() {
+    this.router.navigate([`users/${this.post.author.id}`]);
+  }
+
 }

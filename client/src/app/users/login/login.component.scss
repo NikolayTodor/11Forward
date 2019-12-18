@@ -1,3 +1,28 @@
+@media only screen and (max-width: 400px) {
+    .login-card {
+        width: 89% !important;
+    }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 800px) {
+    .login-card {
+        width: 60% !important;
+    }
+}
+
+.login-container {
+    background-color: #fffde2;
+    margin-top: -10px;
+    height: 50vh;
+}
+
+.login-card {
+    text-align: center;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .login-header {
     background-color: rgb(152, 198, 251);
     display: block;
@@ -5,6 +30,6 @@
     margin-right: auto;
 }
 
-.login-card {
-    text-align: center;
+.login-user-button {
+    background-color: rgb(152, 198, 251);
 }

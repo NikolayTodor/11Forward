@@ -1,3 +1,21 @@
+@media only screen and (max-width: 400px) {
+    .register-card {
+        width: 89% !important;
+    }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 800px) {
+    .register-card {
+        width: 60% !important;
+    }
+}
+
+.register-container {
+    background-color: #fffde2;
+    margin-top: -10px;
+    height: 60vh;
+}
+
 .register-header {
     background-color: rgb(152, 198, 251);
     display: block;
@@ -7,4 +25,11 @@
 
 .register-card {
     text-align: center;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.register-button {
+    background-color: rgb(152, 198, 251);
 }

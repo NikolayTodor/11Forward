@@ -9,7 +9,7 @@
 .post-info-container {
   text-align: center;
   background-color: #fffde2;
-  margin-top: -8px;
+  margin-top: -10px;
   padding-top: 10px;
 }
 
@@ -20,7 +20,6 @@
 
 
 .single-post-container{
-
   margin: 0 auto;
 }
 
@@ -29,7 +28,12 @@
     margin-top: 10px;
     max-width: 50%;
   }
+}
 
+.header {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .post-texts {
