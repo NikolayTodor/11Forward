@@ -22,7 +22,6 @@ export class SinglePostInListComponent implements OnInit {
 
   @Output() public readonly toLikePost: EventEmitter<string> = new EventEmitter();
 
-
   @Input() public set post(value: ShowPostDTO) {
     this.postToShow = { ...value };
   }

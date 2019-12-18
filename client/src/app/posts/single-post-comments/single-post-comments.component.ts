@@ -65,6 +65,7 @@ export class SinglePostCommentsComponent implements OnInit {
     .subscribe((data: ShowPostDTO) => {
       this.notificationService.success(`The post has been updated!`);
       this.post = data;
+      this.isPostForUpdate = false;
     });
   }
 
