@@ -213,6 +213,16 @@ const seedUsers = async (connection: any) => {
   });
   users.push(defUserThree);
 
+  const marvin: User = usersRepo.create({
+    username: 'Marvin',
+    email: 'marvin@abv.bg',
+    password: await bcrypt.hash('test1234', 10),
+    followers: Promise.resolve([]),
+    following: Promise.resolve([]),
+    avatarURL: 'https://i.imgur.com/oGsZh9g.png'
+  });
+  users.push(marvin);
+
   await usersRepo.save(users);
 
   console.log(`Users seeded successfully!`);
@@ -240,6 +250,8 @@ const seedFollowers = async (connection: any) => {
   const arnold: User = await usersRepo.findOne({where: {username: 'Schwarzenegger'}});
   const luke: User = await usersRepo.findOne({where: {username: 'Skywalker'}});
   const anakin: User = await usersRepo.findOne({where: {username: 'Anakin'}});
+  const marvin: User = await usersRepo.findOne({where: {username: 'Marvin'}});
+  const theCook: User = await usersRepo.findOne({where: {username: 'TheCook'}});
 
   peshko.following = Promise.resolve([niki, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold, luke, anakin]);
   niki.followers = Promise.resolve([peshko, alpha, beta, mulder, scully, zev, kai, stan, picard, riker, crusher, troi, john, aeryn, doctor, arnold, luke, anakin]);
@@ -252,6 +264,8 @@ const seedFollowers = async (connection: any) => {
 
   picard.followers = Promise.resolve([riker, troi, crusher, peshko]);
   luke.followers = Promise.resolve([anakin, peshko]);
+
+  theCook.followers = Promise.resolve([anakin, peshko]);
 
   await usersRepo.save(niki);
   await usersRepo.save(alpha);
@@ -271,6 +285,7 @@ const seedFollowers = async (connection: any) => {
   await usersRepo.save(arnold);
   await usersRepo.save(anakin);
   await usersRepo.save(luke);
+  await usersRepo.save(theCook);
 
   console.log(`Users follow each other successfully!`);
 };
@@ -324,8 +339,8 @@ const seedPosts = async (connection: any) => {
   const theCook1: Post = postsRepo.create({
     title: 'Skara forever!',
     content: 'Nai obicham kebapcheta s garnitura kiufteta',
-    isPrivate: false,
-    hasPermission: true,
+    isPrivate: true,
+    hasPermission: false,
     imageURL: 'https://i.imgur.com/JsAwHF1.png',
     author: theCook
   });
@@ -334,8 +349,8 @@ const seedPosts = async (connection: any) => {
   const theCook2: Post = postsRepo.create({
     title: 'Turshia',
     content: 'Zimninata e gotova! Koleda idva s kambi',
-    isPrivate: false,
-    hasPermission: true,
+    isPrivate: true,
+    hasPermission: false,
     imageURL: 'https://i.imgur.com/9VRsfXm.png',
     author: theCook
   });
@@ -393,11 +408,22 @@ const seedPosts = async (connection: any) => {
   });
   posts2.push(zevPost1);
 
+  const marvin: User = await usersRepo.findOne({where: {username: 'Marvin'}});
+  const marvinPost1: Post = postsRepo.create({
+    title: `Goodbye!`,
+    content: `That's all, folks!`,
+    isPrivate: false,
+    hasPermission: true,
+    imageURL: 'https://i.imgur.com/vZmTDS3.png',
+    author: marvin
+  });
+  posts2.push(marvinPost1);
+
   const theCook3: Post = postsRepo.create({
     title: 'Kazan power',
     content: 'Podgotvih skromen obiad za sto choveka!',
-    isPrivate: false,
-    hasPermission: true,
+    isPrivate: true,
+    hasPermission: false,
     imageURL: 'https://i.imgur.com/J7lU2gs.png',
     author: theCook
   });
