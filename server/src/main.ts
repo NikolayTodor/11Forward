@@ -21,8 +21,8 @@ async function bootstrap() {
 
   app.use(helmet());
   const bodyParser = require('body-parser');
-  app.use(bodyParser.json({limit: '50mb'}));
-  app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
+  app.use(bodyParser.json({limit: '3mb'}));
+  app.use(bodyParser.urlencoded({limit: '3mb', extended: true, parameterLimit: 50000}));
 
   await app.listen(app.get(ConfigService).port);
 }
