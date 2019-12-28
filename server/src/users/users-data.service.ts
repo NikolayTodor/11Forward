@@ -142,7 +142,7 @@ export class UsersDataService {
     });
 
     if (foundUser) {
-      throw new ApiSystemError('User with such username/email already exists!', 404);
+      throw new ApiSystemError('User with such username/email already exists!', 400);
     }
 
     const newUser: User = this.userRepo.create(userToCreate);
@@ -156,7 +156,7 @@ export class UsersDataService {
   public async followUser(userName: string, followUserName: string) {
 
     if (userName.toLowerCase() === followUserName.toLowerCase()) {
-      throw new ApiSystemError('You can not follow yourself!', 500);
+      throw new ApiSystemError('You can not follow yourself!', 400);
     }
 
     const userFollower: User = await this.userRepo.findOne({
@@ -173,7 +173,7 @@ export class UsersDataService {
     });
 
     if (!userToFollow) {
-      throw new ApiSystemError('No such user found!', 404);
+      throw new ApiSystemError('No such user found!', 400);
     }
 
     const followedUsers: User[] = [...await userFollower.following];

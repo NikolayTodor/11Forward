@@ -20,7 +20,7 @@ export class User {
     @Column({default: STATIC.DEFAULT_AVATAR })
     public avatarURL: string;
 
-    @Column({type: 'nvarchar', nullable: false})
+    @Column({type: 'nvarchar', nullable: false, unique: true})
     public email: string;
 
     @OneToMany(type => Post, post => post.author)
